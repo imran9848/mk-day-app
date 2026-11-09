@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="bn"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#2563eb">
+<title>দৈনিক হিসাব – MK Day</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.png">
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<style>
+:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px)}
+html,body{height:100%}
+body{background:linear-gradient(180deg,#a7f3d0,#bfdbfe 60%,#c7d2fe);background-attachment:fixed;font-family:system-ui,"Noto Sans Bengali",sans-serif;margin:0}
+.tab{display:none}.tab.on{display:block}
+.nb.on{color:#2563eb}
+</style></head>
+<body class="text-slate-800">
+<div class="max-w-md mx-auto min-h-full pb-24">
+  <header class="bg-blue-600 text-white px-4 py-3 shadow flex items-center gap-2">
+    <span class="text-xl">💰</span><h1 class="text-base font-semibold">দৈনিক হিসাব <span class="opacity-80 text-sm">(MK Day Debit Credit & Insights)</span></h1><button onclick="logout()" class="ml-auto text-xs bg-white/20 rounded-full px-3 py-1">বের হও</button>
+  </header>
+  <div class="px-4 pt-3 font-bold text-lg">স্বাগতম, MK!</div>
+
+  <!-- HOME -->
+  <section id="t-home" class="tab on px-4 mt-2">
+    <div class="grid grid-cols-3 gap-2">
+      <div class="bg-white rounded-2xl p-3 shadow"><div class="text-[11px] text-slate-500">আজকের আয়</div><div id="sInc" class="font-bold text-green-600">৳0</div></div>
+      <div class="bg-white rounded-2xl p-3 shadow"><div class="text-[11px] text-slate-500">আজকের খরচ</div><div id="sExp" class="font-bold text-red-600">৳0</div></div>
+      <div class="bg-white rounded-2xl p-3 shadow"><div class="text-[11px] text-slate-500">নেট ব্যালেন্স</div><div id="sNet" class="font-bold text-blue-600">৳0</div></div>
+    </div>
+    <div class="grid grid-cols-2 gap-2 mt-2">
+      <div class="bg-white rounded-2xl p-3 shadow"><div class="text-[11px] text-slate-500">মোট পাবো (বাকি)</div><div id="sRec" class="font-bold text-emerald-600">৳0</div></div>
+      <div class="bg-white rounded-2xl p-3 shadow"><div class="text-[11px] text-slate-500">মোট দিবো (বাকি)</div><div id="sPay" class="font-bold text-orange-600">৳0</div></div>
+    </div>
+    <div class="flex justify-between items-center mt-4 mb-1"><h2 class="font-bold text-lg">আয় <span id="mInc" class="text-sm font-normal text-slate-600"></span></h2>
+      <button onclick="openForm('income')" class="w-9 h-9 rounded-full bg-blue-800 text-white text-xl">+</button></div>
+    <div id="incBox" class="bg-white rounded-2xl shadow divide-y"></div>
+    <div class="flex justify-between items-center mt-4 mb-1"><h2 class="font-bold text-lg">ব্যয় <span id="mExp" class="text-sm font-normal text-slate-600"></span></h2>
+      <button onclick="openForm('expense')" class="w-9 h-9 rounded-full bg-blue-800 text-white text-xl">+</button></div>
+    <div id="expBox" class="bg-white rounded-2xl shadow divide-y"></div>
+  </section>
+
+  <!-- ENTRIES -->
+  <section id="t-entries" class="tab px-4 mt-4">
+    <h2 class="mb-2 font-semibold">সব এন্ট্রি</h2>
+    <div id="allList" class="space-y-2"></div>
+  </section>
+
+  <!-- STORES -->
+  <section id="t-stores" class="tab px-4 mt-4">
+    <h2 class="mb-2 font-semibold">দোকান / যোগাযোগ</h2>
+    <div id="storeList" class="space-y-2"></div>
+  </section>
+
+  <!-- INSIGHTS -->
+  <section id="t-ins" class="tab px-4 mt-4">
+    <h2 class="mb-2 font-semibold">অর্থনৈতিক শিক্ষা</h2>
+    <div id="insList" class="space-y-2"></div>
+  </section>
+</div>
+
+<div id="login" class="fixed inset-0 z-[60] bg-gradient-to-b from-blue-600 to-indigo-700 flex flex-col items-center justify-center text-white p-6 text-center">
+<div class="text-6xl mb-3">💰</div><h1 class="text-2xl font-bold">দৈনিক হিসাব</h1>
+<p class="mt-2 mb-8 opacity-90 text-sm">জিমেইল দিয়ে ঢুকলে আপনার সব হিসাব সুরক্ষিত থাকবে। নতুন ফোনেও ফিরে পাবেন।</p>
+<button onclick="login()" class="bg-white text-slate-800 font-semibold rounded-full px-6 py-3">Google দিয়ে ঢুকুন</button>
+<div id="lerr" class="text-xs mt-4 text-red-200 break-all"></div></div>
+<!-- Add button -->
+
+
+<!-- Bottom nav -->
+<nav class="fixed bottom-0 inset-x-0 bg-white border-t flex justify-around shadow-[0_-2px_8px_rgba(0,0,0,.08)] text-xs text-slate-500" style="padding-bottom:env(safe-area-inset-bottom,0px)">
+  <button class="nb on py-2 px-3" data-t="home" onclick="go('home',this)"><div class="text-xl">🏠</div>হোম</button>
+  <button class="nb py-2 px-3" data-t="entries" onclick="go('entries',this)"><div class="text-xl">🧾</div>এন্ট্রি</button>
+  <button class="nb py-2 px-3" data-t="stores" onclick="go('stores',this)"><div class="text-xl">🏪</div>দোকান</button>
+  <button class="nb py-2 px-3" data-t="ins" onclick="go('ins',this)"><div class="text-xl">📚</div>শিক্ষা</button>
+</nav>
+
+<!-- Modal -->
+<div id="modal" class="hidden fixed inset-0 bg-black/50 z-50 items-end justify-center">
+  <div class="bg-white w-full max-w-md rounded-t-3xl p-4 max-h-[92%] overflow-y-auto">
+    <div class="flex justify-between items-center mb-3"><h3 class="font-bold">নতুন এন্ট্রি</h3><button onclick="closeForm()" class="text-2xl">×</button></div>
+    <div class="grid grid-cols-2 gap-2 mb-3" id="typeBox">
+      <button id="bInc" onclick="setType('income')" class="py-2 rounded-xl border font-semibold">আয়</button>
+      <button id="bExp" onclick="setType('expense')" class="py-2 rounded-xl border font-semibold">খরচ</button>
+    </div>
+    <div class="space-y-2 text-sm">
+      <select id="fCat" class="w-full border rounded-xl p-3 bg-white"></select>
+      <input id="fAmt" type="number" inputmode="decimal" placeholder="পরিমাণ (৳)" class="w-full border rounded-xl p-3">
+      <input id="fStore" placeholder="দোকান / উৎসের নাম" class="w-full border rounded-xl p-3">
+      <input id="fPhone" type="tel" inputmode="tel" placeholder="মোবাইল নম্বর" class="w-full border rounded-xl p-3">
+      <div class="grid grid-cols-2 gap-2">
+        <button id="bCash" onclick="setMode('cash')" class="py-2 rounded-xl border font-semibold">নগদ (Cash)</button>
+        <button id="bCred" onclick="setMode('credit')" class="py-2 rounded-xl border font-semibold">বাকি (Credit)</button>
+      </div>
+      <input id="fDate" type="date" class="w-full border rounded-xl p-3">
+      <textarea id="fNote" rows="2" placeholder="নোট" class="w-full border rounded-xl p-3"></textarea>
+      <button onclick="save()" class="w-full py-3 rounded-xl bg-blue-600 text-white font-bold">সংরক্ষণ করো</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const CATS={income:['চাকরি','ব্যবসা','ট্রেডিং','মোবাইল সার্ভিসিং','গ্লাস বিক্রি','অন্যান্য আয়'],
+expense:['মুদির দোকান','কাঁচা তরকারি','ঔষধ','যাতায়াত','ধার/দেনা','ব্যাংক লেনদেন','মাল কেনা','অন্যান্য খরচ']};
+const QUOTES=[
+['The Richest Man in Babylon','যা আয় করো তার অন্তত দশ ভাগ আগে নিজের জন্য জমাও। তারপর বাকিটা দিয়ে খরচ চালাও।'],
+['The Psychology of Money','টাকা বানানোর চেয়ে টাকা ধরে রাখা কঠিন। ধৈর্য আর সঞ্চয়ই দীর্ঘমেয়াদে বড় করে।'],
+['Rich Dad Poor Dad','যা তোমার পকেটে টাকা আনে সেটা সম্পদ, যা পকেট থেকে টাকা নেয় সেটা দায়। সম্পদ বাড়াও।'],
+['Think and Grow Rich','পরিষ্কার লক্ষ্য লিখে রাখো, সময় ঠিক করো, আর রোজ একটু একটু করে এগোও।'],
+['The Wealth of Nations','নিজের কাজে দক্ষ হলে উৎপাদন বাড়ে। এক কাজে গভীর দক্ষতাই আয়ের ভিত্তি।'],
+['The Intelligent Investor','দাম বাড়ছে দেখে কিনো না। আগে হিসাব করো, তারপর ঝুঁকি নাও, আর ক্ষতি সামলানোর জায়গা রাখো।'],
+['Atomic Habits','প্রতিদিন ১% উন্নতি। হিসাব লেখার অভ্যাসটাই ছোট শুরু, কিন্তু বছর শেষে বড় ফল।'],
+['Your Money or Your Life','কোনো জিনিস কিনতে কত ঘণ্টা কাজ লাগে সেটা ভাবো। তাহলে অপ্রয়োজনীয় খরচ কমবে।']];
+const ICON={'চাকরি':'💼','ব্যবসা':'🏪','ট্রেডিং':'📈','মোবাইল সার্ভিসিং':'🔧','গ্লাস বিক্রি':'📱','অন্যান্য আয়':'🎁','মুদির দোকান':'🛒','কাঁচা তরকারি':'🥬','ঔষধ':'💊','যাতায়াত':'🚌','ধার/দেনা':'🤝','ব্যাংক লেনদেন':'🏦','মাল কেনা':'📦','অন্যান্য খরচ':'🧾'};
+let D=[],OPEN={};
+let U=null,unsub=null;
+let type='expense',mode='cash';
+const $=id=>document.getElementById(id);
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const fmt=n=>'৳'+Number(n).toLocaleString('en-IN');
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function persist(){}
+function go(t,b){document.querySelectorAll('.tab').forEach(x=>x.classList.remove('on'));$('t-'+t).classList.add('on');
+document.querySelectorAll('.nb').forEach(x=>x.classList.remove('on'));if(b)b.classList.add('on');window.scrollTo(0,0)}
+function setType(t){type=t;$('bInc').className='py-2 rounded-xl border font-semibold '+(t=='income'?'bg-green-600 text-white':'');
+$('bExp').className='py-2 rounded-xl border font-semibold '+(t=='expense'?'bg-red-600 text-white':'');
+$('fCat').innerHTML=CATS[t].map(c=>'<option>'+c+'</option>').join('')}
+function setMode(m){mode=m;$('bCash').className='py-2 rounded-xl border font-semibold '+(m=='cash'?'bg-blue-600 text-white':'');
+$('bCred').className='py-2 rounded-xl border font-semibold '+(m=='credit'?'bg-orange-500 text-white':'')}
+function openForm(t){setType(t||'expense');setMode('cash');$('fDate').value=today();['fAmt','fStore','fPhone','fNote'].forEach(i=>$(i).value='');
+$('modal').classList.remove('hidden');$('modal').classList.add('flex')}
+function closeForm(){$('modal').classList.add('hidden');$('modal').classList.remove('flex')}
+function save(){const a=parseFloat($('fAmt').value);if(!a||a<=0){alert('পরিমাণ লিখো');return}
+cloudSet({id:Date.now(),type,mode,cat:$('fCat').value,amt:a,store:$('fStore').value.trim(),phone:$('fPhone').value.trim(),date:$('fDate').value||today(),note:$('fNote').value.trim(),paid:0});
+persist();closeForm();render()}
+function tog(k){OPEN[k]=!OPEN[k];render()}
+function catBox(tp){const m=today().slice(0,7);const out=[];let tot=0;
+CATS[tp].forEach(c=>{const L=D.filter(e=>e.type==tp&&e.cat==c&&e.date.slice(0,7)==m);const sum=L.reduce((a,e)=>a+e.amt,0);tot+=sum;const k=tp+c;
+out.push('<div><button data-k="'+k+'" onclick="tog(this.dataset.k)" class="w-full flex items-center gap-3 p-3 text-left"><span class="text-2xl">'+(ICON[c]||'•')+'</span><span class="flex-1 text-sm font-medium">'+c+'</span><span class="font-bold text-sm '+(tp=='income'?'text-green-700':'text-red-600')+'">'+fmt(sum)+'</span><span class="text-slate-400">'+(OPEN[k]?'⌄':'›')+'</span></button>'+(OPEN[k]?'<div class="px-3 pb-3 space-y-2 bg-slate-50">'+(L.length?L.map(row).join(''):'<div class="text-xs text-slate-400 py-2">এই মাসে কিছু নেই</div>')+'</div>':'')+'</div>')});
+return [out.join(''),tot]}
+function del(id){if(confirm('মুছে ফেলবে?')){cloudDel(id)}}
+function row(e){const inc=e.type=='income';
+return '<div class="bg-white rounded-2xl p-3 shadow flex justify-between gap-2"><div class="min-w-0"><div class="font-semibold text-sm">'+esc(e.cat)+
+(e.mode=='credit'?' <span class="text-[10px] bg-orange-100 text-orange-600 px-2 py-0.5 rounded-full">বাকি</span>':'')+'</div><div class="text-xs text-slate-500 truncate">'+
+esc(e.store)+' · '+e.date+'</div>'+(e.phone?'<a href="tel:'+esc(e.phone)+'" class="text-xs text-blue-600">📞 '+esc(e.phone)+'</a>':'')+
+(e.note?'<div class="text-xs text-slate-400">'+esc(e.note)+'</div>':'')+'</div><div class="text-right shrink-0"><div class="font-bold '+(inc?'text-green-600':'text-red-600')+'">'+(inc?'+':'-')+fmt(e.amt)+
+'</div><button onclick="del('+e.id+')" class="text-xs text-slate-400">মুছো</button></div></div>'}
+function render(){const t=today();let inc=0,exp=0,rec=0,pay=0;const st={};
+D.forEach(e=>{if(e.date==t&&e.mode=='cash'||e.date==t&&e.mode=='credit'){}
+if(e.date==t){e.type=='income'?inc+=e.amt:exp+=e.amt}
+if(e.mode=='credit'){const k=(e.store||'নাম নেই').toLowerCase();st[k]=st[k]||{name:e.store||'নাম নেই',phone:'',bal:0};
+if(e.phone)st[k].phone=e.phone;st[k].bal+=e.type=='income'?e.amt:-e.amt}});
+Object.values(st).forEach(s=>{s.bal>0?rec+=s.bal:pay+=-s.bal});
+$('sInc').textContent=fmt(inc);$('sExp').textContent=fmt(exp);$('sNet').textContent=fmt(inc-exp);$('sRec').textContent=fmt(rec);$('sPay').textContent=fmt(pay);
+const none='<div class="text-center text-sm text-slate-400 py-6">কিছু নেই। হোমে + চাপো</div>';
+const ci=catBox('income'),ce=catBox('expense');$('incBox').innerHTML=ci[0];$('expBox').innerHTML=ce[0];$('mInc').textContent='· এই মাস '+fmt(ci[1]);$('mExp').textContent='· এই মাস '+fmt(ce[1]);
+$('allList').innerHTML=D.length?D.map(row).join(''):none;
+const sl=Object.values(st);$('storeList').innerHTML=sl.length?sl.map(s=>'<div class="bg-white rounded-2xl p-3 shadow flex justify-between items-center"><div><div class="font-semibold text-sm">'+esc(s.name)+'</div>'+
+(s.phone?'<a href="tel:'+esc(s.phone)+'" class="text-xs text-blue-600">📞 '+esc(s.phone)+'</a>':'<span class="text-xs text-slate-400">নম্বর নেই</span>')+'</div><div class="text-right"><div class="font-bold '+(s.bal>=0?'text-emerald-600':'text-orange-600')+'">'+fmt(Math.abs(s.bal))+
+'</div><div class="text-[11px] text-slate-500">'+(s.bal>=0?'পাবো':'দিবো')+'</div></div></div>').join(''):'<div class="text-center text-sm text-slate-400 py-6">বাকির এন্ট্রি দিলে দোকান এখানে আসবে</div>';}
+$('insList').innerHTML=QUOTES.map(q=>'<div class="bg-white rounded-2xl p-4 shadow"><div class="text-sm">'+q[1]+'</div><div class="text-xs text-blue-600 mt-2">📖 '+q[0]+'</div></div>').join('');
+firebase.initializeApp({apiKey:"AIzaSyAgUV3_XSInd72ZxCQ0GO3GPWuY4csgXnA",authDomain:"mk-day-bye-sell.firebaseapp.com",projectId:"mk-day-bye-sell",storageBucket:"mk-day-bye-sell.firebasestorage.app",messagingSenderId:"944600410707",appId:"1:944600410707:web:ba645018ff85f957c4b4a6"});
+const auth=firebase.auth(),db=firebase.firestore();
+const col=()=>db.collection('users').doc(U.uid).collection('entries');
+function cloudSet(e){if(!U)return;col().doc(String(e.id)).set(e).catch(x=>alert('সেভ হয়নি: '+x.message))}
+function cloudDel(id){if(!U)return;col().doc(String(id)).delete()}
+function login(){$('lerr').textContent='';auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch(e=>{$('lerr').textContent=e.code})}
+function logout(){if(confirm('বের হবে?'))auth.signOut()}
+auth.onAuthStateChanged(u=>{U=u;if(unsub){unsub();unsub=null}
+if(u){$('login').classList.add('hidden');unsub=col().onSnapshot(sn=>{D=sn.docs.map(d=>d.data()).sort((a,b)=>b.date.localeCompare(a.date)||b.id-a.id);render()},e=>alert('ডেটা আনা যায়নি: '+e.message))}
+else{D=[];render();$('login').classList.remove('hidden')}});
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+render();
+</script>
+</body></html>
