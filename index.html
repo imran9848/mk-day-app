@@ -91,7 +91,8 @@ const bn=n=>String(n).replace(/\d/g,d=>'০১২৩৪৫৬৭৮৯'[d]);
 const mo=n=>'৳'+Math.round(n).toLocaleString('en-US');
 const ymd=d=>d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());
 const seed=()=>({cats:{exp:[["খাবার","🍽️","#f97316"],["যাতায়াত","🚌","#3b82f6"],["মুদি (বড়)","🛒","#16a34a"],["মুদি (ছোট)","🧺","#84cc16"],["কাঁচা বাজার","🥕","#ea580c"],["মোবাইল","📱","#0ea5b7"],["বাসা ভাড়া","🏠","#171717"],["TRD ব্যয়","📉","#dc2626"]].map((a,i)=>({id:'e'+i,n:a[0],e:a[1],c:a[2]})),inc:[["চাকরি","💼","#14a37f"],["ব্যবসা","🏪","#f97316"],["সার্ভিসিং","🔧","#8b5cf6"],["গ্লাস বিক্রি","📱","#0ea5b7"],["TRD আয়","📈","#15803d"],["উপহার","🎁","#e11d48"]].map((a,i)=>({id:'i'+i,n:a[0],e:a[1],c:a[2]}))},tx:[]});
-let S;try{S=JSON.parse(localStorage.mkd)}catch(e){}S=S||seed();S.todo=S.todo||[];S.bz=S.bz||[];S.fav=S.fav||[];S.fz=S.fz||{pw:'',tx:[]};
+let S;try{S=JSON.parse(localStorage.mkd)}catch(e){}function norm(){S=S||seed();S.cats=S.cats||seed().cats;S.cats.exp=S.cats.exp||seed().cats.exp;S.cats.inc=S.cats.inc||seed().cats.inc;S.tx=S.tx||[];S.todo=S.todo||[];S.bz=S.bz||[];S.fav=S.fav||[];S.fz=S.fz||{pw:'',tx:[]};S.fz.tx=S.fz.tx||[]}
+norm();
 let PK={},UNL=false,FT='inc',TT=0,BZ=null,V={p:'home'},SH={k:'exp',cat:null,m:'cash'},user=null,db=null;
 const Q=["যা আয় করো, তার অন্তত দশ ভাগ আগে নিজের জন্য জমাও।","টাকা বানানোর চেয়ে ধরে রাখা কঠিন।","যা পকেটে টাকা আনে সেটা সম্পদ, যা টাকা নেয় সেটা দায়।","পরিষ্কার লক্ষ্য লিখে রাখো, রোজ একটু একটু করে এগোও।","নিজের কাজে দক্ষ হলে আয়ের ভিত্তি শক্ত হয়।","ছোট খরচ জমে বড় ঘাটতি হয়, তাই লিখে রাখো।","ধৈর্য আর সঞ্চয়ই দীর্ঘমেয়াদে বড় করে।","আজকের হিসাব আজই লিখে ফেলো।","বাকি যত তাড়াতাড়ি শোধ, মন তত হালকা।"];
 
@@ -233,7 +234,7 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-pi],[data-
 });
 
 function login(){if(user)return toast(user.displayName+' · লগইন করা আছে');if(!FB.apiKey)return toast('firebaseConfig বসাওনি');(()=>{const pr=new firebase.auth.GoogleAuthProvider();pr.setCustomParameters({prompt:'select_account'});return firebase.auth().signInWithPopup(pr)})().catch(e=>{toast('লগইন হয়নি: '+(e.code||e.message));alert('লগইন ত্রুটি: '+(e.code||e.message))})}
-try{if(FB.apiKey){firebase.initializeApp(FB);db=firebase.firestore();firebase.auth().onAuthStateChanged(async u=>{user=u;$('#lg').textContent=u?u.displayName.split(' ')[0]:'লগইন';$('#em').textContent=u?u.email:'';if(u){try{const d=await db.collection('users').doc(u.uid).get();if(d.exists){S=JSON.parse(d.data().data)}else save();localStorage.mkd=JSON.stringify(S)}catch(e){}}render()})}}catch(e){}
+try{if(FB.apiKey){firebase.initializeApp(FB);db=firebase.firestore();firebase.auth().onAuthStateChanged(async u=>{user=u;$('#lg').textContent=u?u.displayName.split(' ')[0]:'লগইন';$('#em').textContent=u?u.email:'';if(u){try{const d=await db.collection('users').doc(u.uid).get();if(d.exists){S=JSON.parse(d.data().data);norm()}else save();localStorage.mkd=JSON.stringify(S)}catch(e){}}render()})}}catch(e){}
 if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 render();
 
