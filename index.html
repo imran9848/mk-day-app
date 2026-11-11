@@ -64,6 +64,7 @@ h2{font-size:16px;font-weight:600;margin-bottom:8px}
 .tab button{flex:1;padding:9px 0;background:none;color:var(--mu);font-weight:600}
 .tab .on{color:var(--tx);border-bottom:3px solid var(--rd)}
 .tab .on.i{border-color:var(--gr)}
+html.dk{filter:invert(1) hue-rotate(180deg)}html.dk .ic{filter:invert(1) hue-rotate(180deg)}
 </style>
 </head>
 <body>
@@ -88,8 +89,8 @@ const bn=n=>String(n).replace(/\d/g,d=>'০১২৩৪৫৬৭৮৯'[d]);
 const mo=n=>'৳'+Math.round(n).toLocaleString('en-US');
 const ymd=d=>d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());
 const seed=()=>({cats:{exp:[["খাবার","🍽️","#f97316"],["যাতায়াত","🚌","#3b82f6"],["মুদি (বড়)","🛒","#16a34a"],["মুদি (ছোট)","🧺","#84cc16"],["কাঁচা বাজার","🥕","#ea580c"],["মোবাইল","📱","#0ea5b7"],["বাসা ভাড়া","🏠","#171717"],["TRD ব্যয়","📉","#dc2626"]].map((a,i)=>({id:'e'+i,n:a[0],e:a[1],c:a[2]})),inc:[["চাকরি","💼","#14a37f"],["ব্যবসা","🏪","#f97316"],["সার্ভিসিং","🔧","#8b5cf6"],["গ্লাস বিক্রি","📱","#0ea5b7"],["TRD আয়","📈","#15803d"],["উপহার","🎁","#e11d48"]].map((a,i)=>({id:'i'+i,n:a[0],e:a[1],c:a[2]}))},tx:[]});
-let S;try{S=JSON.parse(localStorage.mkd)}catch(e){}S=S||seed();
-let V={p:'home'},SH={k:'exp',cat:null,m:'cash'},user=null,db=null;
+let S;try{S=JSON.parse(localStorage.mkd)}catch(e){}S=S||seed();S.todo=S.todo||[];S.bz=S.bz||[];S.fav=S.fav||[];S.fz=S.fz||{pw:'',tx:[]};
+let UNL=false,FT='inc',TT=0,BZ=null,V={p:'home'},SH={k:'exp',cat:null,m:'cash'},user=null,db=null;
 const Q=["যা আয় করো, তার অন্তত দশ ভাগ আগে নিজের জন্য জমাও।","টাকা বানানোর চেয়ে ধরে রাখা কঠিন।","যা পকেটে টাকা আনে সেটা সম্পদ, যা টাকা নেয় সেটা দায়।","পরিষ্কার লক্ষ্য লিখে রাখো, রোজ একটু একটু করে এগোও।","নিজের কাজে দক্ষ হলে আয়ের ভিত্তি শক্ত হয়।","ছোট খরচ জমে বড় ঘাটতি হয়, তাই লিখে রাখো।","ধৈর্য আর সঞ্চয়ই দীর্ঘমেয়াদে বড় করে।","আজকের হিসাব আজই লিখে ফেলো।","বাকি যত তাড়াতাড়ি শোধ, মন তত হালকা।"];
 
 function save(){localStorage.mkd=JSON.stringify(S);if(db&&user)db.collection('users').doc(user.uid).set({data:JSON.stringify(S),t:Date.now()}).catch(()=>{})}
@@ -146,11 +147,11 @@ function hist(){const k=V.k,ex=k==='exp';
 function catsPage(){const g=k=>`<h2 style="margin-top:12px">${k==='exp'?'ব্যয়':'আয়'}</h2><div class="box" style="margin:0;padding:2px 12px">${cats(k).map(c=>`<div class="tr"><div class="ic" style="background:${c.c};width:34px;height:34px;font-size:17px;margin:0">${c.e}</div><div style="font-weight:600">${c.n}</div><button data-open2="${k}|${c.id}" style="background:none">›</button></div>`).join('')}</div><button class="bt" data-newcat="${k}" style="width:100%;margin-top:8px;background:${k==='exp'?'#ef4444':'#16a34a'}">＋ নতুন ক্যাটাগরি</button>`;
   return `<div class="pg"><div class="row" style="justify-content:flex-start"><button class="back" data-go="home">←</button><h2 style="margin:0">ক্যাটাগরি</h2></div>${g('exp')}${g('inc')}</div>`}
 
-function render(){const v=V.p;$('#app').innerHTML=v==='home'?home():v==='cat'?catPage():v==='hist'?hist():catsPage();scrollTo(0,0)}
-function go(p,o){V={p,...o};render()}
+function render(){const R={home,cat:catPage,hist,cats:catsPage,fz:fzP,todo:todoP,bz:bzP,edu:eduP,set:setP};$('#app').innerHTML=(R[V.p]||home)();scrollTo(0,0)}
+function go(p,o){if(p!=='fz')UNL=false;V={p,...o};render()}
 
 function sheet(){const k=SH.k,ex=k==='exp';
-  $('#shi').innerHTML=`<h2>${ex?'ব্যয়':'আয়'} যোগ করো</h2><div class="sm" style="margin:-4px 0 8px">আজ · ${bn(today.slice(8))}/${bn(today.slice(5,7))}</div>
+  $('#shi').innerHTML=`<div class="row"><h2>${ex?'ব্যয়':'আয়'} যোগ করো</h2>${ex?'<button data-a="bzo" style="background:#f97316;color:#fff;border-radius:99px;padding:6px 12px;font-weight:600;font-size:12px;margin-bottom:8px">🛍 M বাজার</button>':''}</div><div class="sm" style="margin:-4px 0 8px">আজ · ${bn(today.slice(8))}/${bn(today.slice(5,7))}</div>
   <input class="big ${ex?'':'in'}" id="am" type="number" inputmode="decimal" placeholder="৳ 0" value="${SH.a||''}">
   <input class="inp" id="nt" placeholder="নোট: কী ${ex?'কিনলে':'হলো'}, কত টাকায়" value="${SH.n||''}">
   <div class="chips"><button data-m="cash" class="${SH.m==='cash'?'on':''}">নগদ</button><button data-m="baki" class="${SH.m==='baki'?'on':''}">বাকি</button></div>
@@ -159,16 +160,53 @@ function sheet(){const k=SH.k,ex=k==='exp';
 function openAdd(k,c){SH={k,cat:c||cats(k)[0].id,m:'cash'};sheet()}
 function keep(){SH.a=$('#am').value;SH.n=$('#nt').value}
 
-function drawer(){const I=[['আয়','⊕','hist|inc'],['ব্যয়','⊖','hist|exp'],['ক্যাটাগরি','▦','cats'],['Freeze হিসাব','🔒'],['To do list','☑'],['মাসিক বাজার লিস্ট','🛍'],['শিক্ষা','📖'],['সেটিং','⚙']];
+function drawer(){const I=[['আয়','⊕','hist|inc'],['ব্যয়','⊖','hist|exp'],['ক্যাটাগরি','▦','cats'],['Freeze হিসাব','🔒','pg|fz'],['To do list','☑','pg|todo'],['মাসিক বাজার লিস্ট','🛍','pg|bz'],['শিক্ষা','📖','pg|edu'],['সেটিং','⚙','pg|set']];
   $('#dri').innerHTML=`<div class="dh"><div class="av">${user?user.displayName[0]:'MK'}</div><div><b>${user?user.displayName:'MK'}</b><div style="font-size:12px;opacity:.9;word-break:break-all">${user?user.email:'লগইন করা নেই'}</div></div></div>
   ${I.map(i=>`<button class="mi" data-mi="${i[2]||''}"><span>${i[1]}</span>${i[0]}</button>`).join('')}
   <button class="mi" data-out style="color:#dc2626;margin-top:12px"><span>⎋</span>লগ আউট</button>
   <div class="ft">Apps create by IMRAN HOSSAIN<br>new.mobicare.khulna@gmail.com</div>`;$('#dr').classList.add('on')}
 
-document.addEventListener('click',e=>{const t=e.target.closest('[data-go],[data-add],[data-m],[data-c],[data-new],[data-edit],[data-settle],[data-addcat],[data-del],[data-open],[data-open2],[data-newcat],[data-mi],[data-out],#sv,#mn,#lg,.ov');if(!t)return;
+const H=async x=>[...new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(x)))].map(b=>b.toString(16).padStart(2,'0')).join('');
+const dk=()=>document.documentElement.classList.toggle('dk',!!S.dark);dk();
+const B=(l,c,a)=>`<button class="bt" data-a="${a}" style="background:${c}">${l}</button>`;
+const hd=t=>`<div class="row" style="justify-content:flex-start;margin-bottom:8px"><button class="back" data-go="home">←</button><h2 style="margin:0">${t}</h2></div>`;
+const empty=t=>`<div class="sm" style="padding:14px;text-align:center">${t}</div>`;
+function todoP(){const L=S.todo.filter(t=>!!t.ok===!!TT),n=S.todo.filter(t=>t.ok).length;return `<div class="pg">${hd('To do list')}${B('＋ নতুন কাজ','#0ea5b7','tadd').replace('class="bt"','class="bt" data-w="1"')}<div class="tab" style="margin-top:10px"><button data-a="tt|0" class="${TT?'':'on i'}">বাকি (${S.todo.length-n})</button><button data-a="tt|1" class="${TT?'on i':''}">হয়ে গেছে (${n})</button></div><div class="box" style="margin:0;padding:2px 12px">${L.length?L.map(t=>`<div class="tr"><button data-a="tk|${t.id}" style="font-size:20px;background:none">${t.ok?'☑':'☐'}</button><div style="flex:1;${t.ok?'text-decoration:line-through;opacity:.6':''}"><div style="font-weight:600;font-size:13px">${t.t}</div>${t.d?`<div class="sm" style="color:${t.d<=today&&!t.ok?'#dc2626':''}">${t.d}</div>`:''}</div><button data-a="td|${t.id}" style="background:none">🗑</button></div>`).join(''):empty('কোনো কাজ নেই')}</div></div>`}
+function bzP(){const mk=today.slice(0,7);return `<div class="pg">${hd('মাসিক বাজার লিস্ট')}<div class="box" style="margin:0;padding:2px 12px">${S.bz.length?S.bz.map(b=>{const o=b.d.startsWith(mk);return `<div class="tr"><div style="flex:1"><div style="font-weight:600;font-size:13px">${b.n}</div><div class="sm" style="color:${o?'#15803d':''}">${b.d?bn(b.d.slice(8))+' তারিখ · ':''}${b.q},৳${b.p}${o?' · এই মাসে কেনা':''}</div></div><button data-a="be|${b.id}" style="background:none">✎</button><button data-a="bd|${b.id}" style="background:none">🗑</button></div>`}).join(''):empty('লিস্ট খালি')}</div><button class="bt" data-a="badd" style="width:100%;margin-top:10px;background:#f97316">＋ লিস্টে নতুন জিনিস যোগ</button></div>`}
+function eduP(){const di=Math.floor(Date.now()/864e5),t=[0,1,2].map(i=>Q[(di*3+i)%Q.length]);return `<div class="pg">${hd('শিক্ষা')}<div class="bk" style="background:#ede9fe;color:#2e1065"><div class="sm" style="color:inherit">আজকের ৩টা কথা</div>${t.map((q,i)=>`<div style="margin-top:4px">${bn(i+1)}. ${q}</div>`).join('')}</div><h2 style="margin-top:14px">সব শিক্ষা</h2>${Q.map((q,i)=>`<div class="box" style="margin-top:6px"><div class="row" style="gap:8px"><div style="flex:1">${q}</div><button data-a="fv|${i}" style="background:none;font-size:20px">${S.fav.includes(i)?'❤️':'🤍'}</button></div></div>`).join('')}</div>`}
+function setP(){return `<div class="pg">${hd('সেটিং')}<div class="box" style="margin:0"><b style="font-size:13px">মোড</b><div class="chips"><button data-a="dk|0" class="${S.dark?'':'on'}">☀ লাইট</button><button data-a="dk|1" class="${S.dark?'on':''}">🌙 ডার্ক</button></div></div><h2 style="margin-top:14px">Freeze নিরাপত্তা</h2><div class="box" style="margin:0;display:flex;flex-direction:column;gap:8px">${B(S.fz.pw?'পাসওয়ার্ড বদলাও':'পাসওয়ার্ড সেট করো','#4f46e5','fpw')}${B('পাসওয়ার্ড ভুলে গেছি (Gmail দিয়ে যাচাই)','#64748b','frs')}</div></div>`}
+function fzP(){const F=S.fz;if(!F.pw)return `<div class="pg">${hd('Freeze হিসাব')}<div class="box" style="text-align:center"><div style="font-size:34px">🔒</div><div style="margin:8px 0">আগে একটা পাসওয়ার্ড বানাও</div>${B('পাসওয়ার্ড সেট করো','#4f46e5','fpw')}</div></div>`;
+if(!UNL)return `<div class="pg">${hd('Freeze হিসাব')}<div class="box" style="text-align:center"><div style="font-size:34px">🔒</div><input class="inp" id="fpi" type="password" placeholder="পাসওয়ার্ড দাও"><button class="bt" data-a="fop" style="width:100%;margin-top:8px;background:#4f46e5">খোলো</button><div style="margin-top:10px"><button data-a="frs" style="background:none;color:#2563eb;font-weight:600">পাসওয়ার্ড ভুলে গেছি? Gmail দিয়ে রিসেট</button></div></div></div>`;
+const i=FT==='inc',A=F.tx.filter(t=>t.k===FT),tot=A.filter(t=>t.m==='cash'||t.m==='baki').reduce((a,t)=>a+t.a,0),bl=A.reduce((a,t)=>a+(t.m==='baki'?t.a:t.m==='pay'||t.m==='ret'?-t.a:0),0),L=[...A].sort((a,b)=>b.id-a.id),lb={cash:'নগদ',baki:'বাকি',pay:'বাকি পরিশোধ',ret:'ফেরত পেলাম'};
+return `<div class="pg">${hd('Freeze হিসাব 🔓')}<div class="tab"><button data-a="ft|inc" class="${i?'on i':''}">ক. আয়</button><button data-a="ft|exp" class="${i?'':'on'}">খ. ব্যয়</button></div><div class="g2"><div class="k"><small>মোট ${i?'আয়':'ব্যয়'}</small><b>${mo(tot)}</b></div><div class="k"><small>${i?'আমি পাবো':'আমি দিবো'}</small><b>${mo(bl)}</b></div></div><div class="g2">${B(i?'＋ আয় যোগ':'＋ ব্যয় যোগ',i?'#16a34a':'#ef4444','fa')}${B(i?'ফেরত পেলাম':'বাকি পরিশোধ',i?'#0d9488':'#ea580c','fs')}</div><div class="box" style="padding:2px 12px">${L.map(t=>`<div class="tr"><div style="flex:1"><div style="font-weight:600;font-size:13px">${lb[t.m]}</div>${t.n?`<div class="sm">${t.n}</div>`:''}<div class="sm">${bn(t.d.slice(8))}/${bn(t.d.slice(5,7))}</div></div><b>${mo(t.a)}</b><button data-a="fe|${t.id}" style="background:none">✎</button><button data-a="fd|${t.id}" style="background:none">🗑</button></div>`).join('')||empty('কিছু নেই')}</div></div>`}
+function syncBz(){document.querySelectorAll('[data-bp]').forEach(e=>{const r=BZ.find(r=>r.id==e.dataset.bp);if(r)r.p=parseFloat(e.value)||0})}
+function sheetBz(){const on=BZ.filter(r=>r.on),tot=on.reduce((a,r)=>a+r.p,0);$('#shi').innerHTML=`<h2>🛍 মাসিক বাজার থেকে যোগ</h2>${BZ.length?BZ.map(r=>{const b=S.bz.find(b=>b.id==r.id);return `<div class="tr" style="background:#fff;border-radius:12px;padding:7px 10px;margin-top:5px;border:0"><button data-a="bzt|${r.id}" style="font-size:20px;background:none">${r.on?'☑':'☐'}</button><div style="flex:1"><b style="font-size:13px">${b.n}</b><div class="sm">${b.d?bn(b.d.slice(8))+' তারিখ · ':''}${b.q},৳${b.p}</div></div><input data-bp="${r.id}" type="number" value="${r.p}" style="width:80px;border:1.5px solid #f97316;border-radius:9px;padding:4px 8px;font:inherit"></div>`}).join(''):empty('লিস্ট খালি, আগে মেনু থেকে জিনিস যোগ করো')}<div class="row" style="margin-top:10px"><span class="sm">${on.length}টা জিনিস</span><b>মোট ${mo(tot)}</b></div><button class="save" data-a="bzok">ব্যয়ে যোগ করো</button>`}
+async function act(x){const[a,v]=x.split('|');
+if(a==='tt'){TT=+v;return render()}
+if(a==='tadd'){const t=prompt('কাজের নাম');if(!t)return;S.todo.push({id:Date.now(),t,d:prompt('তারিখ (YYYY-MM-DD), না থাকলে খালি রাখো','')||'',ok:0});save();return render()}
+if(a==='tk'){const t=S.todo.find(t=>t.id==v);t.ok=t.ok?0:1;save();return render()}
+if(a==='td'){if(confirm('মুছে ফেলবে?')){S.todo=S.todo.filter(t=>t.id!=v);save();render()}return}
+if(a==='badd'){const n=prompt('জিনিসের নাম');if(!n)return;S.bz.push({id:Date.now(),n,q:prompt('পরিমাণ (যেমন 2k)','')||'',p:parseFloat(prompt('দাম','0'))||0,d:''});save();return render()}
+if(a==='be'){const b=S.bz.find(b=>b.id==v),n=prompt('নাম',b.n);if(!n)return;b.n=n;b.q=prompt('পরিমাণ',b.q)||b.q;b.p=parseFloat(prompt('দাম',b.p))||b.p;save();return render()}
+if(a==='bd'){if(confirm('মুছে ফেলবে?')){S.bz=S.bz.filter(b=>b.id!=v);save();render()}return}
+if(a==='fv'){const i=+v,k=S.fav.indexOf(i);k<0?S.fav.push(i):S.fav.splice(k,1);save();return render()}
+if(a==='dk'){S.dark=+v;dk();save();return render()}
+if(a==='fpw'){if(S.fz.pw){const o=prompt('আগের পাসওয়ার্ড');if(o===null||await H(o)!==S.fz.pw)return toast('পাসওয়ার্ড ভুল')}const n=prompt('নতুন পাসওয়ার্ড (কমপক্ষে ৪ অক্ষর)');if(!n||n.length<4)return toast('পাসওয়ার্ড সেট হয়নি');S.fz.pw=await H(n);save();toast('পাসওয়ার্ড সেট হয়েছে');return render()}
+if(a==='frs'){if(!user)return toast('আগে লগইন করো');try{const pr=new firebase.auth.GoogleAuthProvider();pr.setCustomParameters({login_hint:user.email});await user.reauthenticateWithPopup(pr)}catch(e){return toast('Gmail যাচাই হয়নি')}const n=prompt('Gmail যাচাই হয়েছে। নতুন পাসওয়ার্ড দাও');if(!n||n.length<4)return;S.fz.pw=await H(n);save();toast('নতুন পাসওয়ার্ড সেট হয়েছে');return render()}
+if(a==='fop'){if(await H($('#fpi').value)===S.fz.pw){UNL=true;render()}else toast('পাসওয়ার্ড ভুল');return}
+if(a==='ft'){FT=v;return render()}
+if(a==='fa'||a==='fs'){const i=FT==='inc',m=a==='fa'?(confirm('বাকিতে? (OK = বাকি, Cancel = নগদ)')?'baki':'cash'):(i?'ret':'pay'),x=parseFloat(prompt('টাকার অঙ্ক'));if(!(x>0))return;S.fz.tx.push({id:Date.now(),k:FT,a:x,n:a==='fa'?(prompt('নোট')||''):'',m,d:today});save();return render()}
+if(a==='fe'){const t=S.fz.tx.find(t=>t.id==v),x=parseFloat(prompt('টাকা',t.a));if(!(x>0))return;t.a=x;t.n=prompt('নোট',t.n)??t.n;save();return render()}
+if(a==='fd'){if(confirm('মুছে ফেলবে?')){S.fz.tx=S.fz.tx.filter(t=>t.id!=v);save();render()}return}
+if(a==='bzo'){keep();BZ=S.bz.map(b=>({id:b.id,on:0,p:b.p}));return sheetBz()}
+if(a==='bzt'){syncBz();const r=BZ.find(r=>r.id==v);r.on=r.on?0:1;return sheetBz()}
+if(a==='bzok'){syncBz();const on=BZ.filter(r=>r.on);if(!on.length)return toast('কিছু টিক দাও');let tot=0;const nm=[];on.forEach(r=>{const b=S.bz.find(b=>b.id==r.id);b.d=today;b.p=r.p;tot+=r.p;nm.push(b.n)});SH.a=tot;SH.n=nm.join(', ');SH.cat=(cats('exp').find(c=>c.n.includes('বাজার'))||cats('exp')[0]).id;BZ=null;save();return sheet()}}
+
+document.addEventListener('click',e=>{const t=e.target.closest('[data-a],[data-go],[data-add],[data-m],[data-c],[data-new],[data-edit],[data-settle],[data-addcat],[data-del],[data-open],[data-open2],[data-newcat],[data-mi],[data-out],#sv,#mn,#lg,.ov');if(!t)return;
   const D=t.dataset;
   if(t.id==='mn')return drawer();
   if(t.id==='lg')return login();
+  if('a'in D)return act(D.a);
   if(t.classList.contains('ov')){if(e.target===t)t.classList.remove('on');return}
   if('go'in D){$('#sh').classList.remove('on');return go(D.go)}
   if('add'in D)return openAdd(D.add);
@@ -182,7 +220,7 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-go],[data-
   if('del'in D){if(confirm('এই লেনদেন মুছে ফেলবে?')){S.tx=S.tx.filter(x=>x.id!=D.del);save();render()}return}
   if('open'in D)return go('cat',{k:V.k,id:D.open});
   if('open2'in D){const[k,id]=D.open2.split('|');$('#dr').classList.remove('on');return go('cat',{k,id})}
-  if('mi'in D){$('#dr').classList.remove('on');if(!D.mi)return toast('এই পেজ পরের ধাপে আসছে');const[a,b]=D.mi.split('|');return a==='hist'?go('hist',{k:b}):go('cats')}
+  if('mi'in D){$('#dr').classList.remove('on');if(!D.mi)return toast('এই পেজ পরের ধাপে আসছে');const[a,b]=D.mi.split('|');return a==='hist'?go('hist',{k:b}):a==='pg'?go(b):go('cats')}
   if('out'in D){$('#dr').classList.remove('on');if(user&&firebase.auth)firebase.auth().signOut();else toast('লগইন করা নেই')}
 });
 
