@@ -67,7 +67,7 @@ h2{font-size:16px;font-weight:600;margin-bottom:8px}
 </style>
 </head>
 <body>
-<header><b>দৈনিক হিসাব</b><div class="hr"><button class="lg" id="lg">লগইন</button><button class="mn" id="mn" aria-label="মেনু">☰</button></div></header>
+<header><div><b>দৈনিক হিসাব</b><div id="em" style="font-size:11px;opacity:.9;line-height:1.2"></div></div><div class="hr"><button class="lg" id="lg">লগইন</button><button class="mn" id="mn" aria-label="মেনু">☰</button></div></header>
 <main id="app"></main>
 <nav class="nav"><button class="n-in" data-add="inc">⊕ আয়</button><button class="n-ho" data-go="home">⌂ হোম</button><button class="n-ex" data-add="exp">⊖ ব্যয়</button></nav>
 <div class="ov" id="sh"><div class="sheet" id="shi"></div></div>
@@ -160,7 +160,7 @@ function openAdd(k,c){SH={k,cat:c||cats(k)[0].id,m:'cash'};sheet()}
 function keep(){SH.a=$('#am').value;SH.n=$('#nt').value}
 
 function drawer(){const I=[['আয়','⊕','hist|inc'],['ব্যয়','⊖','hist|exp'],['ক্যাটাগরি','▦','cats'],['Freeze হিসাব','🔒'],['To do list','☑'],['মাসিক বাজার লিস্ট','🛍'],['শিক্ষা','📖'],['সেটিং','⚙']];
-  $('#dri').innerHTML=`<div class="dh"><div class="av">${user?user.displayName[0]:'MK'}</div><div><b>${user?user.displayName:'MK'}</b><div style="font-size:12px;opacity:.9">দৈনিক হিসাব</div></div></div>
+  $('#dri').innerHTML=`<div class="dh"><div class="av">${user?user.displayName[0]:'MK'}</div><div><b>${user?user.displayName:'MK'}</b><div style="font-size:12px;opacity:.9;word-break:break-all">${user?user.email:'লগইন করা নেই'}</div></div></div>
   ${I.map(i=>`<button class="mi" data-mi="${i[2]||''}"><span>${i[1]}</span>${i[0]}</button>`).join('')}
   <button class="mi" data-out style="color:#dc2626;margin-top:12px"><span>⎋</span>লগ আউট</button>
   <div class="ft">Apps create by IMRAN HOSSAIN<br>new.mobicare.khulna@gmail.com</div>`;$('#dr').classList.add('on')}
@@ -186,8 +186,8 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-go],[data-
   if('out'in D){$('#dr').classList.remove('on');if(user&&firebase.auth)firebase.auth().signOut();else toast('লগইন করা নেই')}
 });
 
-function login(){if(user)return toast(user.displayName+' · লগইন করা আছে');if(!FB.apiKey)return toast('firebaseConfig বসাওনি');firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch(e=>{toast('লগইন হয়নি: '+(e.code||e.message));alert('লগইন ত্রুটি: '+(e.code||e.message))})}
-try{if(FB.apiKey){firebase.initializeApp(FB);db=firebase.firestore();firebase.auth().onAuthStateChanged(async u=>{user=u;$('#lg').textContent=u?u.displayName.split(' ')[0]:'লগইন';if(u){try{const d=await db.collection('users').doc(u.uid).get();if(d.exists){S=JSON.parse(d.data().data)}else save();localStorage.mkd=JSON.stringify(S)}catch(e){}}render()})}}catch(e){}
+function login(){if(user)return toast(user.displayName+' · লগইন করা আছে');if(!FB.apiKey)return toast('firebaseConfig বসাওনি');(()=>{const pr=new firebase.auth.GoogleAuthProvider();pr.setCustomParameters({prompt:'select_account'});return firebase.auth().signInWithPopup(pr)})().catch(e=>{toast('লগইন হয়নি: '+(e.code||e.message));alert('লগইন ত্রুটি: '+(e.code||e.message))})}
+try{if(FB.apiKey){firebase.initializeApp(FB);db=firebase.firestore();firebase.auth().onAuthStateChanged(async u=>{user=u;$('#lg').textContent=u?u.displayName.split(' ')[0]:'লগইন';$('#em').textContent=u?u.email:'';if(u){try{const d=await db.collection('users').doc(u.uid).get();if(d.exists){S=JSON.parse(d.data().data)}else save();localStorage.mkd=JSON.stringify(S)}catch(e){}}render()})}}catch(e){}
 if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 render();
 
