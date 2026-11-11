@@ -77,7 +77,9 @@ h2{font-size:16px;font-weight:600;margin-bottom:8px}
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
-<script>
+<script>window.onerror=(m,u,l)=>{var a=document.getElementById('app');if(a)a.innerHTML='<div class="pg" style="color:#b91c1c">ত্রুটি: '+m+' (লাইন '+l+')</div>'};
+(function(){
+
 // firebaseConfig বসানো আছে
 const FB={apiKey:"AIzaSyAgUV3_XSInd72ZxCQ0GO3GPWuY4csgXnA",authDomain:"mk-day-bye-sell.firebaseapp.com",projectId:"mk-day-bye-sell",storageBucket:"mk-day-bye-sell.firebasestorage.app",messagingSenderId:"944600410707",appId:"1:944600410707:web:ba645018ff85f957c4b4a6"};
 // ==========================================
@@ -108,13 +110,13 @@ function graph(){
     s+=`<rect x="${x}" y="${90-h1}" width="11" height="${h1}" rx="2" fill="#22c55e"/><rect x="${x+12}" y="${90-h2}" width="11" height="${h2}" rx="2" fill="#ef4444"/>`;
     l+=`<text x="${x+11}" y="106" font-size="10" fill="#5b6b7b" text-anchor="middle">${bn(d0.getDate())}-${bn(d1.getDate())}</text>`});
   return `<svg width="100%" viewBox="0 0 300 112"><line x1="0" y1="90" x2="300" y2="90" stroke="#d5dde6"/>${s}${l}</svg>`}
-function top(k){const m={};S.tx.filter(t=>t.k===k&&real(t)).forEach(t=>m[t.c]=(m[t.c]||0)+t.a);const e=Object.entries(m).sort((a,b)=>b[1]-a[1])[0];return e?[cat(k,e[0]).n,e[1]]:['—',0]}
+function topCat(k){const m={};S.tx.filter(t=>t.k===k&&real(t)).forEach(t=>m[t.c]=(m[t.c]||0)+t.a);const e=Object.entries(m).sort((a,b)=>b[1]-a[1])[0];return e?[cat(k,e[0]).n,e[1]]:['—',0]}
 
 function home(){
   const te=sum(t=>t.k==='exp'&&real(t)&&t.d===today),ti=sum(t=>t.k==='inc'&&real(t)&&t.d===today),
     me=sum(t=>t.k==='exp'&&real(t)&&t.d.startsWith(monthKey())),mi=sum(t=>t.k==='inc'&&real(t)&&t.d.startsWith(monthKey())),
     loan=cats('exp').reduce((a,c)=>a+bal('exp',c.id),0),paw=cats('inc').reduce((a,c)=>a+bal('inc',c.id),0),
-    di=Math.floor(Date.now()/864e5),qs=[0,1,2].map(i=>Q[(di*3+i)%Q.length]),a=top('inc'),b=top('exp');
+    di=Math.floor(Date.now()/864e5),qs=[0,1,2].map(i=>Q[(di*3+i)%Q.length]),a=topCat('inc'),b=topCat('exp');
   const K=(t,v,c)=>`<div class="k"><small>${t}</small><b style="color:${c}">${mo(v)}</b></div>`;
   return `<div class="pg"><h2>স্বাগতম, ${user?user.displayName.split(' ')[0]:'MK'}!</h2>
   <div class="g3">${K('আজকের ব্যয়',te,'#dc2626')+K('মাসিক ব্যয়',me,'#dc2626')+K('মাসিক ঋণ',loan,'#ea580c')}</div>
@@ -184,10 +186,12 @@ document.addEventListener('click',e=>{const t=e.target.closest('[data-go],[data-
   if('out'in D){$('#dr').classList.remove('on');if(user&&firebase.auth)firebase.auth().signOut();else toast('লগইন করা নেই')}
 });
 
-function login(){if(user)return toast(user.displayName+' · লগইন করা আছে');if(!FB.apiKey)return toast('firebaseConfig বসাওনি');firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch(e=>toast('লগইন হয়নি'))}
+function login(){if(user)return toast(user.displayName+' · লগইন করা আছে');if(!FB.apiKey)return toast('firebaseConfig বসাওনি');firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch(e=>{toast('লগইন হয়নি: '+(e.code||e.message));alert('লগইন ত্রুটি: '+(e.code||e.message))})}
 try{if(FB.apiKey){firebase.initializeApp(FB);db=firebase.firestore();firebase.auth().onAuthStateChanged(async u=>{user=u;$('#lg').textContent=u?u.displayName.split(' ')[0]:'লগইন';if(u){try{const d=await db.collection('users').doc(u.uid).get();if(d.exists){S=JSON.parse(d.data().data)}else save();localStorage.mkd=JSON.stringify(S)}catch(e){}}render()})}}catch(e){}
 if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 render();
+
+})();
 </script>
 </body>
 </html>
