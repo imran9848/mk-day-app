@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>এম কে ক্যাশ ম্যানেজার</title><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#0d2a5c"><link rel="icon" href="icon-192.png">
+<!DOCTYPE html><html lang="bn"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>এম কে ক্যাশ ম্যানেজার</title><link rel="manifest" href="manifest.json"><meta name="theme-color" content="#185FA5"><link rel="icon" href="icon-192.png">
 <style>
 *{box-sizing:border-box;margin:0;font-family:"Noto Sans Bengali",system-ui,sans-serif}
 body{background:#dfe7ef}#app{height:100dvh;max-width:480px;margin:auto;background:#fff;display:flex;flex-direction:column;position:relative;overflow:hidden}
@@ -7,7 +7,7 @@ body{background:#dfe7ef}#app{height:100dvh;max-width:480px;margin:auto;backgroun
 .bar{display:flex;justify-content:space-between;align-items:center;padding:6px 24px;border-top:1px solid #ddd}
 .ci{width:40px;height:40px;border-radius:50%;border:1px solid #bbb;background:#fff;font-size:18px}.hm{background:#1a5fd0;border:0;width:46px;height:46px;font-size:20px}
 .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:6px}.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px}
-.k{color:#fff;border-radius:8px;padding:6px 2px;text-align:center;font-size:11px}.k b{display:block;font-size:14px}.r{background:#6d0f0f}.g{background:#0b3d12}
+.k{color:#fff;border-radius:8px;padding:6px 2px;text-align:center;font-size:11px}.k b{display:block;font-size:14px}.r{background:#B71C1C}.g{background:#1B5E20}
 .mc{border:1px solid #ddd;border-radius:12px;padding:14px 4px;text-align:center;font-size:13px}.gr{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-bottom:1px solid #eee;gap:6px}
 .btn{border:0;border-radius:12px;padding:11px;font-size:14px;font-weight:600;color:#fff;width:100%}
@@ -45,7 +45,7 @@ const P={
 home(){const n=Date.now(),B=Array.from({length:6},(_,i)=>{const a=n-(6-i)*5*864e5,b=a+5*864e5,f=t=>D.tx.filter(x=>x.t==t&&x.d>=a&&x.d<b).reduce((s,x)=>s+x.m,0);return[f('i'),f('e')]}),mx=Math.max(1,...B.flat());
 const top=(l,t,bg)=>{const o={};D.tx.filter(x=>x.t==t).forEach(x=>o[x.c]=(o[x.c]||0)+x.m);const k=Object.keys(o).sort((a,b)=>o[b]-o[a])[0];return `<div style="background:${bg};border-radius:8px;padding:6px;font-size:12px">${l}<br><b>${k?k+' '+tk(o[k]):'—'}</b></div>`};
 const mo=['ধৈর্য আর সঞ্চয়ই দীর্ঘমেয়াদে বড় করে।','ছোট ছোট খরচই বড় ক্ষতি করে।','আজকের হিসাব কালকের শান্তি।'];
-return['','#0d2a5c',`<div class="hd" style="background:#0d2a5c;padding:8px;font-size:10px;font-weight:400"><span style="flex:1;overflow:hidden;max-width:70px">${U?U.email:''}</span><div style="border:1px solid #fff8;border-radius:8px;padding:2px 8px;text-align:center"><div id="dt" style="color:#ffd54f"></div><div id="tm" style="font-size:17px;font-weight:700;color:#ff8a80"></div></div><span style="flex:1;text-align:right">${U?'':'<button onclick="login()" style="font-size:11px;padding:4px 8px;border-radius:8px;border:0">লগইন</button> '}<span style="font-size:24px" onclick="go('menu')">☰</span></span></div>
+return['','#185FA5',`<div class="hd" style="background:#185FA5;padding:8px;font-size:10px;font-weight:400"><span style="flex:1;overflow:hidden;max-width:70px">${U?U.email:''}</span><div style="border:1px solid #fff8;border-radius:8px;padding:2px 8px;text-align:center"><div id="dt" style="color:#ffd54f"></div><div id="tm" style="font-size:17px;font-weight:700;color:#ff8a80"></div></div><span style="flex:1;text-align:right">${U?'':'<button onclick="login()" style="font-size:11px;padding:4px 8px;border-radius:8px;border:0">লগইন</button> '}<span style="font-size:24px" onclick="go('menu')">☰</span></span></div>
 <div class="bd nos"><div class="g4">${CARDS.slice(0,4).map((c,i)=>cd(c,i<4?'r':'g')).join('')}</div><div class="g4">${CARDS.slice(4).map(c=>cd(c,'g')).join('')}</div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px">${top('সবথেকে বেশি আয়','i','#fbe9c0')}${top('সবথেকে বেশি ব্যয়','e','#fbdcdc')}</div>
 <div style="border:1px solid #ddd;border-radius:8px;padding:6px;font-size:11px">আয়-ব্যয় গ্রাফ (শেষ ৩০ দিন)<div style="display:flex;gap:6px;height:60px;align-items:flex-end">${B.map(([i,e])=>`<div style="flex:1;display:flex;gap:2px;align-items:flex-end;height:100%"><div style="flex:1;background:#1B5E20;height:${i/mx*100}%"></div><div style="flex:1;background:#B71C1C;height:${e/mx*100}%"></div></div>`).join('')}</div></div>
