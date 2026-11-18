@@ -67,6 +67,18 @@ input,select{width:100%;padding:9px;border:1px solid #aaa;border-radius:8px;font
 .float-menu .float-menu-controls button{flex:1;min-width:0;min-height:39px;display:flex;flex-direction:column;gap:0;font-size:18px;color:var(--float-ink,#243447);background:#eef5ff;border-radius:10px}
 .float-menu .float-menu-controls small{font-size:9px;line-height:1.1}
 #app.dk .float-menu .float-menu-controls button{background:#34465b;color:#edf3fb}
+
+/* Compact calculator default size and two-corner resizing */
+.float-calc-window{position:absolute;width:min(246px,calc(100% - 28px));height:330px;max-height:calc(100% - 28px);touch-action:pan-y}
+.float-calc-window .float-window-head{cursor:move;touch-action:none;user-select:none}
+.float-calc-window .float-window-body{padding:6px}
+.float-calc-window .float-calc-display{font-size:21px;min-height:38px;padding:7px;margin-bottom:6px}
+.float-calc-window .float-calc-grid{gap:4px}
+.float-calc-window .float-calc-grid button{min-height:34px;font-size:15px;border-radius:8px}
+.float-calc-resize-handle{position:absolute;bottom:0;width:24px;height:19px;z-index:5;touch-action:none;cursor:nwse-resize;background:linear-gradient(135deg,transparent 48%,#78aee0 49%,#78aee0 57%,transparent 58%);}
+.float-calc-resize-handle.left{left:0;transform:scaleX(-1)}
+.float-calc-resize-handle.right{right:0}
+.float-calc-window.maximized .float-calc-resize-handle{display:none}
 </style></head><body><div id="app"></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
@@ -166,7 +178,7 @@ const _bizSub=P.sub;P.sub=function(t,ci){const r=_bizSub(t,ci);if(t==='i'&&Objec
 const GR=[['#ef5350','#c62828'],['#ff8a50','#e64a19'],['#ba68c8','#7b1fa2'],['#f06292','#ad1457'],['#66bb6a','#2e7d32'],['#26c6da','#00838f'],['#42a5f5','#1565c0'],['#d4e157','#7cb342']],CI=['💵','🧾','🤝','📉','💰','📥','🏦','📈'];
 function cd([l,f,g],i){return`<div class="k" style="background:linear-gradient(135deg,${GR[i][0]},${GR[i][1]});font-size:12.5px;padding:8px 2px" onclick="${g?`go(${g.map(x=>typeof x=='string'?`'${x}'`:x).join(',')})`:''}"><div style="font-size:17px">${CI[i]}</div>${l}<b style="font-size:16px">${tk(f())}</b></div>`}
 
-let floatMenuOpen=false,floatCalcOpen=false,floatCalcMin=false,floatCalcMax=false,floatSettingsOpen=false,floatPickOpen=false,floatEditMode=false,floatDeleteMode=false,floatDrag=null,floatMoved=false;
+let floatMenuOpen=false,floatCalcOpen=false,floatCalcMin=false,floatCalcMax=false,floatCalcX=null,floatCalcY=null,floatCalcW=246,floatCalcH=330,floatCalcDrag=null,floatCalcResize=null,floatSettingsOpen=false,floatPickOpen=false,floatEditMode=false,floatDeleteMode=false,floatDrag=null,floatMoved=false;
 const FLOAT_DEFS={
 todo:{label:'এখন মনে থাকবে',icon:'📝',run:"go('td')"},
 shop:{label:'দোকানদার',icon:'🏪',run:"vqs='';go('vl')"},
@@ -185,6 +197,39 @@ function floatToggle(){floatMenuOpen=!floatMenuOpen;floatMenuExpanded=false;floa
 function floatMoveStart(e){const a=document.getElementById('app');if(!a)return;const r=a.getBoundingClientRect(),p=D.float||{};floatDrag={sx:e.clientX,sy:e.clientY,x:p.x==null?a.clientWidth-52:p.x,y:p.y==null?Math.round(a.clientHeight*.42):p.y,rect:r};floatMoved=false;e.currentTarget.setPointerCapture?.(e.pointerId);window.addEventListener('pointermove',floatMove);window.addEventListener('pointerup',floatMoveEnd,{once:true})}
 function floatMove(e){if(!floatDrag)return;const a=document.getElementById('app');if(!a)return;const dx=e.clientX-floatDrag.sx,dy=e.clientY-floatDrag.sy;if(Math.abs(dx)+Math.abs(dy)>5)floatMoved=true;if(floatMoved){D.float.x=Math.max(3,Math.min(a.clientWidth-45,floatDrag.x+dx));D.float.y=Math.max(4,Math.min(a.clientHeight-48,floatDrag.y+dy));const b=document.getElementById('float-ball');if(b){b.style.left=D.float.x+'px';b.style.top=D.float.y+'px'}}}
 function floatMoveEnd(){window.removeEventListener('pointermove',floatMove);if(floatDrag&&floatMoved){save();floatMenuOpen=false;renderFloatUI()}floatDrag=null}
+function floatCalcDragStart(e){
+ if(e.button!==undefined&&e.button!==0)return;
+ if(e.target.closest('button'))return;
+ const a=document.getElementById('app'),w=document.querySelector('.float-calc-window');if(!a||!w||floatCalcMax)return;
+ const ar=a.getBoundingClientRect(),r=w.getBoundingClientRect();
+ floatCalcX=r.left-ar.left;floatCalcY=r.top-ar.top;w.style.left=floatCalcX+'px';w.style.top=floatCalcY+'px';w.style.transform='none';
+ floatCalcDrag={sx:e.clientX,sy:e.clientY,x:floatCalcX,y:floatCalcY,ar};e.preventDefault();
+ window.addEventListener('pointermove',floatCalcDragMove);window.addEventListener('pointerup',floatCalcDragEnd,{once:true});
+}
+function floatCalcDragMove(e){
+ if(!floatCalcDrag)return;const a=document.getElementById('app'),w=document.querySelector('.float-calc-window');if(!a||!w)return;
+ const dx=e.clientX-floatCalcDrag.sx,dy=e.clientY-floatCalcDrag.sy;
+ floatCalcX=Math.max(4,Math.min(a.clientWidth-w.offsetWidth-4,floatCalcDrag.x+dx));
+ floatCalcY=Math.max(4,Math.min(a.clientHeight-w.offsetHeight-4,floatCalcDrag.y+dy));
+ w.style.left=floatCalcX+'px';w.style.top=floatCalcY+'px';
+}
+function floatCalcDragEnd(){window.removeEventListener('pointermove',floatCalcDragMove);floatCalcDrag=null;renderFloatUI()}
+function floatCalcResizeStart(e,edge){
+ if(e.button!==undefined&&e.button!==0)return;const a=document.getElementById('app'),w=document.querySelector('.float-calc-window');if(!a||!w||floatCalcMax)return;
+ const ar=a.getBoundingClientRect(),r=w.getBoundingClientRect();floatCalcX=r.left-ar.left;floatCalcY=r.top-ar.top;floatCalcW=r.width;floatCalcH=r.height;
+ floatCalcResize={edge,sx:e.clientX,sy:e.clientY,x:floatCalcX,y:floatCalcY,w:floatCalcW,h:floatCalcH,ar};e.preventDefault();e.stopPropagation();
+ window.addEventListener('pointermove',floatCalcResizeMove);window.addEventListener('pointerup',floatCalcResizeEnd,{once:true});
+}
+function floatCalcResizeMove(e){
+ if(!floatCalcResize)return;const a=document.getElementById('app'),w=document.querySelector('.float-calc-window');if(!a||!w)return;
+ const d=floatCalcResize,dx=e.clientX-d.sx,dy=e.clientY-d.sy,maxW=Math.max(210,a.clientWidth-12),maxH=Math.max(270,a.clientHeight-12);
+ floatCalcW=Math.max(210,Math.min(maxW,d.w+(d.edge==='left'?-dx:dx)));
+ floatCalcH=Math.max(270,Math.min(maxH,d.h+dy));
+ floatCalcX=d.edge==='left'?Math.max(4,Math.min(a.clientWidth-floatCalcW-4,d.x+d.w-floatCalcW)):Math.max(4,Math.min(a.clientWidth-floatCalcW-4,d.x));
+ floatCalcY=Math.max(4,Math.min(a.clientHeight-floatCalcH-4,d.y));
+ w.style.left=floatCalcX+'px';w.style.top=floatCalcY+'px';w.style.width=floatCalcW+'px';w.style.height=floatCalcH+'px';
+}
+function floatCalcResizeEnd(){window.removeEventListener('pointermove',floatCalcResizeMove);floatCalcResize=null;renderFloatUI()}
 function openFloatCalc(){floatMenuOpen=false;floatCalcOpen=true;floatCalcMin=false;floatCalcMax=false;renderFloatUI()}
 function closeFloatCalc(){floatCalcOpen=false;floatCalcMin=false;floatCalcMax=false;renderFloatUI()}
 function openBallSettings(){floatMenuOpen=false;floatPickOpen=false;floatSettingsOpen=true;renderFloatUI()}function closeBallSettings(){floatSettingsOpen=false;renderFloatUI()}
@@ -211,7 +256,7 @@ function renderFloatUI(){
  let settings='';
  if(floatSettingsOpen){settings='<div class="float-panel"><div class="float-panel-head"><span>🔵 বল সেটিংস</span><button type="button" aria-label="সেটিংস বন্ধ করুন" onclick="event.preventDefault();event.stopPropagation();closeBallSettings()">✕</button></div><div class="float-setting-row">রং নির্বাচন<div class="float-swatches">'+['#185FA5','#42A5F5','#1A9E4B','#7B3FE4','#E8590C','#263238'].map(c=>'<button type="button" style="background:'+c+'" onclick="floatSaveSetting(\'color\',\''+c+'\')"></button>').join('')+'</div></div><div class="float-setting-row">স্বচ্ছতা: '+op+'%<input type="range" min="35" max="100" value="'+op+'" onchange="floatSaveSetting(\'opacity\',this.value)"></div><div class="float-setting-row">আকার<div style="display:flex;gap:6px;margin-top:6px">'+[34,42,48].map((n,i)=>'<button type="button" onclick="floatSaveSetting(\'size\','+n+')" style="flex:1;padding:7px;border:1px solid #ccd5df;border-radius:8px;background:'+(size===n?'#185FA5':'transparent')+';color:'+(size===n?'#fff':'inherit')+'">'+['ছোট','মাঝারি','বড়'][i]+'</button>').join('')+'</div></div><small>পরিবর্তন সঙ্গে সঙ্গে প্রয়োগ হবে।</small></div>'}
  let calc='';
- if(floatCalcOpen){const K=['C','⌫','%','÷','7','8','9','×','4','5','6','-','1','2','3','+','0','.','='];calc='<section class="float-window '+(floatCalcMax?'maximized':'')+'"><div class="float-window-head"><b><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="2.5" width="14" height="19" rx="2"/><path d="M8 6h8M8 11h2m4 0h2M8 15h2m4 0h2M8 19h2m4 0h2"/></svg> ক্যালকুলেটর</b><span><button type="button" onclick="floatCalcMin=true;floatCalcOpen=false;renderFloatUI()">−</button><button type="button" onclick="floatCalcMax=!floatCalcMax;renderFloatUI()">□</button><button type="button" onclick="closeFloatCalc()">×</button></span></div><div class="float-window-body"><div class="float-calc-display">'+(ce||'0')+'</div><div class="float-calc-grid">'+K.map(k=>'<button class="'+(k==='='?'eq':k==='C'?'clear':/[÷×%+\-]/.test(k)?'op':'')+'" onclick="kk(\''+k+'\')">'+k+'</button>').join('')+'</div></div></section>'}
+ if(floatCalcOpen){const K=['C','⌫','%','÷','7','8','9','×','4','5','6','-','1','2','3','+','0','.','='];calc='<section class="float-window float-calc-window '+(floatCalcMax?'maximized':'')+'" style="'+(floatCalcX==null?'':'left:'+floatCalcX+'px;top:'+floatCalcY+'px;transform:none;')+'width:min('+floatCalcW+'px,calc(100% - 28px));height:min('+floatCalcH+'px,calc(100% - 28px));"><div class="float-window-head" onpointerdown="floatCalcDragStart(event)"><b><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="2.5" width="14" height="19" rx="2"/><path d="M8 6h8M8 11h2m4 0h2M8 15h2m4 0h2M8 19h2m4 0h2"/></svg> ক্যালকুলেটর</b><span><button type="button" onpointerdown="event.stopPropagation()" onclick="floatCalcMin=true;floatCalcOpen=false;renderFloatUI()">−</button><button type="button" onpointerdown="event.stopPropagation()" onclick="floatCalcMax=!floatCalcMax;renderFloatUI()">□</button><button type="button" onpointerdown="event.stopPropagation()" onclick="closeFloatCalc()">×</button></span></div><div class="float-window-body"><div class="float-calc-display">'+(ce||'0')+'</div><div class="float-calc-grid">'+K.map(k=>'<button class="'+(k==='='?'eq':k==='C'?'clear':/[÷×%+\-]/.test(k)?'op':'')+'" onclick="kk(\''+k+'\')">'+k+'</button>').join('')+'</div></div><div class="float-calc-resize-handle left" onpointerdown="floatCalcResizeStart(event,\'left\')" aria-label="ক্যালকুলেটর ছোট-বড় করুন"></div><div class="float-calc-resize-handle right" onpointerdown="floatCalcResizeStart(event,\'right\')" aria-label="ক্যালকুলেটর ছোট-বড় করুন"></div></section>'}
  const minimized=floatCalcMin?'<button type="button" class="float-mini-window" onclick="floatCalcMin=false;floatCalcOpen=true;renderFloatUI()"><span style="font-size:21px">▦</span><span><b>ক্যালকুলেটর</b><small>'+(ce||'0')+'</small></span></button>':'';
  let pageWindow='',pageMin='';
  if(floatPageStack.length){const route=floatPageStack[floatPageStack.length-1],fn=P[route[0]],view=fn?fn(...route.slice(1)):['অপশন','#185FA5','<p>এই অপশনটি পাওয়া যায়নি</p>'];if(floatPageMin){pageMin='<button type="button" class="float-mini-window float-page-mini" onclick="floatPageMin=false;renderFloatUI()"><span>▣</span><span><b>'+view[0]+'</b><small>আবার খুলুন</small></span></button>'}else{pageWindow='<section class="float-window '+(floatPageMax?'maximized':'')+'"><div class="float-window-head"><b>'+view[0]+'</b><span>'+(view[3]||'')+'<button type="button" title="ছোট করো" onclick="floatPageMin=true;renderFloatUI()">−</button><button type="button" title="বড় করো" onclick="floatPageMax=!floatPageMax;renderFloatUI()">□</button><button type="button" title="বন্ধ করো" onclick="closeFloatPage()">×</button></span></div><div class="float-window-body">'+view[2]+'</div></section>'}}
