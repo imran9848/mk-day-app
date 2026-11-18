@@ -83,7 +83,7 @@ ab(){return['About Me','#7b3fe4',`<h3 style="text-align:center;color:#185FA5">�
 
 /* MK_BIZ_MODULE_V1 */
 function bizUnitKey(v){if(typeof v==='string')return v;if(v&&typeof v==='object'){if(typeof v.unit==='string')return v.unit;if(typeof v.u==='string')return v.u;const z=Object.values(v).find(x=>typeof x==='string');if(z)return z}return 'base'}
-function ensureBiz(){D.biz=D.biz&&typeof D.biz==='object'?D.biz:{};['products','customers','sales','purchases','returns','payments'].forEach(k=>{if(!Array.isArray(D.biz[k]))D.biz[k]=[]});D.biz.products.forEach(p=>{if(!p.unit)p.unit='একক';if(!Array.isArray(p.packages))p.packages=[]});['sales','purchases','returns'].forEach(k=>D.biz[k].forEach(x=>{if(x.unitKey&&typeof x.unitKey==='object')x.unitKey=bizUnitKey(x.unitKey)}));return D.biz}ensureBiz();
+function ensureBiz(){D.biz=D.biz&&typeof D.biz==='object'?D.biz:{};['products','customers','sales','purchases','returns','payments'].forEach(k=>{if(!Array.isArray(D.biz[k]))D.biz[k]=[]});D.biz.products.forEach(p=>{if(!p.unit)p.unit='একক';if(!Array.isArray(p.packages))p.packages=[]});let migrated=false;['sales','purchases','returns'].forEach(k=>D.biz[k].forEach(x=>{if(x.unitKey&&typeof x.unitKey==='object'){x.unitKey=bizUnitKey(x.unitKey);migrated=true}}));if(migrated)save();return D.biz}ensureBiz();
 const bizMoney=n=>tk(+n||0),bizRound=n=>Math.round(((+n||0)+Number.EPSILON)*100)/100;
 function bizPackages(p){return (Array.isArray(p.packages)?p.packages:[]).filter(x=>x&&x.name&&Number(x.factor)>0).slice().sort((a,b)=>b.factor-a.factor)}
 function bizUnitOptions(p){return [{v:'base',t:p.unit||'একক',factor:1},...bizPackages(p).map((x,i)=>({v:'pkg'+i,t:x.name+' ('+bn(x.factor)+' '+(p.unit||'একক')+')',factor:+x.factor}))]}
