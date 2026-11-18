@@ -46,6 +46,10 @@ input,select{width:100%;padding:9px;border:1px solid #aaa;border-radius:8px;font
 .float-swatches button{width:27px;height:27px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #aab4c0}
 #app.dk .float-menu,#app.dk .float-panel{--float-panel:#1f2933;--float-ink:#edf3fb;border-color:#465466}
 #app.dk .float-calc-display{background:#263444;color:#fff}
+
+.float-mini-window{position:absolute;z-index:39;right:10px;bottom:64px;width:154px;min-height:48px;border:1px solid #b8c6d8;border-radius:11px;background:var(--float-panel,#fff);color:var(--float-ink,#243447);box-shadow:0 4px 14px #0004;display:flex;align-items:center;gap:7px;padding:7px 9px;text-align:left}
+.float-mini-window b{font-size:12px;display:block}.float-mini-window small{font-size:11px;display:block;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#app.dk .float-mini-window{--float-panel:#1f2933;--float-ink:#edf3fb;border-color:#465466}
 </style></head><body><div id="app"></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
@@ -192,7 +196,7 @@ function renderFloatUI(){
  if(floatSettingsOpen){settings='<div class="float-panel"><div class="float-panel-head"><span>🔵 বল সেটিংস</span><button onclick="floatSettingsOpen=false;renderFloatUI()">✕</button></div><div class="float-setting-row">রং নির্বাচন<div class="float-swatches">'+['#185FA5','#42A5F5','#1A9E4B','#7B3FE4','#E8590C','#263238'].map(c=>'<button style="background:'+c+'" onclick="floatSaveSetting(\'color\',\''+c+'\')"></button>').join('')+'</div></div><div class="float-setting-row">স্বচ্ছতা: '+op+'%<input type="range" min="35" max="100" value="'+op+'" onchange="floatSaveSetting(\'opacity\',this.value)"></div><div class="float-setting-row">আকার<div style="display:flex;gap:6px;margin-top:6px">'+[34,42,48].map((n,i)=>'<button onclick="floatSaveSetting(\'size\','+n+')" style="flex:1;padding:7px;border:1px solid #ccd5df;border-radius:8px;background:'+(size===n?'#185FA5':'transparent')+';color:'+(size===n?'#fff':'inherit')+'">'+['ছোট','মাঝারি','বড়'][i]+'</button>').join('')+'</div></div><small>পরিবর্তন সঙ্গে সঙ্গে প্রয়োগ হবে।</small></div>'}
  let calc='';
  if(floatCalcOpen){const K=['C','⌫','%','÷','7','8','9','×','4','5','6','-','1','2','3','+','0','.','='];calc='<div class="float-panel '+(floatCalcMax?'wide':'')+'"><div class="float-panel-head"><span>🧮 ক্যালকুলেটর</span><span style="display:flex;gap:4px"><button onclick="floatCalcMin=true;floatCalcOpen=false;renderFloatUI()">−</button><button onclick="floatCalcMax=!floatCalcMax;renderFloatUI()">□</button><button onclick="closeFloatCalc()">✕</button></span></div><div class="float-calc-display">'+(ce||'0')+'</div><div class="float-calc-grid">'+K.map(k=>'<button class="'+(k==='='?'eq':k==='C'?'clear':/[÷×%+\-]/.test(k)?'op':'')+'" onclick="kk(\''+k+'\')">'+k+'</button>').join('')+'</div></div>'}
- const minimized=floatCalcMin?'<button class="float-minimized" onclick="floatCalcMin=false;floatCalcOpen=true;renderFloatUI()">🧮 ক্যালকুলেটর খুলুন</button>':'';
+ const minimized=floatCalcMin?'<button class="float-mini-window" onclick="floatCalcMin=false;floatCalcOpen=true;renderFloatUI()"><span style="font-size:21px">🧮</span><span><b>ক্যালকুলেটর</b><small>'+(ce||'0')+'</small></span></button>':'';
  a.insertAdjacentHTML('beforeend',ball+menu+pick+settings+calc+minimized);
 }
 
