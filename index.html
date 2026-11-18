@@ -102,6 +102,21 @@ input,select{width:100%;padding:9px;border:1px solid #aaa;border-radius:8px;font
 .float-page-window .float-window-head{cursor:grab;touch-action:none;user-select:none}
 .float-page-window .float-window-head:active{cursor:grabbing}
 .float-page-window.maximized{width:calc(100% - 12px);height:calc(100% - 12px);min-height:0}
+
+/* Final spacing pass: compact menu and content-fit floating windows */
+.float-menu{height:auto;min-height:0;max-height:68%;gap:3px;padding:5px}
+.float-menu.expanded{height:auto;min-height:0;max-height:72%}
+.float-menu .float-item{min-height:36px;padding:4px 5px;gap:7px}
+.float-menu .float-add{min-height:30px;margin-top:2px}
+.float-menu .float-menu-delete{width:100%;min-height:32px;display:flex;align-items:center;justify-content:center;gap:7px;border:0;border-top:1px solid #e3e8ee;border-radius:0;background:transparent;color:#d32f2f;padding:5px 4px;margin-top:2px;font-size:16px}
+.float-menu .float-menu-delete small{font-size:10px}
+.float-menu .float-menu-controls{padding-top:5px;margin-top:2px;gap:6px}
+.float-menu .float-menu-controls button{min-height:36px}
+.float-page-window{height:auto;min-height:0;max-height:min(72dvh,calc(100% - 16px));}
+.float-page-window .float-window-body{flex:0 1 auto;max-height:calc(72dvh - 58px);overflow:auto;padding:7px}
+.float-calc-window{height:300px}
+.float-calc-window .float-window-body{flex:0 0 auto}
+#app.dk .float-menu .float-menu-delete{border-color:#465466;color:#ff8585}
 </style></head><body><div id="app"></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
@@ -201,7 +216,7 @@ const _bizSub=P.sub;P.sub=function(t,ci){const r=_bizSub(t,ci);if(t==='i'&&Objec
 const GR=[['#ef5350','#c62828'],['#ff8a50','#e64a19'],['#ba68c8','#7b1fa2'],['#f06292','#ad1457'],['#66bb6a','#2e7d32'],['#26c6da','#00838f'],['#42a5f5','#1565c0'],['#d4e157','#7cb342']],CI=['💵','🧾','🤝','📉','💰','📥','🏦','📈'];
 function cd([l,f,g],i){return`<div class="k" style="background:linear-gradient(135deg,${GR[i][0]},${GR[i][1]});font-size:12.5px;padding:8px 2px" onclick="${g?`go(${g.map(x=>typeof x=='string'?`'${x}'`:x).join(',')})`:''}"><div style="font-size:17px">${CI[i]}</div>${l}<b style="font-size:16px">${tk(f())}</b></div>`}
 
-let floatMenuOpen=false,floatMenuX=null,floatMenuY=null,floatMenuDrag=null,floatPageX=null,floatPageY=null,floatPageDrag=null,floatCalcOpen=false,floatCalcMin=false,floatCalcMax=false,floatCalcX=null,floatCalcY=null,floatCalcW=246,floatCalcH=330,floatCalcDrag=null,floatCalcResize=null,floatSettingsOpen=false,floatPickOpen=false,floatEditMode=false,floatDeleteMode=false,floatDrag=null,floatMoved=false;
+let floatMenuOpen=false,floatMenuX=null,floatMenuY=null,floatMenuDrag=null,floatPageX=null,floatPageY=null,floatPageDrag=null,floatCalcOpen=false,floatCalcMin=false,floatCalcMax=false,floatCalcX=null,floatCalcY=null,floatCalcW=246,floatCalcH=300,floatCalcDrag=null,floatCalcResize=null,floatSettingsOpen=false,floatPickOpen=false,floatEditMode=false,floatDeleteMode=false,floatDrag=null,floatMoved=false;
 const FLOAT_DEFS={
 todo:{label:'এখন মনে থাকবে',icon:'📝',run:"go('td')"},
 shop:{label:'দোকানদার',icon:'🏪',run:"vqs='';go('vl')"},
@@ -274,10 +289,10 @@ function renderFloatUI(){
  const ball='<button id="float-ball" type="button" class="float-ball" style="left:'+p.x+'px;top:'+p.y+'px;width:'+size+'px;height:'+size+'px;font-size:'+Math.round(size*.43)+'px;--float-bg:'+color+';--float-ring:'+color+';--float-opacity:'+(op/100)+'" onpointerdown="floatMoveStart(event)" onclick="if(!floatMoved)floatToggle()" aria-label="দ্রুত মেনু"><svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>';
  const edge=Math.min(p.x,w-p.x-size),vertical=edge<Math.min(p.y,h-p.y-size),keys=p.items.filter(k=>FLOAT_DEFS[k]);let menu='';
  if(floatMenuOpen){
-  const tools='<div class="float-tools"><span class="float-menu-grip" onpointerdown="floatMenuDragStart(event)" aria-label="মেনু সরাও">⠿ <small>মেনু সরাতে ধরুন</small></span><button type="button" title="এডিট" onclick="floatEditMode=!floatEditMode;floatDeleteMode=false;renderFloatUI()">✎</button><button type="button" title="ডিলিট" onclick="floatDeleteMode=!floatDeleteMode;floatEditMode=false;renderFloatUI()">⌫</button></div>';
+  const tools='<div class="float-tools"><span class="float-menu-grip" onpointerdown="floatMenuDragStart(event)" aria-label="মেনু সরাও">⠿ <small>মেনু সরাতে ধরুন</small></span><button type="button" title="এডিট" onclick="floatEditMode=!floatEditMode;floatDeleteMode=false;renderFloatUI()">✎</button></div>';
   const opts=keys.map(k=>{const d=FLOAT_DEFS[k],action=floatDeleteMode?'floatRemove(\''+k+'\')':'floatRun(\''+k+'\')',arrows=floatEditMode?'<i class="float-order" onclick="event.stopPropagation();floatReorder(\''+k+'\',-1)">↑</i><i class="float-order" onclick="event.stopPropagation();floatReorder(\''+k+'\',1)">↓</i>':'';return '<button type="button" class="float-item" title="'+d.label+'" onclick="'+action+'"><span class="float-item-icon">'+(k==='calc'?'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="2.5" width="14" height="19" rx="2"/><path d="M8 6h8M8 11h2m4 0h2M8 15h2m4 0h2M8 19h2m4 0h2"/></svg>':d.icon)+'</span><span class="float-item-label">'+d.label+'</span>'+(floatDeleteMode?'<i class="float-remove">×</i>':'')+arrows+'</button>'}).join('');
   const add='<button type="button" class="float-add" title="আরও যোগ করুন" onclick="event.stopPropagation();floatPickOpen=!floatPickOpen;renderFloatUI()">＋</button>';
-  const controls='<div class="float-menu-controls"><button type="button" title="বড়" onclick="floatMenuExpanded=true;renderFloatUI()">↗<small>বড়</small></button><button type="button" title="ছোট" onclick="floatMenuExpanded=false;renderFloatUI()">−<small>ছোট</small></button><button type="button" title="বন্ধ" onclick="floatMenuOpen=false;floatMenuExpanded=false;renderFloatUI()">×<small>বন্ধ</small></button></div>';
+  const controls='<button type="button" class="float-menu-delete" title="ডিলিট অপশন" onclick="floatDeleteMode=!floatDeleteMode;floatEditMode=false;renderFloatUI()"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2m3 0-1 14H6L5 6m4 4v6m6-6v6"/></svg><small>ডিলিট</small></button><div class="float-menu-controls"><button type="button" title="বড়" onclick="floatMenuExpanded=true;renderFloatUI()">↗<small>বড়</small></button><button type="button" title="ছোট" onclick="floatMenuExpanded=false;renderFloatUI()">−<small>ছোট</small></button></div>';
   const menuWidth=floatMenuExpanded?160:142,left=floatMenuX==null?Math.max(5,Math.min(w-menuWidth-5,p.x+size-menuWidth)):Math.max(5,Math.min(w-menuWidth-5,floatMenuX)),top=floatMenuY==null?Math.max(5,Math.min(h*.42,p.y+size+7)):Math.max(5,Math.min(h*.38,floatMenuY));
   menu='<div class="float-menu vertical '+(floatMenuExpanded?'expanded':'')+'" style="left:'+left+'px;top:'+top+'px;--float-panel:'+(D.dark?'#1f2933':'#fff')+';--float-ink:'+(D.dark?'#edf3fb':'#243447')+'">'+tools+opts+add+controls+'</div>';
  }
