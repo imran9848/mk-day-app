@@ -401,6 +401,7 @@ function contactKey(p){const ph=String(p.ph||'').replace(/\D/g,'');return ph.len
 function ensureContacts(){
  D.contacts=Array.isArray(D.contacts)?D.contacts:[];
  const all=[...(Array.isArray(D.vd)?D.vd:[])];
+ if(D.biz&&Array.isArray(D.biz.customers))all.push(...D.biz.customers);
  Object.values(D.sp||{}).forEach(a=>{if(Array.isArray(a))all.push(...a)});
  const seen=new Map(),idMap={};
  [...D.contacts,...all].forEach(p=>{if(!p||!p.n)return;const key=contactKey(p);let q=seen.get(key);if(!q){q={...p,id:p.id||Date.now()+Math.floor(Math.random()*10000)};seen.set(key,q);D.contacts.push(q)}else{if(!q.ph&&p.ph)q.ph=p.ph;if(!q.ad&&p.ad)q.ad=p.ad;if(!q.fb&&p.fb)q.fb=p.fb}if(p.id!=null)idMap[p.id]=q.id});
