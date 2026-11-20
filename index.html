@@ -226,9 +226,9 @@ fm(t,ci,si){const C=t=='e'?D.ec:D.ic,keys=Object.keys(C),k=keys[ci]||keys[0],s=s
 </div>
 <div class="tx-caption">কন্টাক্ট (ঐচ্ছিক)</div>
 <div class="tx-contact"><input id="txContactSearch" placeholder="নাম বা মোবাইল নম্বর দিয়ে খুঁজুন" oninput="txContactFilter(this.value)"><button type="button" class="tx-add" aria-label="নতুন কন্টাক্ট যোগ" onclick="addTxContact()">＋</button></div>
-<select id="txContact" onchange="txContactChanged(this.value)" style="width:100%">${txContactOptions()}</select>
+<select id="txContact" onchange="txContactChanged(this.value)" style="width:100%;margin:0 0 8px;padding:7px 9px;border:1px solid #cbd5e1;border-radius:9px;background:#fff;font-size:13px">${txContactOptions()}</select>
 <small id="txContactPhone" style="display:block;color:#64748b;margin:3px 0 9px">${(()=>{const p=(D.contacts||[]).find(x=>String(x.id)===String(txContactId));return p?(p.ph||'মোবাইল নম্বর নেই'):'কোনো কন্টাক্ট নির্বাচন করা হয়নি'})()}</small>
-<div style="margin:0 0 9px"><label class="tx-caption" for="txKind">লেনদেনের ধরন</label><select id="txKind" onchange="txKind=this.value" style="width:100%"><option ${txKind==='সাধারণ'?'selected':''}>সাধারণ</option><option>লোন</option><option>বাকি দেওয়া</option><option>ধার</option><option>মাল বিক্রয়</option><option>মাল ক্রয়</option><option>লোন নেওয়া</option></select></div>
+<input type="hidden" id="txKind" value="সাধারণ">
 <div id="txBzBlock">${bzBlock(t,k)}</div>
 <label class="tx-caption" for="am">মোট টাকার পরিমাণ</label>
 <input id="am" class="tx-amount" inputmode="decimal" oninput="upRem()" placeholder="৳ ০.০০" value="${cart.length?ctot():''}">
