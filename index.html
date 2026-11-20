@@ -218,30 +218,30 @@ const now=new Date(),dayStart=new Date(now.getFullYear(),now.getMonth(),now.getD
 const receive=pb('L'),pay=pb('B'),inc=today('i'),exp=today('e');
 const notice='৩০ নভেম্বর পর্যন্ত ডেটা পরিবর্তন বা মুছে যেতে পারে। চাইলে আপনি ব্যাকআপ রাখতে পারেন।';
 ensureContacts();
-return['','#185FA5',\`<div class="hd profile-home-head home-v2-head">
+return['','#185FA5',`<div class="hd profile-home-head home-v2-head">
 <div class="profile-clock"><div class="home-time-line"><svg class="home-clock-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg><b id="profileClockTime">--:--</b></div><small id="profileClockDate">তারিখ</small></div>
-<button type="button" class="profile-head-user" onclick="go('profile')" aria-label="প্রোফাইল খুলুন"><span class="profile-head-name">\${htmlEsc((D.userProfile&&D.userProfile.name)||((U&&U.displayName)||'প্রোফাইল'))}</span>\${(D.userProfile&&D.userProfile.photo)?'<img class="profile-head-photo" src="'+D.userProfile.photo+'" alt="প্রোফাইল">':'<span class="profile-head-photo profile-head-placeholder">👤</span>'}</button>
+<button type="button" class="profile-head-user" onclick="go('profile')" aria-label="প্রোফাইল খুলুন"><span class="profile-head-name">${htmlEsc((D.userProfile&&D.userProfile.name)||((U&&U.displayName)||'প্রোফাইল'))}</span>${(D.userProfile&&D.userProfile.photo)?'<img class="profile-head-photo" src="'+D.userProfile.photo+'" alt="প্রোফাইল">':'<span class="profile-head-photo profile-head-placeholder">👤</span>'}</button>
 <button type="button" class="home-menu-button" onclick="go('menu')" aria-label="মেনু খুলুন"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
 </div>
 <div class="bd nos home-v2-body"><div id="pull-refresh-indicator" aria-live="polite"><span class="pull-icon">↻</span><span class="pull-text">রিফ্রেশ করতে টানুন</span></div>
-<div class="home-notice home-v2-notice" role="status" aria-label="\${notice}"><img id="homeNoticeImage" src="banner-warning.svg" alt="\${notice}"><button class="home-notice-manage" type="button" onclick="manageHomeAds()" aria-label="বিজ্ঞাপনের ছবি যোগ বা পরিবর্তন করুন">＋</button><span class="home-notice-dots" id="homeNoticeDots"><i class="on"></i></span></div>
+<div class="home-notice home-v2-notice" role="status" aria-label="${notice}"><img id="homeNoticeImage" src="banner-warning.svg" alt="${notice}"><button class="home-notice-manage" type="button" onclick="manageHomeAds()" aria-label="বিজ্ঞাপনের ছবি যোগ বা পরিবর্তন করুন">＋</button><span class="home-notice-dots" id="homeNoticeDots"><i class="on"></i></span></div>
 <div class="home-v2-summary">
-<button class="home-v2-total receive" onclick="go('pl','L')"><span class="home-v2-total-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"></path></svg></span><span class="home-v2-total-label"><b>মোট পাবো</b><small>ধার / বাকি</small></span><strong>\${tk(receive)}</strong></button>
-<button class="home-v2-total payable" onclick="go('pl','B')"><span class="home-v2-total-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 7 10 10M8 17h9V8"></path></svg></span><span class="home-v2-total-label"><b>মোট দেবো</b><small>ধার / লোন</small></span><strong>\${tk(pay)}</strong></button>
+<button class="home-v2-total receive" onclick="go('pl','L')"><span class="home-v2-total-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"></path></svg></span><span class="home-v2-total-label"><b>মোট পাবো</b><small>ধার / বাকি</small></span><strong>${tk(receive)}</strong></button>
+<button class="home-v2-total payable" onclick="go('pl','B')"><span class="home-v2-total-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 7 10 10M8 17h9V8"></path></svg></span><span class="home-v2-total-label"><b>মোট দেবো</b><small>ধার / লোন</small></span><strong>${tk(pay)}</strong></button>
 </div>
 <div class="home-v2-today">
-<div class="home-v2-today-card income"><span class="home-v2-chart-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 16 5-5 4 3 7-8M14 6h6v6"></path></svg></span><span><small>আজকের আয়</small><b>\${tk(inc)}</b></span></div>
-<div class="home-v2-today-card expense"><span class="home-v2-chart-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 8 5 5 4-3 7 8M14 18h6v-6"></path></svg></span><span><small>আজকের ব্যয়</small><b>\${tk(exp)}</b></span></div>
+<div class="home-v2-today-card income"><span class="home-v2-chart-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 16 5-5 4 3 7-8M14 6h6v6"></path></svg></span><span><small>আজকের আয়</small><b>${tk(inc)}</b></span></div>
+<div class="home-v2-today-card expense"><span class="home-v2-chart-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 8 5 5 4-3 7 8M14 18h6v-6"></path></svg></span><span><small>আজকের ব্যয়</small><b>${tk(exp)}</b></span></div>
 </div>
 <section class="home-v2-contacts">
 <div class="home-v2-contact-title"><b>কন্টাক্ট ও সরাসরি লেনদেন</b><button onclick="go('contacts')">সব দেখুন</button></div>
-<div class="home-v2-search"><span>⌕</span><input id="homeContactSearch" placeholder="নাম বা মোবাইল নম্বর দিয়ে খুঁজুন" value="\${htmlEsc(homeQ||'')}" oninput="homeQ=this.value;const e=document.getElementById('homeContactRows');if(e)e.innerHTML=homeContactRows(homeQ)"></div>
-<div class="home-v2-contact-caption">\${homeQ?'সার্চের ফলাফল':'সর্বশেষ লেনদেনের কন্টাক্ট'}</div>
-<div id="homeContactRows" class="home-v2-contact-rows">\${homeContactRows(homeQ||'')}</div>
+<div class="home-v2-search"><span>⌕</span><input id="homeContactSearch" placeholder="নাম বা মোবাইল নম্বর দিয়ে খুঁজুন" value="${htmlEsc(homeQ||'')}" oninput="homeQ=this.value;const e=document.getElementById('homeContactRows');if(e)e.innerHTML=homeContactRows(homeQ)"></div>
+<div class="home-v2-contact-caption">${homeQ?'সার্চের ফলাফল':'সর্বশেষ লেনদেনের কন্টাক্ট'}</div>
+<div id="homeContactRows" class="home-v2-contact-rows">${homeContactRows(homeQ||'')}</div>
 </section>
 </div>
 <div class="home-v2-bottom"><button onclick="go('contacts')" class="home-v2-nav ledger"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16H6zM9 8h6M9 12h6M6 18H4V6h2"></path></svg><span>খাতা</span></button><button type="button" onclick="openTxnSheet()" class="home-v2-nav transaction"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16M4 12h16"></path></svg><span>লেনদেন</span></button><button onclick="go('cashbox')" class="home-v2-nav cashbox"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="16" height="13" rx="2"></rect><path d="M8 6V4h8v2M8 11h8M10 15h4"></path></svg><span>ক্যাশবক্স</span></button></div>
-<button type="button" aria-label="কন্টাক্ট খাতা খুলুন" title="কন্টাক্ট খাতা" onclick="go('contacts')" class="home-v2-add-contact"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20v-1.5A4.5 4.5 0 0 1 7 14h4a4.5 4.5 0 0 1 4.5 4.5V20M17 8h5M19.5 5.5v5"></path></svg></button>\`]},
+<button type="button" aria-label="কন্টাক্ট খাতা খুলুন" title="কন্টাক্ট খাতা" onclick="go('contacts')" class="home-v2-add-contact"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20v-1.5A4.5 4.5 0 0 1 7 14h4a4.5 4.5 0 0 1 4.5 4.5V20M17 8h5M19.5 5.5v5"></path></svg></button>`]},
 
 
 menu(){const M=[['আয়','#1a9e4b','💰',"go('cat','i')"],['ব্যয়','#d93025','🧾',"go('cat','e')"],['পণ্যের তালিকা','#1565a8','📦',"go('bizlist','products')"],['মাসিক বাজারের তালিকা','#8e24aa','🧺',"go('bz')"],['ক্যাশবক্স','#0f8a9d','💵',"go('cashbox')"],['হিসাব লকার','#0f8a9d','🔒',"pw(()=>go('lk'))"],['এখন মনে থাকবে','#e8590c','📝',"go('td')"],['ক্যালকুলেটর','#5f6b7a','🧮',"go('calc')"],['সেটিং','#185FA5','⚙️',"go('set')"],['About Me','#7b3fe4','👤',"go('ab')"]];if(!U)M.push(['Gmail দিয়ে লগ ইন','#185FA5','🔑',"login()"]);if(U)M.push(['লগ আউট','#c62828','🚪',"lo()"]);
