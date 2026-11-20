@@ -222,8 +222,8 @@ body.home-active #app{background:#e7eef8}
 .home-v2-contact-rows .row small{font-size:10px}
 .home-v2-bottom{flex:none;display:flex;align-items:center;gap:7px;padding:8px 12px 10px;background:#fff;border-top:1px solid #d6dfeb;box-shadow:0 -2px 7px #173b6410}
 .home-v2-nav{height:54px;min-width:0;flex:1;border-radius:15px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;color:#fff;font-weight:800;border:2px solid #fff;outline:1px solid currentColor;box-shadow:0 2px 5px #102b5020}
-.home-v2-nav svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.home-v2-nav span{font-size:12px;line-height:1.2}
+.home-v2-nav svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.home-v2-nav span{font-size:13px;line-height:1.2}
 .home-v2-nav.ledger{background:#1c5fa5;color:#fff}
 .home-v2-nav.transaction{flex:1.2;height:64px;border-radius:25px;background:#119c55;color:#fff;font-size:14px;outline:2px solid #f2cb37}
 .home-v2-nav.transaction svg{width:25px;height:25px}
@@ -315,7 +315,7 @@ ensureContacts();
 return['','#185FA5',`<div class="hd profile-home-head home-v2-head">
 <div class="profile-clock"><div class="home-time-line"><svg class="home-clock-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg><b id="profileClockTime">--:--</b></div><small id="profileClockDate">তারিখ</small></div>
 <button type="button" class="profile-head-user" onclick="go('profile')" aria-label="প্রোফাইল খুলুন"><span class="profile-head-name">${htmlEsc((D.userProfile&&D.userProfile.name)||((U&&U.displayName)||'প্রোফাইল'))}</span>${(D.userProfile&&D.userProfile.photo)?'<img class="profile-head-photo" src="'+D.userProfile.photo+'" alt="প্রোফাইল">':'<span class="profile-head-photo profile-head-placeholder">👤</span>'}</button>
-<button type="button" class="home-menu-button" onclick="go('menu')" aria-label="মেনু খুলুন"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
+<button type="button" class="home-menu-button" onclick="go('menu')" aria-label="থ্রি ডট মেনু খুলুন"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1.8" fill="currentColor" stroke="none"></circle><circle cx="12" cy="12" r="1.8" fill="currentColor" stroke="none"></circle><circle cx="12" cy="19" r="1.8" fill="currentColor" stroke="none"></circle></svg></button>
 </div>
 <div class="bd nos home-v2-body"><div id="pull-refresh-indicator" aria-live="polite"><span class="pull-icon">↻</span><span class="pull-text">রিফ্রেশ করতে টানুন</span></div>
 <div class="home-notice home-v2-notice" role="status" aria-label="${notice}"><img id="homeNoticeImage" src="banner-warning.svg" alt="${notice}"><button class="home-notice-manage" type="button" onclick="manageHomeAds()" aria-label="বিজ্ঞাপনের ছবি যোগ বা পরিবর্তন করুন">＋</button><span class="home-notice-dots" id="homeNoticeDots"><i class="on"></i></span></div>
