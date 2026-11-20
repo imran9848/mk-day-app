@@ -372,9 +372,9 @@ const receive=pb('L'),pay=pb('B'),inc=today('i'),exp=today('e');
 const notice='৩০ নভেম্বর পর্যন্ত ডেটা পরিবর্তন বা মুছে যেতে পারে। চাইলে আপনি ব্যাকআপ রাখতে পারেন।';
 ensureContacts();
 return['','#185FA5',`<div class="hd profile-home-head home-v2-head">
-<div class="profile-clock"><div class="home-time-line"><svg class="home-clock-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg><b id="profileClockTime">--:--</b></div><small id="profileClockDate">তারিখ</small></div>
-<button type="button" class="profile-head-user" onclick="go('profile')" aria-label="প্রোফাইল খুলুন"><span class="profile-head-name"><span class="profile-head-name-text">${htmlEsc((D.userProfile&&D.userProfile.name)||((U&&U.displayName)||'প্রোফাইল'))}</span></span>${(D.userProfile&&D.userProfile.photo)?'<img class="profile-head-photo" src="'+D.userProfile.photo+'" alt="প্রোফাইল">':'<span class="profile-head-photo profile-head-placeholder">👤</span>'}</button>
-<button type="button" class="home-menu-button" onclick="go('menu')" aria-label="থ্রি ডট মেনু খুলুন"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M19.4 13.5 21 14.7l-1.7 2.9-1.8-.6a7.8 7.8 0 0 1-1.4.8l-.3 1.9h-3.4l-.3-1.9a7.8 7.8 0 0 1-1.4-.8l-1.8.6-1.7-2.9 1.6-1.2a7 7 0 0 1 0-2.1L7.2 10.2l1.7-2.9 1.8.6a7.8 7.8 0 0 1 1.4-.8l.3-1.9h3.4l.3 1.9a7.8 7.8 0 0 1 1.4.8l1.8-.6 1.7 2.9-1.6 1.2a7 7 0 0 1 0 2.1Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
+<div class="profile-clock"><div class="home-time-line"><svg class="home-clock-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg><b id="profileClockTime">--:--</b><span class="home-date-divider"></span><svg class="home-date-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M7 3v4M17 3v4M3 10h18M8 14h2M14 14h2M8 17h2"></path></svg><span id="profileClockDate">তারিখ</span></div></div>
+<button type="button" class="profile-head-user" onclick="go('profile')" aria-label="প্রোফাইল খুলুন">${(D.userProfile&&D.userProfile.photo)?'<img class="profile-head-photo" src="'+D.userProfile.photo+'" alt="প্রোফাইল">':'<span class="profile-head-photo profile-head-placeholder">👤</span>'}<span class="profile-head-name"><span class="profile-head-name-text">${htmlEsc((D.userProfile&&D.userProfile.name)||((U&&U.displayName)||'প্রোফাইল'))}</span></span></button>
+<button type="button" class="home-menu-button" onclick="go('menu')" aria-label="Grid মেনু খুলুন"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.4"></rect><rect x="14" y="3" width="7" height="7" rx="1.4"></rect><rect x="3" y="14" width="7" height="7" rx="1.4"></rect><rect x="14" y="14" width="7" height="7" rx="1.4"></rect></svg></button>
 </div>
 <div class="bd nos home-v2-body"><div id="pull-refresh-indicator" aria-live="polite"><span class="pull-icon">↻</span><span class="pull-text">রিফ্রেশ করতে টানুন</span></div>
 <div class="home-notice home-v2-notice" role="status" aria-label="${notice}"><img id="homeNoticeImage" src="banner-warning.svg" alt="${notice}"><button class="home-notice-manage" type="button" onclick="manageHomeAds()" aria-label="বিজ্ঞাপনের ছবি যোগ বা পরিবর্তন করুন">＋</button><span class="home-notice-dots" id="homeNoticeDots"><i class="on"></i></span></div>
@@ -763,5 +763,51 @@ R();installHomePullRefresh();initFb();
 .home-v2-head .profile-head-user{transform:translate(2px,3px)}
 .home-v2-head .profile-clock b{font-size:22px!important}
 .home-v2-head .home-clock-icon{width:16px;height:16px}
+</style>
+
+<style id="approved-purple-gold-home-header">
+/* Approved purple-magenta + gold home header; isolated to Home header */
+body.home-active #app .home-v2-head{
+ display:grid!important;grid-template-columns:minmax(0,1fr) 52px!important;
+ grid-template-rows:auto auto!important;align-items:center!important;
+ column-gap:12px!important;row-gap:8px!important;
+ min-height:112px!important;height:auto!important;padding:10px 13px!important;
+ background:linear-gradient(132deg,#21004f 0%,#4b00a6 24%,#a000c8 51%,#4c007f 76%,#170044 100%)!important;
+ border-bottom:3px solid #f4c542!important;box-shadow:0 5px 15px #2b075b55!important;
+ position:relative!important;overflow:hidden!important;
+}
+body.home-active #app .home-v2-head:before{
+ content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
+ background:radial-gradient(ellipse at 88% 8%,#ff55e455 0%,transparent 36%),
+ linear-gradient(145deg,transparent 52%,#ffcf4a00 65%,#ffcf4a99 82%,#ffdf7b 91%,#ffcf4a00 100%);
+}
+body.home-active #app .home-v2-head:after{
+ content:"";position:absolute;width:230px;height:150px;right:-55px;top:-100px;
+ border-radius:50%;background:#ffffff10;pointer-events:none;z-index:0;
+}
+body.home-active #app .home-v2-head>*{position:relative;z-index:1}
+body.home-active #app .home-v2-head .profile-clock{grid-column:1/3;grid-row:1;display:block!important;min-width:0!important;flex:none!important}
+body.home-active #app .home-v2-head .home-time-line{display:flex!important;align-items:center!important;gap:8px!important;white-space:nowrap!important;min-width:0!important;overflow:hidden!important}
+body.home-active #app .home-v2-head .profile-clock b{
+ background:transparent!important;color:#fff!important;padding:0!important;border-radius:0!important;
+ box-shadow:none!important;font-size:21px!important;line-height:1.2!important;letter-spacing:.2px!important;flex:none!important
+}
+body.home-active #app .home-v2-head .home-clock-icon{width:22px!important;height:22px!important;stroke:#ffe078!important;flex:none!important}
+body.home-active #app .home-v2-head .home-date-divider{width:1px;height:22px;background:#ffffffa8;flex:none!important;margin:0 2px}
+body.home-active #app .home-v2-head .home-date-icon{width:18px;height:18px;fill:none;stroke:#ffe078;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+body.home-active #app .home-v2-head #profileClockDate{display:inline-block!important;font-size:13px!important;font-weight:700!important;color:#fff!important;opacity:1!important;margin:0!important;overflow:hidden;text-overflow:ellipsis}
+body.home-active #app .home-v2-head .profile-head-user{grid-column:1;grid-row:2;display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:flex-start!important;gap:10px!important;min-width:0!important;max-width:100%!important;padding:0!important;background:transparent!important;transform:none!important}
+body.home-active #app .home-v2-head .profile-head-photo{width:48px!important;height:48px!important;flex:none!important;border:3px solid #ffd54f!important;box-shadow:0 0 0 2px #ffffff66,0 3px 8px #16002c88!important}
+body.home-active #app .home-v2-head .profile-head-name{display:inline-flex!important;align-items:center!important;max-width:100%!important;padding:7px 12px!important;border-radius:10px!important;background:linear-gradient(110deg,#100b1b,#24102d)!important;border:1px solid #d6a83f!important;box-shadow:0 3px 9px #10002099!important;font-size:17px!important;font-weight:900!important;letter-spacing:.2px!important;white-space:nowrap!important}
+body.home-active #app .home-v2-head .profile-head-name-text{background:linear-gradient(100deg,#fff0b4 0%,#ffd34e 45%,#fff1b7 100%)!important;-webkit-background-clip:text!important;background-clip:text!important;color:transparent!important;-webkit-text-fill-color:transparent!important}
+body.home-active #app .home-v2-head .home-menu-button{grid-column:2;grid-row:2;width:52px!important;height:52px!important;min-width:52px!important;min-height:52px!important;border:4px solid #ed1c24!important;border-radius:13px!important;background:linear-gradient(145deg,#210b2b,#08030d)!important;color:#fff!important;box-shadow:0 3px 10px #13002088!important;display:grid!important;place-items:center!important}
+body.home-active #app .home-v2-head .home-menu-button svg{width:32px!important;height:32px!important;fill:none!important;stroke:#fff!important;stroke-width:1.8!important;stroke-linecap:round!important;stroke-linejoin:round!important}
+@media(max-width:390px){
+ body.home-active #app .home-v2-head{column-gap:7px!important;padding-left:10px!important;padding-right:10px!important}
+ body.home-active #app .home-v2-head #profileClockDate{font-size:11px!important}
+ body.home-active #app .home-v2-head .profile-head-name{font-size:15px!important;padding:6px 9px!important}
+ body.home-active #app .home-v2-head .profile-head-photo{width:43px!important;height:43px!important}
+}
+@media(max-height:700px){body.home-active #app .home-v2-head{min-height:100px!important;padding-top:7px!important;padding-bottom:7px!important;row-gap:5px!important}}
 </style>
 </body></html>
