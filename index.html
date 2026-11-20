@@ -314,7 +314,7 @@ const notice='৩০ নভেম্বর পর্যন্ত ডেটা �
 ensureContacts();
 return['','#185FA5',`<div class="hd profile-home-head home-v2-head">
 <div class="profile-clock"><div class="home-time-line"><svg class="home-clock-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg><b id="profileClockTime">--:--</b></div><small id="profileClockDate">তারিখ</small></div>
-<button type="button" class="profile-head-user" onclick="go('profile')" aria-label="প্রোফাইল খুলুন"><span class="profile-head-name">${htmlEsc((D.userProfile&&D.userProfile.name)||((U&&U.displayName)||'প্রোফাইল'))}</span>${(D.userProfile&&D.userProfile.photo)?'<img class="profile-head-photo" src="'+D.userProfile.photo+'" alt="প্রোফাইল">':'<span class="profile-head-photo profile-head-placeholder">👤</span>'}</button>
+<button type="button" class="profile-head-user" onclick="go('profile')" aria-label="প্রোফাইল খুলুন"><span class="profile-head-name"><span class="profile-head-name-text">${htmlEsc((D.userProfile&&D.userProfile.name)||((U&&U.displayName)||'প্রোফাইল'))}</span></span>${(D.userProfile&&D.userProfile.photo)?'<img class="profile-head-photo" src="'+D.userProfile.photo+'" alt="প্রোফাইল">':'<span class="profile-head-photo profile-head-placeholder">👤</span>'}</button>
 <button type="button" class="home-menu-button" onclick="go('menu')" aria-label="থ্রি ডট মেনু খুলুন"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M19.4 13.5 21 14.7l-1.7 2.9-1.8-.6a7.8 7.8 0 0 1-1.4.8l-.3 1.9h-3.4l-.3-1.9a7.8 7.8 0 0 1-1.4-.8l-1.8.6-1.7-2.9 1.6-1.2a7 7 0 0 1 0-2.1L7.2 10.2l1.7-2.9 1.8.6a7.8 7.8 0 0 1 1.4-.8l.3-1.9h3.4l.3 1.9a7.8 7.8 0 0 1 1.4.8l1.8-.6 1.7 2.9-1.6 1.2a7 7 0 0 1 0 2.1Z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></button>
 </div>
 <div class="bd nos home-v2-body"><div id="pull-refresh-indicator" aria-live="polite"><span class="pull-icon">↻</span><span class="pull-text">রিফ্রেশ করতে টানুন</span></div>
@@ -681,4 +681,13 @@ P.contactDue=function(id,dir){var p=ensureContacts().find(x=>x.id==id);if(!p)ret
 P.cashbox=function(){const L=(D.tx||[]).filter(x=>!x.sp).sort((a,b)=>b.d-a.d),q=(cashQ||'').toLocaleLowerCase(),A=L.filter(x=>!q||((x.c||'')+' '+(x.s||'')+' '+(x.n||'')).toLocaleLowerCase().includes(q));return ['ক্যাশবক্স','#0f8a9d',`<input placeholder="🔍 খরচ বা আয়ের নাম খুঁজুন" value="${htmlEsc(cashQ)}" oninput="cashQ=this.value;R()"><div class="g3"><div class="k" style="background:#1a9e4b">নগদ আয়<b>${tk(L.filter(x=>x.t==='i').reduce((a,x)=>a+x.m,0))}</b></div><div class="k" style="background:#d93025">নগদ ব্যয়<b>${tk(L.filter(x=>x.t==='e').reduce((a,x)=>a+x.m,0))}</b></div><div class="k" style="background:#546e7a">লেনদেন<b>${bn(L.length)}</b></div></div><p style="margin:8px 0;color:#667">ব্যক্তি নির্বাচন না করা আয়-ব্যয়ের হিসাব এখানে দেখা যাবে।</p>${A.map(hrow).join('')||'<p>কোনো হিসাব নেই।</p>'}`]}
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');
 R();installHomePullRefresh();initFb();
-</script></body></html>
+</script>
+<style id="profile-name-gold-black-refinement">
+/* Profile name: retain pink pill, apply coordinated black-to-gold lettering */
+.home-v2-head .profile-head-name{position:relative;display:inline-flex;align-items:center;justify-content:center;isolation:isolate}
+.home-v2-head .profile-head-name-text{display:inline-block;background:linear-gradient(105deg,#171717 0%,#171717 43%,#b88624 54%,#ffe29a 100%);-webkit-background-clip:text;background-clip:text;color:transparent!important;-webkit-text-fill-color:transparent!important;text-shadow:none!important}
+.home-v2-head .profile-head-user{transform:translate(2px,3px)}
+.home-v2-head .profile-clock b{font-size:22px!important}
+.home-v2-head .home-clock-icon{width:16px;height:16px}
+</style>
+</body></html>
