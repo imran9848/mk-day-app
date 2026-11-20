@@ -188,9 +188,10 @@ const subIco=(s,i)=>{const v=String(s);const rules=[[/মুদি|বাজা�
 function save(){D.u=Date.now();try{if(localStorage.mkc)localStorage.mkc_bak=localStorage.mkc}catch(e){}localStorage.mkc=JSON.stringify(D);clearTimeout(tmr);tmr=setTimeout(push,1500)}
 function push(){if(U&&db)db.collection('users').doc(U.uid).set({d:JSON.stringify(D),u:D.u}).catch(()=>{})}
 window.addEventListener('online',push);
+let pendR=false;
 async function cfg(){let c=localStorage.fbc;if(c)return JSON.parse(c);try{const t=await(await fetch('index(1).html')).text(),g=k=>(t.match(new RegExp(k+'["\']?\\s*:\\s*["\']([^"\']+)'))||[])[1];c={apiKey:g('apiKey'),authDomain:g('authDomain'),projectId:g('projectId'),appId:g('appId'),storageBucket:g('storageBucket'),messagingSenderId:g('messagingSenderId')};if(c.apiKey&&c.projectId){localStorage.fbc=JSON.stringify(c);return c}}catch(e){}return null}
-async function initFb(){try{const c=await cfg();if(!c||!window.firebase)return;firebase.initializeApp(c);db=firebase.firestore();firebase.auth().onAuthStateChanged(async u=>{U=u;if(u){try{const s=await db.collection('users').doc(u.uid).get();if(s.exists&&s.data().u>D.u){localStorage.mkc_bak=JSON.stringify(D);D=Object.assign(DF(),JSON.parse(s.data().d));ensureBiz();localStorage.mkc=JSON.stringify(D)}else push()}catch(e){}}R()})}catch(e){}}
-function closeTxnSheet(){const o=document.getElementById('txn-sheet');if(o)o.remove()}
+async function initFb(){try{const c=await cfg();if(!c||!window.firebase)return;firebase.initializeApp(c);db=firebase.firestore();firebase.auth().onAuthStateChanged(async u=>{U=u;if(u){try{const s=await db.collection('users').doc(u.uid).get();if(s.exists&&s.data().u>D.u){localStorage.mkc_bak=JSON.stringify(D);D=Object.assign(DF(),JSON.parse(s.data().d));ensureBiz();localStorage.mkc=JSON.stringify(D)}else push()}catch(e){}}if(document.getElementById('txn-sheet')){pendR=true}else{R()}})}catch(e){}}
+function closeTxnSheet(){const o=document.getElementById('txn-sheet');if(o)o.remove();if(pendR){pendR=false;R()}}
 function startTx(t){txContactId='';txKind='সাধারণ';cart=[];selP=0;fmv=null;closeTxnSheet();go('fm',t,0,-1)}
 function newTx(t){const dirty=(+($('#am')?.value||0)>0)||!!($('#nt')?.value)||!!($('#txContactSearch')?.value)||!!($('#cr')?.checked);if(dirty&&!confirm('বর্তমান তথ্য মুছে নতুন লেনদেন শুরু করবেন?'))return;fmv=null;txContactId='';txKind='সাধারণ';cart=[];selP=0;const C=t==='e'?D.ec:D.ic,cat=$('#txCategory')?.value||Object.keys(C)[0],ci=Math.max(0,Object.keys(C).indexOf(cat));if(typeof floatPageStack!=='undefined'&&floatPageStack.length){floatPageStack[floatPageStack.length-1]=['fm',t,ci,-1];renderFloatUI();return}S[S.length-1]=['fm',t,ci,-1];R()}
 function openTxnSheet(){
@@ -520,7 +521,7 @@ function addContact(done){
 }
 async function importPhoneContacts(){
  if(!navigator.contacts||!navigator.contacts.select)return toast('এই ব্রাউজারে ফোন কন্টাক্ট ইমপোর্ট সুবিধা নেই। নতুন কন্টাক্ট যোগ করে সেভ করতে পারো।');
- try{const rows=await navigator.contacts.select(['name','tel'],{multiple:true});ensureContacts();let count=0;rows.forEach(x=>{const n=(x.name||[])[0]||'',ph=(x.tel||[])[0]||'';if(!n)return;const p={n,ph},key=contactKey(p);if(!D.contacts.some(c=>contactKey(c)===key)){D.contacts.push({id:Date.now()+count++,n,ph,source:'phone'})}});D.vd=D.contacts;save();R();toast(count+'টি নতুন কন্টাক্ট যোগ হয়েছে')}catch(e){if(e&&e.name!=='AbortError')toast('কন্টাক্ট আনা যায়নি')}
+ try{const rows=await navigator.contacts.select(['name','tel'],{multiple:true});ensureContacts();let count=0;rows.forEach(x=>{const n=(x.name||[])[0]||'',ph=(x.tel||[])[0]||'';if(!n)return;const p={n,ph},key=contactKey(p);if(!D.contacts.some(c=>contactKey(c)===key)){D.contacts.push({id:Date.now()+count++,n,ph,source:'phone'})}});D.vd=D.contacts;save();if(document.getElementById('txn-sheet')){pendR=true}else{R()}toast(count+'টি নতুন কন্টাক্ট যোগ হয়েছে')}catch(e){if(e&&e.name!=='AbortError')toast('কন্টাক্ট আনা যায়নি')}
 }
 function contactRows(q){
  const z=(q||'').trim().toLocaleLowerCase(),L=ensureContacts().filter(p=>!z||(p.n+' '+(p.ph||'')).toLocaleLowerCase().includes(z));
