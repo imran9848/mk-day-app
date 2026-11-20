@@ -168,6 +168,79 @@ input,select{width:100%;padding:9px;border:1px solid #aaa;border-radius:8px;font
 .tx-field select:focus,.tx-contact input:focus,.tx-note:focus{outline:none;border-color:#3984c6;box-shadow:0 0 0 3px rgba(57,132,198,.14)}
 #app.dk .tx-field select,#app.dk .tx-contact input,#app.dk .tx-note,#app.dk .tx-due{background:#1c2935;color:#edf5ff;border-color:#55718c}
 #app.dk .tx-field select:focus,#app.dk .tx-contact input:focus,#app.dk .tx-note:focus{border-color:#79b7ed;box-shadow:0 0 0 3px rgba(121,183,237,.18)}
+</style><style>
+/* Approved Home Screen reference redesign — isolated to Home */
+body.home-active #app{background:#e7eef8}
+.home-v2-head{min-height:88px!important;padding:10px 14px!important;gap:10px!important;background:linear-gradient(112deg,#1d5ca3 0%,#1c56a0 62%,#173f7c 100%)!important;box-shadow:0 3px 9px #102b5026;position:relative;overflow:hidden}
+.home-v2-head:after{content:"";position:absolute;width:190px;height:190px;border-radius:50%;background:#ffffff0b;right:24%;top:-105px;pointer-events:none}
+.home-v2-head>*{position:relative;z-index:1}
+.home-v2-head .profile-clock{flex:1.2}
+.home-time-line{display:flex;align-items:center;gap:6px;white-space:nowrap}
+.home-v2-head .profile-clock b{font-size:25px;letter-spacing:.2px}
+.home-v2-head .profile-clock small{font-size:11px;margin-top:5px}
+.home-clock-icon{width:18px;height:18px;fill:none;stroke:#ffd34f;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.home-v2-head .profile-head-user{max-width:39%;gap:8px}
+.home-v2-head .profile-head-name{font-size:14px}
+.home-v2-head .profile-head-photo{width:43px;height:43px;border:3px solid #ffd34f;background:#fff}
+.home-v2-head .profile-head-placeholder{font-size:21px}
+.home-menu-button{width:42px;height:42px;flex:none;border:1px solid #ffffffa8;border-radius:50%;background:#ffffff20;color:#fff;display:grid;place-items:center}
+.home-menu-button svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}
+.home-v2-body{background:#e7eef8;padding:10px 12px 12px!important;gap:9px!important;overflow-y:auto!important;touch-action:pan-y!important}
+.home-v2-notice{height:58px;border-radius:12px;box-shadow:0 2px 7px #163b661b}
+.home-v2-notice .home-notice-manage{width:29px;height:29px;right:5px;top:5px}
+.home-v2-summary{display:flex;flex-direction:column;gap:7px;flex:none}
+.home-v2-total{width:100%;min-height:54px;border:0;border-radius:17px;padding:8px 13px;display:flex;align-items:center;gap:9px;text-align:left;color:#fff;box-shadow:0 3px 6px #102b5026;position:relative;overflow:hidden}
+.home-v2-total.receive{background:linear-gradient(105deg,#159b59,#0e9852)}
+.home-v2-total.payable{background:linear-gradient(105deg,#f04445,#dc2f35)}
+.home-v2-total-icon{width:29px;height:29px;border-radius:50%;background:#ffffff2b;display:grid;place-items:center;flex:none}
+.home-v2-total-icon svg{width:19px;height:19px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.home-v2-total-label{display:flex;flex-direction:column;gap:1px;flex:1;min-width:0}
+.home-v2-total-label b{font-size:15px;line-height:1.25}
+.home-v2-total-label small{font-size:10px;opacity:.9}
+.home-v2-total strong{font-size:23px;font-weight:900;white-space:nowrap;line-height:1.1}
+.home-v2-today{display:grid;grid-template-columns:1fr 1fr;gap:8px;flex:none}
+.home-v2-today-card{min-height:54px;border-radius:14px;background:#fff;border:1px solid #d5e0ed;padding:7px 9px;display:flex;align-items:center;gap:7px;box-shadow:0 1px 3px #173b6410}
+.home-v2-today-card.income{color:#16824e;border-color:#a8d5bf}
+.home-v2-today-card.expense{color:#d83a40;border-color:#e6b5b8}
+.home-v2-chart-icon{width:27px;height:27px;border-radius:50%;display:grid;place-items:center;background:currentColor;flex:none}
+.home-v2-chart-icon svg{width:17px;height:17px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.home-v2-today-card span:last-child{display:flex;flex-direction:column;min-width:0}
+.home-v2-today-card small{font-size:11px;color:#53657a;line-height:1.3}
+.home-v2-today-card b{font-size:17px;line-height:1.25;font-weight:900}
+.home-v2-contacts{min-height:190px;flex:1;display:flex;flex-direction:column;overflow:hidden;background:#fff;border:2px solid #2b669e;border-radius:17px;padding:9px 10px 7px;box-shadow:0 2px 5px #183e6510}
+.home-v2-contact-title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
+.home-v2-contact-title b{font-size:15px;color:#1c2e42}
+.home-v2-contact-title button{border:0;background:transparent;color:#1c5d9c;font-size:12px;font-weight:800;white-space:nowrap}
+.home-v2-search{height:37px;min-height:37px;border:1.5px solid #316da5;border-radius:11px;background:#eaf2fc;display:flex;align-items:center;gap:7px;padding:0 9px}
+.home-v2-search>span{font-size:24px;color:#315d86;line-height:1}
+.home-v2-search input{border:0!important;outline:0!important;background:transparent!important;box-shadow:none!important;padding:4px 0!important;margin:0!important;font-size:12px!important;min-width:0;color:#26394e!important}
+.home-v2-contact-caption{font-size:10px;color:#75869a;margin:5px 0 2px}
+.home-v2-contact-rows{min-height:0;overflow:auto;flex:1}
+.home-v2-contact-rows .row{padding:6px 1px;min-height:43px;border-color:#e5ebf2}
+.home-v2-contact-rows .row>*{font-size:12px}
+.home-v2-contact-rows .row b{font-size:13px}
+.home-v2-contact-rows .row small{font-size:10px}
+.home-v2-bottom{flex:none;display:flex;align-items:center;gap:7px;padding:8px 12px 10px;background:#fff;border-top:1px solid #d6dfeb;box-shadow:0 -2px 7px #173b6410}
+.home-v2-nav{height:54px;min-width:0;flex:1;border-radius:15px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;color:#fff;font-weight:800;border:2px solid #fff;outline:1px solid currentColor;box-shadow:0 2px 5px #102b5020}
+.home-v2-nav svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.home-v2-nav span{font-size:12px;line-height:1.2}
+.home-v2-nav.ledger{background:#1c5fa5;color:#fff}
+.home-v2-nav.transaction{flex:1.2;height:64px;border-radius:25px;background:#119c55;color:#fff;font-size:14px;outline:2px solid #f2cb37}
+.home-v2-nav.transaction svg{width:25px;height:25px}
+.home-v2-nav.cashbox{background:#108c91;color:#fff}
+.home-v2-add-contact{position:absolute;right:17px;bottom:93px;z-index:8;width:49px;height:49px;border:0;border-radius:50%;background:#1c5fa5;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px #0004}
+.home-v2-add-contact svg{width:25px;height:25px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+body.home-active #app.dk{background:#111d31}
+body.home-active #app.dk .home-v2-body{background:#17263c}
+body.home-active #app.dk .home-v2-contacts,body.home-active #app.dk .home-v2-today-card{background:#22334b;color:#edf5ff;border-color:#55718f}
+body.home-active #app.dk .home-v2-contact-title b,body.home-active #app.dk .home-v2-today-card small{color:#e4edf8}
+body.home-active #app.dk .home-v2-search{background:#263e59;border-color:#6e9bc7}
+body.home-active #app.dk .home-v2-search input{color:#fff!important}
+body.home-active #app.dk .home-v2-contact-rows .row{border-color:#3b5068}
+body.home-active #app.dk .home-v2-bottom{background:#17263c;border-color:#3a506a}
+@media(max-height:700px){.home-v2-head{min-height:78px!important}.home-v2-body{gap:7px!important;padding-top:8px!important}.home-v2-notice{height:51px}.home-v2-total{min-height:48px}.home-v2-today-card{min-height:48px}.home-v2-contacts{min-height:150px}.home-v2-bottom{padding-top:6px;padding-bottom:7px}.home-v2-nav{height:48px}.home-v2-nav.transaction{height:56px}}
+
+
 </style></head><body><div id="app"></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
@@ -218,25 +291,31 @@ const now=new Date(),dayStart=new Date(now.getFullYear(),now.getMonth(),now.getD
 const receive=pb('L'),pay=pb('B'),inc=today('i'),exp=today('e');
 const notice='৩০ নভেম্বর পর্যন্ত ডেটা পরিবর্তন বা মুছে যেতে পারে। চাইলে আপনি ব্যাকআপ রাখতে পারেন।';
 ensureContacts();
-return['','#185FA5',`<div class="hd profile-home-head" style="background:#185FA5;padding:8px 12px;min-height:66px;gap:8px"><div class="profile-clock"><b id="profileClockTime">--:--</b><small id="profileClockDate">তারিখ</small></div><button type="button" class="profile-head-user" onclick="go('profile')" aria-label="প্রোফাইল খুলুন"><span class="profile-head-name">${htmlEsc((D.userProfile&&D.userProfile.name)||((U&&U.displayName)||'প্রোফাইল'))}</span>${(D.userProfile&&D.userProfile.photo)?'<img class="profile-head-photo" src="'+D.userProfile.photo+'" alt="প্রোফাইল">':'<span class="profile-head-photo profile-head-placeholder">👤</span>'}</button><button type="button" onclick="go('menu')" style="border:0;background:transparent;color:#fff;font-size:27px">☰</button></div>
-<div class="bd nos" style="padding:12px;display:flex;flex-direction:column;gap:10px"><div id="pull-refresh-indicator" aria-live="polite"><span class="pull-icon">↻</span><span class="pull-text">রিফ্রেশ করতে টানুন</span></div>
-<div class="home-notice" role="status" aria-label="${notice}"><img id="homeNoticeImage" src="banner-warning.svg" alt="${notice}"><button class="home-notice-manage" type="button" onclick="manageHomeAds()" aria-label="বিজ্ঞাপনের ছবি যোগ বা পরিবর্তন করুন">＋</button><span class="home-notice-dots" id="homeNoticeDots"><i class="on"></i></span></div>
-<div class="home-summary-primary" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-<button onclick="go('pl','L')" style="border:0;background:#e8f5e9;color:#1B5E20;text-align:left"><small>মোট পাবো</small><div class="summary-value" style="font-weight:800">${tk(receive)}</div><small>ধার / বাকি</small></button>
-<button onclick="go('pl','B')" style="border:0;background:#ffebee;color:#B71C1C;text-align:left"><small>মোট দেবো</small><div class="summary-value" style="font-weight:800">${tk(pay)}</div><small>ধার / লোন</small></button>
+return['','#185FA5',`<div class="hd profile-home-head home-v2-head">
+<div class="profile-clock"><div class="home-time-line"><svg class="home-clock-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg><b id="profileClockTime">--:--</b></div><small id="profileClockDate">তারিখ</small></div>
+<button type="button" class="profile-head-user" onclick="go('profile')" aria-label="প্রোফাইল খুলুন"><span class="profile-head-name">${htmlEsc((D.userProfile&&D.userProfile.name)||((U&&U.displayName)||'প্রোফাইল'))}</span>${(D.userProfile&&D.userProfile.photo)?'<img class="profile-head-photo" src="'+D.userProfile.photo+'" alt="প্রোফাইল">':'<span class="profile-head-photo profile-head-placeholder">👤</span>'}</button>
+<button type="button" class="home-menu-button" onclick="go('menu')" aria-label="মেনু খুলুন"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg></button>
 </div>
-<div class="home-summary-secondary" style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-<div style="border:1px solid #d7e7d9;color:#1B5E20"><small>আজকের আয়</small><div class="summary-value" style="font-weight:800">${tk(inc)}</div></div>
-<div style="border:1px solid #f1d7d7;color:#B71C1C"><small>আজকের ব্যয়</small><div class="summary-value" style="font-weight:800">${tk(exp)}</div></div>
+<div class="bd nos home-v2-body"><div id="pull-refresh-indicator" aria-live="polite"><span class="pull-icon">↻</span><span class="pull-text">রিফ্রেশ করতে টানুন</span></div>
+<div class="home-notice home-v2-notice" role="status" aria-label="${notice}"><img id="homeNoticeImage" src="banner-warning.svg" alt="${notice}"><button class="home-notice-manage" type="button" onclick="manageHomeAds()" aria-label="বিজ্ঞাপনের ছবি যোগ বা পরিবর্তন করুন">＋</button><span class="home-notice-dots" id="homeNoticeDots"><i class="on"></i></span></div>
+<div class="home-v2-summary">
+<button class="home-v2-total receive" onclick="go('pl','L')"><span class="home-v2-total-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"></path></svg></span><span class="home-v2-total-label"><b>মোট পাবো</b><small>ধার / বাকি</small></span><strong>${tk(receive)}</strong></button>
+<button class="home-v2-total payable" onclick="go('pl','B')"><span class="home-v2-total-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m7 7 10 10M8 17h9V8"></path></svg></span><span class="home-v2-total-label"><b>মোট দেবো</b><small>ধার / লোন</small></span><strong>${tk(pay)}</strong></button>
 </div>
-<div style="border:1px solid #d9e2ea;border-radius:15px;padding:11px;min-height:0;flex:1;overflow:hidden">
-<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px"><b>কন্টাক্ট ও সরাসরি লেনদেন</b><button onclick="go('contacts')" style="border:0;background:transparent;color:#185FA5;font-weight:700">সব দেখুন</button></div>
-<input id="homeContactSearch" placeholder="🔍 নাম বা মোবাইল নম্বর দিয়ে খুঁজুন" value="${htmlEsc(homeQ||'')}" oninput="homeQ=this.value;const e=document.getElementById('homeContactRows');if(e)e.innerHTML=homeContactRows(homeQ)" style="width:100%;box-sizing:border-box;border:1px solid #cbd5e1;border-radius:11px;padding:11px;font-size:15px;background:var(--panel,#fff);color:var(--text,#222)">
-<div style="font-size:12px;color:#64748b;margin:2px 0 5px">${homeQ?'সার্চের ফলাফল':'সর্বশেষ লেনদেনের কন্টাক্ট'}</div>
-<div id="homeContactRows" style="overflow:auto;max-height:190px">${homeContactRows(homeQ||'')}</div>
+<div class="home-v2-today">
+<div class="home-v2-today-card income"><span class="home-v2-chart-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 16 5-5 4 3 7-8M14 6h6v6"></path></svg></span><span><small>আজকের আয়</small><b>${tk(inc)}</b></span></div>
+<div class="home-v2-today-card expense"><span class="home-v2-chart-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 8 5 5 4-3 7 8M14 18h6v-6"></path></svg></span><span><small>আজকের ব্যয়</small><b>${tk(exp)}</b></span></div>
 </div>
+<section class="home-v2-contacts">
+<div class="home-v2-contact-title"><b>কন্টাক্ট ও সরাসরি লেনদেন</b><button onclick="go('contacts')">সব দেখুন</button></div>
+<div class="home-v2-search"><span>⌕</span><input id="homeContactSearch" placeholder="নাম বা মোবাইল নম্বর দিয়ে খুঁজুন" value="${htmlEsc(homeQ||'')}" oninput="homeQ=this.value;const e=document.getElementById('homeContactRows');if(e)e.innerHTML=homeContactRows(homeQ)"></div>
+<div class="home-v2-contact-caption">${homeQ?'সার্চের ফলাফল':'সর্বশেষ লেনদেনের কন্টাক্ট'}</div>
+<div id="homeContactRows" class="home-v2-contact-rows">${homeContactRows(homeQ||'')}</div>
+</section>
 </div>
-<div style="border-top:1px solid #e4e4e4;padding:10px 14px 12px;background:var(--panel,#fff)"><div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><button class="btn" style="flex:1;background:#185FA5" onclick="go('contacts')">খাতা</button><button type="button" onclick="openTxnSheet()" style="flex:1.35;min-height:62px;border:0;border-radius:40px;background:#1B5E20;color:#fff;font-weight:800;font-size:16px;box-shadow:0 3px 10px #0003">＋<br>লেনদেন</button><button class="btn" style="flex:1;background:#0f8a9d" onclick="go('cashbox')">ক্যাশবক্স</button></div></div><button type="button" aria-label="কন্টাক্ট খাতা খুলুন" title="কন্টাক্ট খাতা" onclick="go('contacts')" style="position:absolute;right:18px;bottom:94px;z-index:8;width:52px;height:52px;border:0;border-radius:50%;background:#185FA5;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 9px #0004"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20v-1.5A4.5 4.5 0 0 1 7 14h4a4.5 4.5 0 0 1 4.5 4.5V20M17 8h5M19.5 5.5v5"/></svg></button>`]},
+<div class="home-v2-bottom"><button onclick="go('contacts')" class="home-v2-nav ledger"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16H6zM9 8h6M9 12h6M6 18H4V6h2"></path></svg><span>খাতা</span></button><button type="button" onclick="openTxnSheet()" class="home-v2-nav transaction"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16M4 12h16"></path></svg><span>লেনদেন</span></button><button onclick="go('cashbox')" class="home-v2-nav cashbox"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="16" height="13" rx="2"></rect><path d="M8 6V4h8v2M8 11h8M10 15h4"></path></svg><span>ক্যাশবক্স</span></button></div>
+<button type="button" aria-label="কন্টাক্ট খাতা খুলুন" title="কন্টাক্ট খাতা" onclick="go('contacts')" class="home-v2-add-contact"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20v-1.5A4.5 4.5 0 0 1 7 14h4a4.5 4.5 0 0 1 4.5 4.5V20M17 8h5M19.5 5.5v5"></path></svg></button>`]},
+
 
 menu(){const M=[['আয়','#1a9e4b','💰',"go('cat','i')"],['ব্যয়','#d93025','🧾',"go('cat','e')"],['পণ্যের তালিকা','#1565a8','📦',"go('bizlist','products')"],['মাসিক বাজারের তালিকা','#8e24aa','🧺',"go('bz')"],['ক্যাশবক্স','#0f8a9d','💵',"go('cashbox')"],['হিসাব লকার','#0f8a9d','🔒',"pw(()=>go('lk'))"],['এখন মনে থাকবে','#e8590c','📝',"go('td')"],['ক্যালকুলেটর','#5f6b7a','🧮',"go('calc')"],['সেটিং','#185FA5','⚙️',"go('set')"],['About Me','#7b3fe4','👤',"go('ab')"]];if(!U)M.push(['Gmail দিয়ে লগ ইন','#185FA5','🔑',"login()"]);if(U)M.push(['লগ আউট','#c62828','🚪',"lo()"]);
 return['মেনু','#185FA5',M.map(([t,c,i,f])=>`<div class="row" onclick="${f}"><span><span class="ic" style="background:${c}33">${i}</span>${t}</span>›</div>`).join('')+`<div style="text-align:center;margin-top:18px;color:#555;font-size:13px">অ্যাপসটি তৈরি করেছেন<h2 style="color:#000">IMRAN HOSSAIN</h2>অ্যাপসটির আপডেট পেতে আমাদের টেলিগ্রামে যুক্ত হোন<br><a href="https://t.me/MKcashmanager" target="_blank" style="color:#185FA5;font-weight:700">t.me/MKcashmanager</a></div>`]},
