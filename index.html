@@ -994,3 +994,36 @@ body.home-active #app .home-v2-bottom .home-v2-nav.transaction{min-height:64px!i
  body.home-active #app .home-v2-bottom .home-v2-nav.transaction{min-height:52px!important;height:52px!important}
 }
 </style>
+
+<style id="home-refresh-fixed-bottom-anchor-v4">
+/* Stable anchor: Home navigation is attached to the app viewport, not normal flow. */
+body.home-active #app{position:relative!important;overflow:hidden!important}
+body.home-active #app .home-v2-head{flex:0 0 auto!important}
+body.home-active #app .bd.home-v2-body{
+ flex:1 1 auto!important;min-height:0!important;height:auto!important;max-height:none!important;
+ overflow-y:auto!important;overflow-x:hidden!important;box-sizing:border-box!important;
+ padding-bottom:calc(92px + env(safe-area-inset-bottom))!important;
+}
+body.home-active #app .home-v2-contacts{min-height:130px!important;flex:1 1 auto!important;overflow:hidden!important}
+body.home-active #app #homeContactRows.home-v2-contact-rows{
+ min-height:0!important;max-height:none!important;overflow-y:auto!important;overflow-x:hidden!important;
+ overscroll-behavior:contain!important;-webkit-overflow-scrolling:touch!important;touch-action:pan-y!important;
+}
+body.home-active #app .home-v2-bottom{
+ position:absolute!important;left:0!important;right:0!important;bottom:0!important;z-index:25!important;
+ display:flex!important;flex:0 0 auto!important;width:100%!important;height:auto!important;min-height:76px!important;
+ margin:0!important;padding:5px 8px calc(7px + env(safe-area-inset-bottom))!important;
+ box-sizing:border-box!important;overflow:visible!important;background:#fff!important;
+ border-top:1px solid #d6dfeb!important;
+}
+body.home-active #app .home-v2-bottom .home-v2-nav{height:60px!important;min-height:60px!important;margin:0!important}
+body.home-active #app .home-v2-bottom .home-v2-nav.transaction{height:64px!important;min-height:64px!important}
+body.home-active #app .home-v2-add-contact{bottom:calc(100px + env(safe-area-inset-bottom))!important}
+@media(max-height:560px){
+ body.home-active #app .bd.home-v2-body{padding-bottom:calc(78px + env(safe-area-inset-bottom))!important}
+ body.home-active #app .home-v2-bottom{min-height:62px!important;padding:2px 5px calc(4px + env(safe-area-inset-bottom))!important}
+ body.home-active #app .home-v2-bottom .home-v2-nav,
+ body.home-active #app .home-v2-bottom .home-v2-nav.transaction{height:54px!important;min-height:54px!important}
+ body.home-active #app .home-v2-add-contact{bottom:calc(82px + env(safe-area-inset-bottom))!important}
+}
+</style>
