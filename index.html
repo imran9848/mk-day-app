@@ -962,3 +962,35 @@ body.home-active #app .home-v2-contact-title,body.home-active #app .home-v2-sear
 body.home-active #app #homeContactRows.home-v2-contact-rows{display:block!important;flex:1 1 auto!important;height:0!important;min-height:0!important;max-height:none!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior-y:contain!important;touch-action:pan-y!important;-webkit-overflow-scrolling:touch!important}
 body.home-active #app #homeContactRows.home-v2-contact-rows [role=button]{touch-action:pan-y!important}
 </style></body></html>
+
+<style id="home-refresh-footer-layout-v3">
+/* Corrected Home layout: the bottom nav is a sibling of the scroll body, not inside it. */
+body.home-active #app{
+ display:flex!important;flex-direction:column!important;height:100dvh!important;min-height:0!important;max-height:100dvh!important;overflow:hidden!important;
+}
+body.home-active #app .home-v2-head{flex:0 0 auto!important}
+body.home-active #app .bd.home-v2-body{
+ display:flex!important;flex-direction:column!important;flex:1 1 0!important;min-height:0!important;height:auto!important;max-height:none!important;overflow:hidden!important;box-sizing:border-box!important;
+}
+body.home-active #app .home-v2-notice,
+body.home-active #app .home-v2-summary,
+body.home-active #app .home-v2-today{flex:0 0 auto!important}
+body.home-active #app .home-v2-contacts{
+ display:flex!important;flex-direction:column!important;flex:1 1 0!important;min-height:0!important;overflow:hidden!important;
+}
+body.home-active #app .home-v2-contact-rows{flex:1 1 0!important;min-height:0!important;overflow-y:auto!important;overscroll-behavior:contain!important}
+body.home-active #app .home-v2-bottom{
+ position:relative!important;flex:0 0 auto!important;min-height:76px!important;height:auto!important;max-height:none!important;
+ margin:5px 8px calc(9px + env(safe-area-inset-bottom))!important;padding:5px 7px!important;
+ box-sizing:border-box!important;overflow:visible!important;
+}
+body.home-active #app .home-v2-bottom .home-v2-nav{min-height:64px!important;height:64px!important;margin:0!important}
+body.home-active #app .home-v2-bottom .home-v2-nav.transaction{min-height:64px!important;height:64px!important}
+@media(max-height:560px){
+ body.home-active #app .bd.home-v2-body{padding:4px 7px 5px!important}
+ body.home-active #app .home-v2-notice{min-height:38px!important;height:38px!important}
+ body.home-active #app .home-v2-bottom{min-height:60px!important;margin:3px 5px calc(5px + env(safe-area-inset-bottom))!important;padding:2px 5px!important}
+ body.home-active #app .home-v2-bottom .home-v2-nav,
+ body.home-active #app .home-v2-bottom .home-v2-nav.transaction{min-height:52px!important;height:52px!important}
+}
+</style>
