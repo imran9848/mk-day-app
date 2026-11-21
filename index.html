@@ -1059,3 +1059,42 @@ body.home-active #app.dk .home-v2-bottom{background:#17263c!important;border-col
  body.home-active #app .home-v2-add-contact{bottom:calc(88px + env(safe-area-inset-bottom))!important}
 }
 </style>
+<style id="home-contact-nav-layout-v6">
+/* V6: reserve space for fixed footer, keep contact actions above it, restore subtle button gradients */
+body.home-active #app .bd.home-v2-body{
+ padding-bottom:calc(150px + env(safe-area-inset-bottom))!important;
+}
+body.home-active #app .home-v2-contacts{
+ min-height:175px!important; flex:1 1 auto!important; margin-bottom:4px!important;
+}
+body.home-active #app .home-v2-contact-rows{min-height:45px!important}
+body.home-active #app .home-v2-add-contact{
+ position:fixed!important; right:17px!important;
+ bottom:calc(98px + env(safe-area-inset-bottom))!important;
+ z-index:1001!important; width:49px!important;height:49px!important;
+ box-shadow:0 3px 12px #0004!important;
+}
+body.home-active #app .home-v2-bottom .home-v2-nav.ledger{
+ background:linear-gradient(145deg,#2875bb 0%,#1c5fa5 100%)!important;
+}
+body.home-active #app .home-v2-bottom .home-v2-nav.transaction{
+ background:linear-gradient(145deg,#22b96b 0%,#119c55 100%)!important;
+}
+body.home-active #app .home-v2-bottom .home-v2-nav.cashbox{
+ background:linear-gradient(145deg,#20a4a9 0%,#108c91 100%)!important;
+}
+body.home-active #app.dk .home-v2-bottom .home-v2-nav.ledger{
+ background:linear-gradient(145deg,#2875bb 0%,#1c5fa5 100%)!important;
+}
+body.home-active #app.dk .home-v2-bottom .home-v2-nav.transaction{
+ background:linear-gradient(145deg,#22b96b 0%,#119c55 100%)!important;
+}
+body.home-active #app.dk .home-v2-bottom .home-v2-nav.cashbox{
+ background:linear-gradient(145deg,#20a4a9 0%,#108c91 100%)!important;
+}
+@media(max-height:560px){
+ body.home-active #app .bd.home-v2-body{padding-bottom:calc(122px + env(safe-area-inset-bottom))!important}
+ body.home-active #app .home-v2-add-contact{bottom:calc(82px + env(safe-area-inset-bottom))!important}
+ body.home-active #app .home-v2-contacts{min-height:140px!important}
+}
+</style>
