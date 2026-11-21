@@ -644,7 +644,7 @@ function renderFloatUI(){
 }
 let homePullStartY=0,homePullDistance=0,homePullActive=false,homePullBusy=false;
 function homePullIndicator(distance){const el=document.getElementById('pull-refresh-indicator');if(!el)return;const t=el.querySelector('.pull-text'),icon=el.querySelector('.pull-icon');el.classList.toggle('visible',distance>8);if(t)t.textContent=distance>=78?'ছেড়ে দিন, রিফ্রেশ হবে':distance>12?'আরও একটু নিচে টানুন':'রিফ্রেশ করতে টানুন';if(icon)icon.style.transform=distance>=78?'rotate(180deg)':'rotate(0deg)'}
-function installHomePullRefresh(){const app=document.getElementById('app');if(!app||app.dataset.pullRefreshBound)return;app.dataset.pullRefreshBound='1';app.addEventListener('touchstart',e=>{if(!document.body.classList.contains('home-active')||homePullBusy||!e.touches||e.touches.length!==1)return;const bd=e.target.closest('.bd.nos');if(!bd)return;const inner=e.target.closest('#homeContactRows');if(inner&&inner.scrollTop>0)return;homePullStartY=e.touches[0].clientY;homePullDistance=0;homePullActive=true},{passive:true});app.addEventListener('touchmove',e=>{if(!homePullActive||!e.touches||e.touches.length!==1)return;const d=e.touches[0].clientY-homePullStartY;if(d<=0){homePullDistance=0;homePullIndicator(0);return}homePullDistance=Math.min(110,d*.72);if(e.cancelable)e.preventDefault();homePullIndicator(homePullDistance)},{passive:false});const end=()=>{if(!homePullActive)return;const goRefresh=homePullDistance>=78;homePullActive=false;homePullDistance=0;if(goRefresh&&!homePullBusy){homePullBusy=true;const el=document.getElementById('pull-refresh-indicator');if(el){const t=el.querySelector('.pull-text'),ic=el.querySelector('.pull-icon');if(t)t.textContent='রিফ্রেশ হচ্ছে…';if(ic)ic.style.animation='pullSpin .7s linear infinite'}setTimeout(()=>refreshApp(),180)}else homePullIndicator(0)};app.addEventListener('touchend',end,{passive:true});app.addEventListener('touchcancel',()=>{homePullActive=false;homePullDistance=0;homePullIndicator(0)},{passive:true})}
+function installHomePullRefresh(){const app=document.getElementById('app');if(!app||app.dataset.pullRefreshBound)return;app.dataset.pullRefreshBound='1';app.addEventListener('touchstart',e=>{if(window.matchMedia('(max-height: 600px)').matches||!document.body.classList.contains('home-active')||homePullBusy||!e.touches||e.touches.length!==1)return;const bd=e.target.closest('.bd.nos');if(!bd)return;const inner=e.target.closest('#homeContactRows');if(inner&&inner.scrollTop>0)return;homePullStartY=e.touches[0].clientY;homePullDistance=0;homePullActive=true},{passive:true});app.addEventListener('touchmove',e=>{if(window.matchMedia('(max-height: 600px)').matches){homePullActive=false;homePullDistance=0;homePullIndicator(0);return}if(!homePullActive||!e.touches||e.touches.length!==1)return;const d=e.touches[0].clientY-homePullStartY;if(d<=0){homePullDistance=0;homePullIndicator(0);return}homePullDistance=Math.min(110,d*.72);if(e.cancelable)e.preventDefault();homePullIndicator(homePullDistance)},{passive:false});const end=()=>{if(!homePullActive)return;const goRefresh=homePullDistance>=78;homePullActive=false;homePullDistance=0;if(goRefresh&&!homePullBusy){homePullBusy=true;const el=document.getElementById('pull-refresh-indicator');if(el){const t=el.querySelector('.pull-text'),ic=el.querySelector('.pull-icon');if(t)t.textContent='রিফ্রেশ হচ্ছে…';if(ic)ic.style.animation='pullSpin .7s linear infinite'}setTimeout(()=>refreshApp(),180)}else homePullIndicator(0)};app.addEventListener('touchend',end,{passive:true});app.addEventListener('touchcancel',()=>{homePullActive=false;homePullDistance=0;homePullIndicator(0)},{passive:true})}
 function refreshApp(){try{if(navigator.serviceWorker&&navigator.serviceWorker.getRegistration){navigator.serviceWorker.getRegistration().then(r=>{if(r)r.update().catch(()=>{});location.reload()}).catch(()=>location.reload())}else location.reload()}catch(e){location.reload()}}
 let homeAdIndex=0,homeAdTimer=null;
 function homeAdList(){const custom=Array.isArray(D.homeAds)?D.homeAds.filter(x=>typeof x==='string'&&x.startsWith('data:image/')):[];return [...custom,'banner-warning.svg']}
@@ -1096,5 +1096,47 @@ body.home-active #app.dk .home-v2-bottom .home-v2-nav.cashbox{
  body.home-active #app .bd.home-v2-body{padding-bottom:calc(122px + env(safe-area-inset-bottom))!important}
  body.home-active #app .home-v2-add-contact{bottom:calc(82px + env(safe-area-inset-bottom))!important}
  body.home-active #app .home-v2-contacts{min-height:140px!important}
+}
+</style>
+
+<style id="home-scroll-up-split-screen-v7">
+/* V7: prevent nested contact list scrolling from trapping gestures in split-screen */
+body.home-active #app{
+ overflow:hidden!important;
+ height:100dvh!important;min-height:0!important;max-height:100dvh!important;
+}
+body.home-active #app .bd.home-v2-body{
+ overflow-x:hidden!important;overflow-y:auto!important;
+ -webkit-overflow-scrolling:touch!important;
+ touch-action:pan-y!important;
+ overscroll-behavior-y:auto!important;
+ flex:1 1 auto!important;min-height:0!important;
+ padding-bottom:calc(160px + env(safe-area-inset-bottom))!important;
+}
+body.home-active #app .home-v2-contacts{
+ flex:0 0 auto!important;min-height:175px!important;
+ overflow:visible!important;
+}
+body.home-active #app .home-v2-contact-rows{
+ overflow:visible!important;max-height:none!important;min-height:0!important;
+ touch-action:pan-y!important;
+}
+@media(max-height:560px){
+ body.home-active #app .bd.home-v2-body{padding-bottom:calc(132px + env(safe-area-inset-bottom))!important}
+ body.home-active #app .home-v2-contacts{min-height:140px!important}
+}
+</style>
+
+<style id="home-split-disable-pullrefresh-v8">
+/* In split-screen/short viewport, disable pull-to-refresh and keep natural vertical scrolling */
+@media(max-height:600px){
+ body.home-active #app .bd.home-v2-body{
+  touch-action:pan-y!important;
+  overscroll-behavior-y:auto!important;
+  overflow-y:auto!important;
+ }
+ body.home-active #app{
+  overscroll-behavior-y:auto!important;
+ }
 }
 </style>
