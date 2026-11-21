@@ -444,7 +444,7 @@ return['','#185FA5',`<div class="hd profile-home-head home-v2-head">
 <div id="homeContactRows" class="home-v2-contact-rows">${homeContactRows(homeQ||'')}</div>
 </section>
 </div>
-<div class="home-v2-bottom"><button onclick="go('contacts')" class="home-v2-nav ledger"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3.5h6.5c1.1 0 1.5.7 1.5 1.5v15c-1.2-1-2.5-1.5-4-1.5H4zM20 3.5h-6.5c-1.1 0-1.5.7-1.5 1.5v15c1.2-1 2.5-1.5 4-1.5H20zM6.5 7.5h2M6.5 10.5h2M15.5 7.5h2M15.5 10.5h2"></path></svg><span>খাতা</span></button><button type="button" onclick="openTxnSheet()" class="home-v2-nav transaction"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16M4 12h16"></path></svg><span>লেনদেন</span></button><button onclick="go('cashbox')" class="home-v2-nav cashbox"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h18v11H3zM5 9V5h14v4M7 5V3h10v2M5 12h14M6.5 16h4M13.5 16h4"></path><path d="M8 3.8h8M9 7h6"></path></svg><span>ক্যাশবক্স</span></button></div>
+<div class="home-v2-bottom"><button onclick="go('contacts')" class="home-v2-nav ledger"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3.5h6.5c1.1 0 1.5.7 1.5 1.5v15c-1.2-1-2.5-1.5-4-1.5H4zM20 3.5h-6.5c-1.1 0-1.5.7-1.5 1.5v15c1.2-1 2.5-1.5 4-1.5H20zM6.5 7.5h2M6.5 10.5h2M15.5 7.5h2M15.5 10.5h2"></path></svg><span>খাতা</span></button><button type="button" onclick="openTxnSheet()" class="home-v2-nav transaction"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16M4 12h16"></path></svg><span>লেনদেন</span></button><button onclick="go('cashbox')" class="home-v2-nav cashbox"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.2" y="3.2" width="12.2" height="9.3" rx="1.4"></rect><rect x="7.8" y="8.2" width="13" height="12.5" rx="1.5"></rect><path d="M10 11.3h8.8M10.8 16.1h3.4"></path><circle cx="17.7" cy="16.2" r="1.1"></circle></svg><span>ক্যাশবক্স</span></button></div>
 <button type="button" aria-label="কন্টাক্ট খাতা খুলুন" title="কন্টাক্ট খাতা" onclick="go('contacts')" class="home-v2-add-contact"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20v-1.5A4.5 4.5 0 0 1 7 14h4a4.5 4.5 0 0 1 4.5 4.5V20M17 8h5M19.5 5.5v5"></path></svg></button>`]},
 
 
@@ -962,3 +962,68 @@ body.home-active #app .home-v2-contact-title,body.home-active #app .home-v2-sear
 body.home-active #app #homeContactRows.home-v2-contact-rows{display:block!important;flex:1 1 auto!important;height:0!important;min-height:0!important;max-height:none!important;overflow-y:auto!important;overflow-x:hidden!important;overscroll-behavior-y:contain!important;touch-action:pan-y!important;-webkit-overflow-scrolling:touch!important}
 body.home-active #app #homeContactRows.home-v2-contact-rows [role=button]{touch-action:pan-y!important}
 </style></body></html>
+
+<style id="home-refresh-footer-layout-v3">
+/* Corrected Home layout: the bottom nav is a sibling of the scroll body, not inside it. */
+body.home-active #app{
+ display:flex!important;flex-direction:column!important;height:100dvh!important;min-height:0!important;max-height:100dvh!important;overflow:hidden!important;
+}
+body.home-active #app .home-v2-head{flex:0 0 auto!important}
+body.home-active #app .bd.home-v2-body{
+ display:flex!important;flex-direction:column!important;flex:1 1 0!important;min-height:0!important;height:auto!important;max-height:none!important;overflow:hidden!important;box-sizing:border-box!important;
+}
+body.home-active #app .home-v2-notice,
+body.home-active #app .home-v2-summary,
+body.home-active #app .home-v2-today{flex:0 0 auto!important}
+body.home-active #app .home-v2-contacts{
+ display:flex!important;flex-direction:column!important;flex:1 1 0!important;min-height:0!important;overflow:hidden!important;
+}
+body.home-active #app .home-v2-contact-rows{flex:1 1 0!important;min-height:0!important;overflow-y:auto!important;overscroll-behavior:contain!important}
+body.home-active #app .home-v2-bottom{
+ position:relative!important;flex:0 0 auto!important;min-height:76px!important;height:auto!important;max-height:none!important;
+ margin:5px 8px calc(9px + env(safe-area-inset-bottom))!important;padding:5px 7px!important;
+ box-sizing:border-box!important;overflow:visible!important;
+}
+body.home-active #app .home-v2-bottom .home-v2-nav{min-height:64px!important;height:64px!important;margin:0!important}
+body.home-active #app .home-v2-bottom .home-v2-nav.transaction{min-height:64px!important;height:64px!important}
+@media(max-height:560px){
+ body.home-active #app .bd.home-v2-body{padding:4px 7px 5px!important}
+ body.home-active #app .home-v2-notice{min-height:38px!important;height:38px!important}
+ body.home-active #app .home-v2-bottom{min-height:60px!important;margin:3px 5px calc(5px + env(safe-area-inset-bottom))!important;padding:2px 5px!important}
+ body.home-active #app .home-v2-bottom .home-v2-nav,
+ body.home-active #app .home-v2-bottom .home-v2-nav.transaction{min-height:52px!important;height:52px!important}
+}
+</style>
+
+<style id="home-refresh-fixed-bottom-anchor-v4">
+/* Stable anchor: Home navigation is attached to the app viewport, not normal flow. */
+body.home-active #app{position:relative!important;overflow:hidden!important}
+body.home-active #app .home-v2-head{flex:0 0 auto!important}
+body.home-active #app .bd.home-v2-body{
+ flex:1 1 auto!important;min-height:0!important;height:auto!important;max-height:none!important;
+ overflow-y:auto!important;overflow-x:hidden!important;box-sizing:border-box!important;
+ padding-bottom:calc(92px + env(safe-area-inset-bottom))!important;
+}
+body.home-active #app .home-v2-contacts{min-height:130px!important;flex:1 1 auto!important;overflow:hidden!important}
+body.home-active #app #homeContactRows.home-v2-contact-rows{
+ min-height:0!important;max-height:none!important;overflow-y:auto!important;overflow-x:hidden!important;
+ overscroll-behavior:contain!important;-webkit-overflow-scrolling:touch!important;touch-action:pan-y!important;
+}
+body.home-active #app .home-v2-bottom{
+ position:absolute!important;left:0!important;right:0!important;bottom:0!important;z-index:25!important;
+ display:flex!important;flex:0 0 auto!important;width:100%!important;height:auto!important;min-height:76px!important;
+ margin:0!important;padding:5px 8px calc(7px + env(safe-area-inset-bottom))!important;
+ box-sizing:border-box!important;overflow:visible!important;background:#fff!important;
+ border-top:1px solid #d6dfeb!important;
+}
+body.home-active #app .home-v2-bottom .home-v2-nav{height:60px!important;min-height:60px!important;margin:0!important}
+body.home-active #app .home-v2-bottom .home-v2-nav.transaction{height:64px!important;min-height:64px!important}
+body.home-active #app .home-v2-add-contact{bottom:calc(100px + env(safe-area-inset-bottom))!important}
+@media(max-height:560px){
+ body.home-active #app .bd.home-v2-body{padding-bottom:calc(78px + env(safe-area-inset-bottom))!important}
+ body.home-active #app .home-v2-bottom{min-height:62px!important;padding:2px 5px calc(4px + env(safe-area-inset-bottom))!important}
+ body.home-active #app .home-v2-bottom .home-v2-nav,
+ body.home-active #app .home-v2-bottom .home-v2-nav.transaction{height:54px!important;min-height:54px!important}
+ body.home-active #app .home-v2-add-contact{bottom:calc(82px + env(safe-area-inset-bottom))!important}
+}
+</style>
