@@ -372,7 +372,45 @@ body.home-active #app .bd.nos:has(.home-v2-head) .home-v2-bottom .home-v2-nav.tr
  body.home-active #app .bd.nos:has(.home-v2-head) .home-v2-bottom .home-v2-nav.transaction{height:52px!important;min-height:52px!important}
  body.home-active #app .bd.nos:has(.home-v2-head) .home-v2-bottom .home-v2-nav svg{width:26px!important;height:26px!important}
 }
-</style></head><body><div id="app"></div>
+</style><!-- MK Bottom Bar supplied CSS: unchanged -->
+<style id="mk-bottom-bar">
+.mk-wrap{padding:14px 12px 16px}
+.mk-bar{
+  padding:5px;border-radius:44px;
+  background:linear-gradient(90deg,#F7C531,#B01FCF 50%,#F7C531);
+  box-shadow:0 -6px 16px rgba(176,31,207,.55);
+}
+.mk-inner{
+  display:flex;justify-content:space-between;align-items:flex-end;
+  background:linear-gradient(180deg,#1A0B30,#08040F);
+  border-radius:40px;padding:12px 16px 8px;
+}
+.mk-item{display:flex;flex-direction:column;align-items:center;background:none;border:0;cursor:pointer;font-family:inherit}
+.mk-label{color:#fff;font-size:13px;font-weight:500;margin-top:3px}
+.mk-chip{
+  display:flex;align-items:center;justify-content:center;border-radius:50%;
+  background:radial-gradient(circle at 30% 25%,#2A1450,#12081C 70%);
+}
+.mk-chip.khata{width:60px;height:60px;border:3px solid #F2B31B}
+.mk-chip.cash{width:58px;height:58px;border:2px solid #F2B31B}
+.mk-diamond{
+  width:60px;height:60px;border-radius:16px;transform:rotate(45deg);
+  background:linear-gradient(145deg,#8B2BE2,#3A0CA3);
+  border:5px solid #F2B31B;margin:6px 6px 8px;
+  display:flex;align-items:center;justify-content:center;
+}
+.mk-diamond svg{transform:rotate(-45deg)}
+</style>
+</head><body><!-- MK Bottom Bar supplied SVG gradient definition -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="gd" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFF3B0"/>
+      <stop offset=".45" stop-color="#F7C531"/>
+      <stop offset="1" stop-color="#B97C00"/>
+    </linearGradient>
+  </defs>
+</svg><div id="app"></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
 const EC={'বাজার':['মুদি দোকান','মাংস','কাঁচা বাজার','মাছ'],'চিকিৎসা':['ঔষধ','ডাক্তারের খরচ','টেস্ট'],'দৈনিক পকেট খরচ':['চা সিগারেট','যাতায়াত','বন্ধুদের পিছনে খরচ','নাস্তা'],'ব্যবসা':['মাল ক্রয়','কর্মচারীর বেতন','অন্যান্য খরচ'],'বাসা ও দোকান ভাড়া':['বাসা ভাড়া','দোকান ভাড়া'],'বিদ্যুৎ ও ইন্টারনেট বিল':['বিদ্যুৎ খরচ','ইন্টারনেট বিল','ডিশ বিল'],'বাচ্চার খরচ':['খাবার','খেলনা','পড়াশোনার খরচ'],'মোবাইল খরচ':['মোবাইল রিচার্জ','মোবাইলের অ্যাক্সেসরিজ'],'যাতায়াত খরচ':['গাড়ি ভাড়া','তেল'],'শপিং অ্যান্ড বিউটি':['পোশাক','মহিলাদের বিউটি'],'অনলাইন':['সাবস্ক্রিপশন','অন্যান্য'],'পড়াশোনা':['বই','ফি']};
@@ -444,7 +482,46 @@ return['','#185FA5',`<div class="hd profile-home-head home-v2-head">
 <div id="homeContactRows" class="home-v2-contact-rows">${homeContactRows(homeQ||'')}</div>
 </section>
 </div>
-<div class="home-v2-bottom"><button onclick="go('contacts')" class="home-v2-nav ledger"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3.5h6.5c1.1 0 1.5.7 1.5 1.5v15c-1.2-1-2.5-1.5-4-1.5H4zM20 3.5h-6.5c-1.1 0-1.5.7-1.5 1.5v15c1.2-1 2.5-1.5 4-1.5H20zM6.5 7.5h2M6.5 10.5h2M15.5 7.5h2M15.5 10.5h2"></path></svg><span>খাতা</span></button><button type="button" onclick="openTxnSheet()" class="home-v2-nav transaction"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16M4 12h16"></path></svg><span>লেনদেন</span></button><button onclick="go('cashbox')" class="home-v2-nav cashbox"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.2" y="3.2" width="12.2" height="9.3" rx="1.4"></rect><rect x="7.8" y="8.2" width="13" height="12.5" rx="1.5"></rect><path d="M10 11.3h8.8M10.8 16.1h3.4"></path><circle cx="17.7" cy="16.2" r="1.1"></circle></svg><span>ক্যাশবক্স</span></button></div>
+<div class="home-v2-bottom"><div class="mk-wrap">
+  <div class="mk-bar">
+    <div class="mk-inner">
+      <button class="mk-item" type="button" onclick="go('contacts')" aria-label="খাতা খুলুন">
+        <span class="mk-chip khata">
+          <svg width="36" height="36" viewBox="0 0 48 48">
+            <path fill="url(#gd)" stroke="#8A5A00" stroke-width="1.6" stroke-linejoin="round" d="M24 14C19 10.5 12 10.5 7 12.5V37C12 35 19 35 24 38.5Z"/>
+            <path fill="url(#gd)" stroke="#8A5A00" stroke-width="1.6" stroke-linejoin="round" d="M24 14C29 10.5 36 10.5 41 12.5V37C36 35 29 35 24 38.5Z"/>
+            <path fill="none" stroke="#8A5A00" stroke-width="1.4" stroke-linecap="round" d="M12 18C15 17 18 17 20 18M12 23C15 22 18 22 20 23M12 28C15 27 18 27 20 28M28 18C30 17 33 17 36 18M28 23C30 22 33 22 36 23M28 28C30 27 33 27 36 28"/>
+            <path fill="none" stroke="#fff" stroke-opacity=".75" stroke-width="2" stroke-linecap="round" d="M9.5 14.5C14 13 18 13.5 21.5 15.5"/>
+          </svg>
+        </span>
+        <span class="mk-label">খাতা</span>
+      </button>
+      <button class="mk-item" type="button" onclick="openTxnSheet()" aria-label="লেনদেন যোগ করুন">
+        <span class="mk-diamond">
+          <svg width="34" height="34" viewBox="0 0 48 48">
+            <path d="M24 8V40M8 24H40" stroke="#8A5A00" stroke-width="10" stroke-linecap="round" fill="none"/>
+            <path d="M24 8V40M8 24H40" stroke="url(#gd)" stroke-width="7" stroke-linecap="round" fill="none"/>
+            <path d="M24 11V21" stroke="#fff" stroke-opacity=".7" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="mk-label">লেনদেন</span>
+      </button>
+      <button class="mk-item" type="button" onclick="go('cashbox')" aria-label="ক্যাশবক্স খুলুন">
+        <span class="mk-chip cash">
+          <svg width="38" height="38" viewBox="0 0 48 48">
+            <rect fill="url(#gd)" stroke="#8A5A00" stroke-width="1.6" stroke-linejoin="round" x="5" y="12" width="30" height="18" rx="3" transform="rotate(-8 20 21)"/>
+            <rect fill="url(#gd)" stroke="#8A5A00" stroke-width="1.6" stroke-linejoin="round" x="9" y="18" width="30" height="18" rx="3"/>
+            <circle cx="24" cy="27" r="4.5" fill="none" stroke="#8A5A00" stroke-width="1.5"/>
+            <circle fill="url(#gd)" stroke="#8A5A00" stroke-width="1.6" cx="38" cy="35" r="8"/>
+            <text x="38" y="39" text-anchor="middle" font-size="11" fill="#3B2A00" font-weight="500">৳</text>
+            <path fill="none" stroke="#fff" stroke-opacity=".75" stroke-width="2" stroke-linecap="round" d="M12 22H20"/>
+          </svg>
+        </span>
+        <span class="mk-label">ক্যাশবক্স</span>
+      </button>
+    </div>
+  </div>
+</div></div>
 <button type="button" aria-label="কন্টাক্ট খাতা খুলুন" title="কন্টাক্ট খাতা" onclick="go('contacts')" class="home-v2-add-contact"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20v-1.5A4.5 4.5 0 0 1 7 14h4a4.5 4.5 0 0 1 4.5 4.5V20M17 8h5M19.5 5.5v5"></path></svg></button>`]},
 
 
