@@ -381,21 +381,30 @@ body.home-active #app .bd.nos:has(.home-v2-head) .home-v2-bottom .home-v2-nav.tr
 .mk-chip{width:42px;height:42px;border:2px solid #F2B31B;border-radius:50%;background:radial-gradient(circle at 30% 25%,#2A1450,#12081C 70%);display:flex;align-items:center;justify-content:center}
 .mk-diamond{width:38px;height:38px;border-radius:11px;transform:rotate(45deg);background:linear-gradient(145deg,#8B2BE2,#3A0CA3);border:3.5px solid #F2B31B;display:flex;align-items:center;justify-content:center;margin:6px 6px 8px}
 .mk-diamond svg{transform:rotate(-45deg)}
-/* Only bottom navigation's parent container: remove extra white frame and cap total height */
-.home-v2-bottom{padding:0!important;margin:0!important;border:0!important;background:transparent!important;box-shadow:none!important;min-height:0!important;max-height:80px!important;flex:none!important;display:flex!important;align-items:flex-end!important}
-.home-v2-bottom .mk-bar{height:62px;max-height:80px;box-sizing:border-box;margin:8px 10px 10px;padding:3px;flex:1;min-height:0}
-.home-v2-bottom .mk-inner{height:100%;box-sizing:border-box;padding:5px 22px 4px;align-items:center}
-.home-v2-bottom .mk-item{height:100%;justify-content:center;flex:1;min-width:0}
-.home-v2-bottom .mk-chip{width:42px;height:42px;box-sizing:border-box}
-.home-v2-bottom .mk-diamond{width:38px;height:38px;box-sizing:border-box;margin:2px 6px 2px}
-.home-v2-bottom .mk-label{font-size:11px;margin-top:1px}
-.home-v2-add-contact{bottom:90px!important}
+/* Remove all former capsule styling around the custom bar. */
+body.home-active #app .home-v2-bottom, #app .home-v2-bottom{
+ position:fixed!important;left:0!important;right:0!important;bottom:0!important;z-index:999!important;
+ width:100%!important;height:80px!important;min-height:80px!important;max-height:80px!important;
+ margin:0!important;padding:0!important;border:0!important;border-radius:0!important;
+ background:transparent!important;background-image:none!important;box-shadow:none!important;
+ overflow:visible!important;box-sizing:border-box!important;display:flex!important;align-items:center!important;justify-content:center!important;
+}
+#app .home-v2-bottom::before,#app .home-v2-bottom::after,
+body.home-active #app .home-v2-bottom::before,body.home-active #app .home-v2-bottom::after{content:none!important;display:none!important;background:none!important;box-shadow:none!important;border:0!important}
+#app .home-v2-bottom .mk-bar{width:100%;height:80px;max-height:80px;box-sizing:border-box;margin:0 10px;padding:3px;flex:none;min-height:0;position:relative;z-index:1000;pointer-events:auto}
+#app .home-v2-bottom .mk-inner{height:100%;width:100%;box-sizing:border-box;padding:5px 22px 4px;align-items:center;pointer-events:auto}
+#app .home-v2-bottom .mk-item{height:100%;justify-content:center;flex:1;min-width:0;position:relative;z-index:1001;pointer-events:auto}
+#app .home-v2-bottom .mk-chip{width:42px;height:42px;box-sizing:border-box}
+#app .home-v2-bottom .mk-diamond{width:38px;height:38px;box-sizing:border-box;margin:2px 6px}
+#app .home-v2-bottom .mk-label{font-size:11px;margin-top:1px;pointer-events:none}
+#app .home-v2-bottom svg,#app .home-v2-bottom span{pointer-events:none}
+#app .home-v2-add-contact{bottom:90px!important}
+body.home-active #app .bd.home-v2-body{padding-bottom:80px!important}
 </style>
 </head><body><!-- MK Bottom Bar SVG gradient definition (exactly as supplied) -->
 <svg width="0" height="0" style="position:absolute"><defs><linearGradient id="gd" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF3B0"/><stop offset=".45" stop-color="#F7C531"/><stop offset="1" stop-color="#B97C00"/></linearGradient></defs></svg><div id="app"></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded',()=>{const k=document.getElementById('btn-khata');const l=document.getElementById('btn-lenden');const b=document.getElementById('btn-cashbox');if(k)k.onclick=()=>go('contacts');if(l)l.onclick=()=>openTxnSheet();if(b)b.onclick=()=>go('cashbox');});
 const EC={'বাজার':['মুদি দোকান','মাংস','কাঁচা বাজার','মাছ'],'চিকিৎসা':['ঔষধ','ডাক্তারের খরচ','টেস্ট'],'দৈনিক পকেট খরচ':['চা সিগারেট','যাতায়াত','বন্ধুদের পিছনে খরচ','নাস্তা'],'ব্যবসা':['মাল ক্রয়','কর্মচারীর বেতন','অন্যান্য খরচ'],'বাসা ও দোকান ভাড়া':['বাসা ভাড়া','দোকান ভাড়া'],'বিদ্যুৎ ও ইন্টারনেট বিল':['বিদ্যুৎ খরচ','ইন্টারনেট বিল','ডিশ বিল'],'বাচ্চার খরচ':['খাবার','খেলনা','পড়াশোনার খরচ'],'মোবাইল খরচ':['মোবাইল রিচার্জ','মোবাইলের অ্যাক্সেসরিজ'],'যাতায়াত খরচ':['গাড়ি ভাড়া','তেল'],'শপিং অ্যান্ড বিউটি':['পোশাক','মহিলাদের বিউটি'],'অনলাইন':['সাবস্ক্রিপশন','অন্যান্য'],'পড়াশোনা':['বই','ফি']};
 const IC={'চাকরি':['চাকরি ১','চাকরি ২','চাকরি ৩'],'ব্যবসা':['দোকান','পাইকারি ব্যবসা','অন্যান্য'],'ভাড়া':['বাসা','দোকান','গাড়ি'],'কৃষি ও পশুপালন':['ফসল','মাছ','হাঁস-মুরগি','সবজি'],'অনলাইন আয়':['ফ্রিল্যান্সিং','অনলাইন বিক্রি','ইউটিউব','ফেসবুক','শেয়ার বাজার (ট্রেডিং)'],'দক্ষতা ও সার্ভিস':['সার্ভিস','অন্যান্য'],'অন্যান্য প্রাপ্তি':['রেমিট্যান্স','উপহার']};
 const BZ0={'চাল-ডাল-তেল':['চাল','ডাল','তেল','ছোলা','ঘি'],'মসলা':['হলুদ','মরিচ','জিরা','তেজপাতা','এলাচ-দারুচিনি'],'আলু-পেঁয়াজ-রসুন':['আলু','পেঁয়াজ','রসুন','আদা'],'শাক-সবজি':['টমেটো','বেগুন','লেবু','ধনেপাতা'],'মাছ-মাংস-ডিম':['মুরগি','গরুর মাংস','ডিম','ছোট মাছ','খাসির মাংস'],'বাচ্চাদের খাবার':['দুধ পাউডার','বিস্কুট','চকলেট','চিপস'],'দুধ-চা-নাস্তা':['দুধ','চা পাতা','চিনি','নুডলস','কফি','পাউরুটি'],'পরিষ্কার-পরিচ্ছন্নতা':['সাবান','সার্ফ','ডিটারজেন্ট','টয়লেট ক্লিনার','মশার কয়েল'],'ফল':['কলা','আপেল','আঙুর','আনার'],'ঘরের টুকিটাকি':['ম্যাচ','মোমবাতি','টিস্যু','রান্নার গ্যাস'],'ইলেকট্রনিক্স পণ্য':['ব্যাটারি','বাল্ব','এক্সটেনশন বোর্ড','ইয়ারফোন']};
@@ -466,17 +475,16 @@ return['','#185FA5',`<div class="hd profile-home-head home-v2-head">
 </section>
 </div>
 <div class="home-v2-bottom"><div class="mk-bar"><div class="mk-inner">
-<button class="mk-item" id="btn-khata"><span class="mk-chip">
+<button type="button" class="mk-item" id="btn-khata" onclick="go('contacts')"><span class="mk-chip">
 <svg width="28" height="28" viewBox="0 0 48 48"><path fill="url(#gd)" stroke="#8A5A00" stroke-width="1.8" stroke-linejoin="round" d="M24 14C19 10.5 12 10.5 7 12.5V37C12 35 19 35 24 38.5Z"/><path fill="url(#gd)" stroke="#8A5A00" stroke-width="1.8" stroke-linejoin="round" d="M24 14C29 10.5 36 10.5 41 12.5V37C36 35 29 35 24 38.5Z"/><path fill="none" stroke="#8A5A00" stroke-width="1.5" stroke-linecap="round" d="M12 19C15 18 18 18 20 19M12 25C15 24 18 24 20 25M28 19C30 18 33 18 36 19M28 25C30 24 33 24 36 25"/></svg>
 </span><span class="mk-label">খাতা</span></button>
-<button class="mk-item" id="btn-lenden"><span class="mk-diamond">
+<button type="button" class="mk-item" id="btn-lenden" onclick="openTxnSheet()"><span class="mk-diamond">
 <svg width="24" height="24" viewBox="0 0 48 48"><path d="M24 8V40M8 24H40" stroke="#8A5A00" stroke-width="11" stroke-linecap="round" fill="none"/><path d="M24 8V40M8 24H40" stroke="url(#gd)" stroke-width="8" stroke-linecap="round" fill="none"/></svg>
 </span><span class="mk-label">লেনদেন</span></button>
-<button class="mk-item" id="btn-cashbox"><span class="mk-chip">
+<button type="button" class="mk-item" id="btn-cashbox" onclick="go('cashbox')"><span class="mk-chip">
 <svg width="30" height="30" viewBox="0 0 48 48"><rect fill="url(#gd)" stroke="#8A5A00" stroke-width="1.8" stroke-linejoin="round" x="5" y="12" width="30" height="18" rx="3" transform="rotate(-8 20 21)"/><rect fill="url(#gd)" stroke="#8A5A00" stroke-width="1.8" stroke-linejoin="round" x="9" y="18" width="30" height="18" rx="3"/><circle cx="24" cy="27" r="4.5" fill="none" stroke="#8A5A00" stroke-width="1.8"/><circle fill="url(#gd)" stroke="#8A5A00" stroke-width="1.8" cx="38" cy="35" r="8"/></svg>
 </span><span class="mk-label">ক্যাশবক্স</span></button>
-</div></div>
-<button type="button" aria-label="কন্টাক্ট খাতা খুলুন" title="কন্টাক্ট খাতা" onclick="go('contacts')" class="home-v2-add-contact"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20v-1.5A4.5 4.5 0 0 1 7 14h4a4.5 4.5 0 0 1 4.5 4.5V20M17 8h5M19.5 5.5v5"></path></svg></button>`]},
+</div></div><button type="button" aria-label="কন্টাক্ট খাতা খুলুন" title="কন্টাক্ট খাতা" onclick="go('contacts')" class="home-v2-add-contact"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20v-1.5A4.5 4.5 0 0 1 7 14h4a4.5 4.5 0 0 1 4.5 4.5V20M17 8h5M19.5 5.5v5"></path></svg></button>`]},
 
 
 menu(){const M=[['আয়','💰',"go('cat','i')",'#009b55','#16d17b'],['ব্যয়','🧾',"go('cat','e')",'#bd123c','#ff365c'],['পণ্যের তালিকা','📦',"go('bizlist','products')",'#d78a00','#ffbb28'],['মাসিক বাজারের তালিকা','🧺',"go('bz')",'#7300a8','#b42bd5'],['ক্যাশবক্স','💵',"go('cashbox')",'#007e79','#16bca5'],['হিসাব লকার','🔒',"pw(()=>go('lk'))",'#b78b00','#f2c62e'],['এখন মনে থাকবে','📝',"go('td')",'#d35400','#ff8a17'],['ক্যালকুলেটর','🧮',"go('calc')",'#0058d5','#3182ff'],['সেটিং','⚙️',"go('set')",'#43566c','#71879f'],['About Me','👤',"go('ab')",'#5200ad','#8b39f0']];if(!U)M.push(['Gmail দিয়ে লগ ইন','🔑',"login()",'#165c9b','#338bd1']);if(U)M.push(['লগ আউট','🚪',"lo()",'#b41229','#e5394c']);const rows=M.map(([t,i,f,c1,c2])=>`<div class="menu-theme-row" style="--m1:${c1};--m2:${c2}" onclick="${f}"><span class="menu-theme-icon">${i}</span><span class="menu-theme-label">${t}</span><span class="menu-theme-arrow">›</span></div>`).join('');return['<span class="menu-header-title">মেনু</span>','#185FA5',`<div class="menu-theme"><div class="menu-theme-list">${rows}</div><div class="menu-theme-footer"><div class="menu-theme-footer-kicker">অ্যাপটি তৈরি করেছেন</div><div class="menu-theme-footer-name">IMRAN HOSSAIN</div><div class="menu-theme-footer-text">অ্যাপটির আপডেট পেতে টেলিগ্রামে যুক্ত হন</div><a href="https://t.me/MKcashmanager" target="_blank" rel="noopener">✈ t.me/MKcashmanager</a></div></div>`]},
