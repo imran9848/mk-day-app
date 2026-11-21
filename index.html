@@ -36,7 +36,7 @@
 .bd.nos{touch-action:pan-y}
 @keyframes pullSpin{to{transform:rotate(360deg)}}
 *{box-sizing:border-box;margin:0;font-family:"Noto Sans Bengali",system-ui,sans-serif}
-html,body{width:100%;height:100%;margin:0;overflow:hidden;overscroll-behavior:none}body{position:fixed;inset:0;background:#dfe7ef}#app{height:100vh;height:100dvh;max-height:100dvh;min-height:0;max-width:480px;margin:auto;background:#fff;display:flex;flex-direction:column;position:relative;overflow:hidden;overscroll-behavior:none}@media(max-width:480px){#app{width:100vw;max-width:none;margin:0;border-radius:0;height:100dvh;max-height:100dvh}}
+html,body{width:100%;height:100%;margin:0;overflow:hidden;overscroll-behavior:none}body{position:fixed;inset:0;background:#dfe7ef}#app{height:100vh;height:100svh;max-height:100svh;min-height:0;max-width:480px;margin:auto;background:#fff;display:flex;flex-direction:column;position:relative;overflow:hidden;overscroll-behavior:none}
 .hd{padding:10px 12px;color:#fff;display:flex;align-items:center;gap:8px;font-size:19px;font-weight:700}
 .bd{flex:1;min-height:0;overflow:auto;padding:10px;overscroll-behavior:contain}.bd.nos{flex:1;min-height:0;overflow:hidden;overscroll-behavior:none;touch-action:pan-x}
 .bar{display:flex;justify-content:space-between;align-items:center;padding:6px 24px;border-top:1px solid #ddd}
@@ -393,7 +393,7 @@ return['','#185FA5',`<div class="hd profile-home-head home-v2-head">
 <div id="homeContactRows" class="home-v2-contact-rows">${homeContactRows(homeQ||'')}</div>
 </section>
 </div>
-<div class="home-v2-bottom"><button onclick="go('contacts')" class="home-v2-nav ledger"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.5C6 4 9 4.5 12 6v14c-3-1.5-6-2-9-0.5zM21 5.5C18 4 15 4.5 12 6v14c3-1.5 6-2 9-0.5zM6.5 8.5v8M17.5 8.5v8"></path></svg><span>খাতা</span></button><button type="button" onclick="openTxnSheet()" class="home-v2-nav transaction"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16M4 12h16"></path></svg><span>লেনদেন</span></button><button onclick="go('cashbox')" class="home-v2-nav cashbox"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"></rect><path d="M5 7V5h14v2M5 11h14M9 15h6M11 17h2"></path></svg><span>ক্যাশবক্স</span></button></div>
+<div class="home-v2-bottom"><button onclick="go('contacts')" class="home-v2-nav ledger"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h12v16H6zM9 8h6M9 12h6M6 18H4V6h2"></path></svg><span>খাতা</span></button><button type="button" onclick="openTxnSheet()" class="home-v2-nav transaction"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16M4 12h16"></path></svg><span>লেনদেন</span></button><button onclick="go('cashbox')" class="home-v2-nav cashbox"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="16" height="13" rx="2"></rect><path d="M8 6V4h8v2M8 11h8M10 15h4"></path></svg><span>ক্যাশবক্স</span></button></div>
 <button type="button" aria-label="কন্টাক্ট খাতা খুলুন" title="কন্টাক্ট খাতা" onclick="go('contacts')" class="home-v2-add-contact"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20v-1.5A4.5 4.5 0 0 1 7 14h4a4.5 4.5 0 0 1 4.5 4.5V20M17 8h5M19.5 5.5v5"></path></svg></button>`]},
 
 
