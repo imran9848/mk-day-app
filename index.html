@@ -36,9 +36,9 @@
 .bd.nos{touch-action:pan-y}
 @keyframes pullSpin{to{transform:rotate(360deg)}}
 *{box-sizing:border-box;margin:0;font-family:"Noto Sans Bengali",system-ui,sans-serif}
-html,body{width:100%;height:100%;margin:0;overflow:hidden;overscroll-behavior:none}body{position:fixed;inset:0;background:#dfe7ef}#app{height:100vh;height:100svh;max-height:100svh;min-height:0;max-width:480px;margin:auto;background:#fff;display:flex;flex-direction:column;position:relative;overflow:hidden;overscroll-behavior:none}
+html,body{width:100%;height:100%;margin:0;overflow:hidden;overscroll-behavior:none}body{position:fixed;inset:0;background:#dfe7ef}#app{height:100vh;height:100dvh;max-height:100dvh;min-height:0;max-width:480px;margin:auto;background:#fff;display:flex;flex-direction:column;position:relative;overflow:hidden;overscroll-behavior:none}
 .hd{padding:10px 12px;color:#fff;display:flex;align-items:center;gap:8px;font-size:19px;font-weight:700}
-.bd{flex:1;min-height:0;overflow:auto;padding:10px;overscroll-behavior:contain}.bd.nos{flex:1;min-height:0;overflow:hidden;overscroll-behavior:none;touch-action:pan-x}
+.bd{flex:1;min-height:0;overflow:auto;overflow-x:hidden;padding:10px;overscroll-behavior:contain;touch-action:pan-y;-webkit-overflow-scrolling:touch}.bd:not(.nos){overflow-y:auto!important;touch-action:pan-y;-webkit-overflow-scrolling:touch}.bd.nos{flex:1;min-height:0;overflow:hidden;overscroll-behavior:none;touch-action:pan-x}
 .bar{display:flex;justify-content:space-between;align-items:center;padding:6px 24px;border-top:1px solid #ddd}
 .ci{width:40px;height:40px;border-radius:50%;border:1px solid #bbb;background:#fff;font-size:18px}.hm{background:#1a5fd0;border:0;width:46px;height:46px;font-size:20px}
 .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:6px}.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px}
