@@ -1140,3 +1140,12 @@ body.home-active #app .home-v2-contact-rows{
  }
 }
 </style>
+
+<style id="home-contact-expand-after-resize-v9">
+/* V9: let contact card expand again when returning from split-screen to a tall viewport */
+@media (min-height:601px){
+ body.home-active #app .bd.home-v2-body{display:flex!important;flex-direction:column!important;overflow-y:auto!important;min-height:0!important}
+ body.home-active #app .home-v2-contacts{flex:1 1 auto!important;min-height:210px!important;max-height:none!important;overflow:visible!important}
+ body.home-active #app .home-v2-contact-rows{display:block!important;flex:0 0 auto!important;min-height:0!important;max-height:none!important;overflow:visible!important}
+}
+</style>
