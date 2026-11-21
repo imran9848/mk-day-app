@@ -1027,3 +1027,35 @@ body.home-active #app .home-v2-add-contact{bottom:calc(100px + env(safe-area-ins
  body.home-active #app .home-v2-add-contact{bottom:calc(82px + env(safe-area-inset-bottom))!important}
 }
 </style>
+<style id="home-nav-fixed-theme-restored-v5">
+/* Keep Home footer at the viewport bottom across refresh; restore original nav colors. */
+body.home-active #app .home-v2-bottom{
+ position:fixed!important;left:0!important;right:0!important;bottom:0!important;z-index:999!important;
+ display:flex!important;align-items:center!important;gap:7px!important;
+ width:100%!important;height:auto!important;min-height:76px!important;max-height:none!important;
+ margin:0!important;padding:8px 12px calc(10px + env(safe-area-inset-bottom))!important;
+ box-sizing:border-box!important;overflow:visible!important;
+ background:#fff!important;border-top:1px solid #d6dfeb!important;box-shadow:0 -2px 7px #173b6410!important;
+}
+body.home-active #app .home-v2-bottom .home-v2-nav{height:54px!important;min-height:54px!important;flex:1 1 0!important;border-radius:15px!important;
+ display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:1px!important;
+ font-weight:800!important;color:#fff!important;border:2px solid #fff!important;outline:1px solid currentColor!important;box-shadow:0 2px 5px #102b5020!important;
+}
+body.home-active #app .home-v2-bottom .home-v2-nav.ledger{background:#1c5fa5!important;color:#fff!important}
+body.home-active #app .home-v2-bottom .home-v2-nav.transaction{flex:1.2 1 0!important;height:64px!important;min-height:64px!important;border-radius:25px!important;background:#119c55!important;color:#fff!important;font-size:14px!important;outline:2px solid #f2cb37!important}
+body.home-active #app .home-v2-bottom .home-v2-nav.cashbox{background:#108c91!important;color:#fff!important}
+body.home-active #app .home-v2-bottom .home-v2-nav svg{width:24px!important;height:24px!important;fill:none!important;stroke:currentColor!important;stroke-width:2!important;stroke-linecap:round!important;stroke-linejoin:round!important}
+body.home-active #app .home-v2-bottom .home-v2-nav.transaction svg{width:25px!important;height:25px!important}
+body.home-active #app .home-v2-bottom .home-v2-nav span{font-size:13px!important;line-height:1.2!important}
+body.home-active #app .home-v2-bottom .home-v2-nav.transaction span{font-size:14px!important}
+body.home-active #app .bd.home-v2-body{padding-bottom:calc(112px + env(safe-area-inset-bottom))!important}
+body.home-active #app .home-v2-add-contact{bottom:calc(110px + env(safe-area-inset-bottom))!important}
+body.home-active #app.dk .home-v2-bottom{background:#17263c!important;border-color:#3a506a!important;box-shadow:0 -2px 7px #0004!important}
+@media(max-height:560px){
+ body.home-active #app .home-v2-bottom{min-height:62px!important;padding:3px 5px calc(5px + env(safe-area-inset-bottom))!important}
+ body.home-active #app .home-v2-bottom .home-v2-nav,
+ body.home-active #app .home-v2-bottom .home-v2-nav.transaction{height:52px!important;min-height:52px!important}
+ body.home-active #app .bd.home-v2-body{padding-bottom:calc(84px + env(safe-area-inset-bottom))!important}
+ body.home-active #app .home-v2-add-contact{bottom:calc(88px + env(safe-area-inset-bottom))!important}
+}
+</style>
