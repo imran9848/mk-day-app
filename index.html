@@ -350,7 +350,29 @@ body.home-active #app .home-v2-bottom .home-v2-nav{margin:0!important;align-self
  body.home-active #app .home-v2-bottom .home-v2-nav span{font-size:10px!important}
 }
 </style>
-</head><body><div id="app"></div>
+
+<style id="home-nav-stability-cashbox-v2">
+/* Home-only: make the home panel a true flex viewport with fixed bottom navigation */
+body.home-active #app .bd.nos:has(.home-v2-head){
+ display:flex!important;flex-direction:column!important;min-height:0!important;height:100%!important;max-height:100%!important;overflow:hidden!important;box-sizing:border-box!important;
+}
+body.home-active #app .bd.nos:has(.home-v2-head) .home-v2-head{flex:0 0 auto!important}
+body.home-active #app .bd.nos:has(.home-v2-head) .home-v2-contacts{flex:1 1 0!important;min-height:0!important;overflow:hidden!important}
+body.home-active #app .bd.nos:has(.home-v2-head) .home-v2-contact-rows{flex:1 1 0!important;min-height:0!important;overflow-y:auto!important}
+body.home-active #app .bd.nos:has(.home-v2-head) .home-v2-bottom{position:sticky!important;bottom:0!important;z-index:20!important;flex:0 0 auto!important;min-height:68px!important;height:auto!important;box-sizing:border-box!important;padding:6px 8px calc(6px + env(safe-area-inset-bottom))!important;margin:0!important;background:#fff!important}
+body.home-active #app .bd.nos:has(.home-v2-head) .home-v2-bottom .home-v2-nav{height:56px!important;min-height:56px!important;margin:0!important}
+body.home-active #app .bd.nos:has(.home-v2-head) .home-v2-bottom .home-v2-nav.transaction{height:60px!important;min-height:60px!important}
+body.home-active #app .bd.nos:has(.home-v2-head) .home-v2-bottom .home-v2-nav svg{width:30px!important;height:30px!important;padding:0!important}
+body.home-active #app .bd.nos:has(.home-v2-head) .home-v2-bottom .home-v2-nav.transaction svg{width:32px!important;height:32px!important}
+@media(max-height:560px){
+ body.home-active #app .bd.nos:has(.home-v2-head) .home-v2-head{min-height:76px!important;padding:5px 8px!important}
+ body.home-active #app .bd.nos:has(.home-v2-head) .home-v2-contacts{min-height:0!important}
+ body.home-active #app .bd.nos:has(.home-v2-head) .home-v2-bottom{min-height:58px!important;padding:3px 6px calc(3px + env(safe-area-inset-bottom))!important}
+ body.home-active #app .bd.nos:has(.home-v2-head) .home-v2-bottom .home-v2-nav{height:48px!important;min-height:48px!important}
+ body.home-active #app .bd.nos:has(.home-v2-head) .home-v2-bottom .home-v2-nav.transaction{height:52px!important;min-height:52px!important}
+ body.home-active #app .bd.nos:has(.home-v2-head) .home-v2-bottom .home-v2-nav svg{width:26px!important;height:26px!important}
+}
+</style></head><body><div id="app"></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
 const EC={'বাজার':['মুদি দোকান','মাংস','কাঁচা বাজার','মাছ'],'চিকিৎসা':['ঔষধ','ডাক্তারের খরচ','টেস্ট'],'দৈনিক পকেট খরচ':['চা সিগারেট','যাতায়াত','বন্ধুদের পিছনে খরচ','নাস্তা'],'ব্যবসা':['মাল ক্রয়','কর্মচারীর বেতন','অন্যান্য খরচ'],'বাসা ও দোকান ভাড়া':['বাসা ভাড়া','দোকান ভাড়া'],'বিদ্যুৎ ও ইন্টারনেট বিল':['বিদ্যুৎ খরচ','ইন্টারনেট বিল','ডিশ বিল'],'বাচ্চার খরচ':['খাবার','খেলনা','পড়াশোনার খরচ'],'মোবাইল খরচ':['মোবাইল রিচার্জ','মোবাইলের অ্যাক্সেসরিজ'],'যাতায়াত খরচ':['গাড়ি ভাড়া','তেল'],'শপিং অ্যান্ড বিউটি':['পোশাক','মহিলাদের বিউটি'],'অনলাইন':['সাবস্ক্রিপশন','অন্যান্য'],'পড়াশোনা':['বই','ফি']};
@@ -422,7 +444,7 @@ return['','#185FA5',`<div class="hd profile-home-head home-v2-head">
 <div id="homeContactRows" class="home-v2-contact-rows">${homeContactRows(homeQ||'')}</div>
 </section>
 </div>
-<div class="home-v2-bottom"><button onclick="go('contacts')" class="home-v2-nav ledger"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3.5h6.5c1.1 0 1.5.7 1.5 1.5v15c-1.2-1-2.5-1.5-4-1.5H4zM20 3.5h-6.5c-1.1 0-1.5.7-1.5 1.5v15c1.2-1 2.5-1.5 4-1.5H20zM6.5 7.5h2M6.5 10.5h2M15.5 7.5h2M15.5 10.5h2"></path></svg><span>খাতা</span></button><button type="button" onclick="openTxnSheet()" class="home-v2-nav transaction"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16M4 12h16"></path></svg><span>লেনদেন</span></button><button onclick="go('cashbox')" class="home-v2-nav cashbox"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18v12H3zM5 8V5h14v3M6 12h12M7 16h3M14 16h3M9 4h6"></path></svg><span>ক্যাশবক্স</span></button></div>
+<div class="home-v2-bottom"><button onclick="go('contacts')" class="home-v2-nav ledger"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3.5h6.5c1.1 0 1.5.7 1.5 1.5v15c-1.2-1-2.5-1.5-4-1.5H4zM20 3.5h-6.5c-1.1 0-1.5.7-1.5 1.5v15c1.2-1 2.5-1.5 4-1.5H20zM6.5 7.5h2M6.5 10.5h2M15.5 7.5h2M15.5 10.5h2"></path></svg><span>খাতা</span></button><button type="button" onclick="openTxnSheet()" class="home-v2-nav transaction"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v16M4 12h16"></path></svg><span>লেনদেন</span></button><button onclick="go('cashbox')" class="home-v2-nav cashbox"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9h18v11H3zM5 9V5h14v4M7 5V3h10v2M5 12h14M6.5 16h4M13.5 16h4"></path><path d="M8 3.8h8M9 7h6"></path></svg><span>ক্যাশবক্স</span></button></div>
 <button type="button" aria-label="কন্টাক্ট খাতা খুলুন" title="কন্টাক্ট খাতা" onclick="go('contacts')" class="home-v2-add-contact"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20v-1.5A4.5 4.5 0 0 1 7 14h4a4.5 4.5 0 0 1 4.5 4.5V20M17 8h5M19.5 5.5v5"></path></svg></button>`]},
 
 
