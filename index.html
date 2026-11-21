@@ -760,7 +760,7 @@ const COMMON_MORE7={en:{"মোট":"Total","নগদ আয়":"Cash income",
 function setLang(lang){D.lang=lang;document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';save();R()}
 function xl(){
  TR.sort((a,b)=>b[0].length-a[0].length);const lang=D.lang||'bn';const dict=Object.assign({},COMMON[lang]||{},COMMON_MORE[lang]||{},COMMON_MORE2[lang]||{},COMMON_MORE3[lang]||{},COMMON_MORE4[lang]||{},COMMON_MORE5[lang]||{},COMMON_MORE6[lang]||{},COMMON_MORE7[lang]||{},INCOME_EXTRA[lang]||{});
- const translate=x=>dict[x]||(lang==='en'?(TR.find(p=>p[0]===x)||[])[1]);const w=document.createTreeWalker($('#app'),NodeFilter.SHOW_TEXT);let n;
+ const translate=x=>dict[x]||(lang==='en'?(TR.find(p=>p[0]===x)||[])[1]:null);const w=document.createTreeWalker($('#app'),NodeFilter.SHOW_TEXT);let n;
  while(n=w.nextNode()){let t=n.nodeValue,x=t.trim();if(!x)continue;const e=translate(x);if(e){n.nodeValue=t.replace(x,e);continue}if(lang==='en'){TR.forEach(p=>{if(p[0].length>5)t=t.split(p[0]).join(p[1])});n.nodeValue=t.replace(/[০-৯]/g,d=>'০১২৩৪৫৬৭৮৯'.indexOf(d))}}
  document.querySelectorAll('#app input, #app textarea').forEach(i=>{const e=translate(i.placeholder);if(e)i.placeholder=e});document.querySelectorAll('#app button').forEach(b=>{const e=translate(b.textContent.trim());if(e)b.textContent=e});document.querySelectorAll('#app select option').forEach(o=>{const e=translate(o.textContent.trim());if(e)o.textContent=e});document.querySelectorAll('#app [aria-label], #app [title]').forEach(el=>['aria-label','title'].forEach(attr=>{const x=el.getAttribute(attr),e=x&&translate(x);if(e)el.setAttribute(attr,e)}));document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';
 }
