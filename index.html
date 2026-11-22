@@ -508,6 +508,42 @@ body.home-active #app .bd.home-v2-body{padding-bottom:80px!important}
 .lp-pill button.lon{background:#EEEDFE;color:#3C3489}
 .lp-pill svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 </style>
+<style id="mk-home-only-gold-ring-nav">
+/* One compact circular Home control on Home and every inner page; no app-level bottom Back control. */
+#app .mk-home-orb{
+ width:58px!important;height:58px!important;min-width:58px!important;min-height:58px!important;
+ flex:0 0 58px!important;display:grid!important;place-items:center!important;
+ padding:0!important;border:4px solid #e8b92f!important;border-radius:50%!important;
+ background:radial-gradient(circle at 30% 24%,#9a4cff 0%,#6500c7 48%,#2b005f 100%)!important;
+ color:#fff!important;box-shadow:0 0 0 2px #fff,0 3px 12px #4b168866,0 0 0 1px #d59d20!important;
+ outline:0!important;cursor:pointer!important;touch-action:manipulation!important;
+}
+#app .mk-home-orb svg{width:27px!important;height:27px!important;display:block!important;fill:#fff!important;stroke:none!important;pointer-events:none!important}
+#app .mk-home-orb:active{transform:scale(.94)!important}
+#app .lp-nav{
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ flex:0 0 auto!important;min-height:68px!important;height:68px!important;
+ box-sizing:border-box!important;padding:3px 0 calc(5px + env(safe-area-inset-bottom,0px))!important;
+ background:transparent!important;border:0!important;box-shadow:none!important;
+}
+body.home-active #app .home-v2-bottom{
+ position:sticky!important;bottom:0!important;z-index:30!important;
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ flex:0 0 auto!important;width:100%!important;min-height:68px!important;height:68px!important;
+ box-sizing:border-box!important;margin:0!important;padding:2px 0 calc(5px + env(safe-area-inset-bottom,0px))!important;
+ border:0!important;border-radius:0!important;background:transparent!important;
+ box-shadow:none!important;overflow:visible!important;gap:0!important;
+}
+body.home-active #app .bd.home-v2-body{padding-bottom:68px!important}
+body.home-active #app .home-v2-add-contact{bottom:74px!important}
+@media(max-height:560px){
+ body.home-active #app .bd.home-v2-body{padding-bottom:68px!important}
+ body.home-active #app .home-v2-add-contact{bottom:74px!important}
+}
+@media(max-width:390px){
+ #app .mk-home-orb{width:56px!important;height:56px!important;min-width:56px!important;min-height:56px!important;flex-basis:56px!important}
+}
+</style>
 </head><body><!-- MK Bottom Bar SVG gradient definition (exactly as supplied) -->
 <svg width="0" height="0" style="position:absolute"><defs><linearGradient id="gd" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF3B0"/><stop offset=".45" stop-color="#F7C531"/><stop offset="1" stop-color="#B97C00"/></linearGradient></defs></svg><div id="app"></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -551,7 +587,7 @@ function ask(t,f,ok){const o=document.createElement('div');o.className='ov';if(t
 function pw(cb){if(!D.pw)return ask('নতুন পাসওয়ার্ড দাও',[{id:'a',ph:'পাসওয়ার্ড'}],v=>{if(v.a){D.pw=v.a;save();cb()}});ask('লকারের পাসওয়ার্ড',[{id:'a',ph:'পাসওয়ার্ড'}],v=>{v.a==D.pw?cb():toast('পাসওয়ার্ড ভুল')})}
 let floatPageStack=[],floatPageMin=false,floatPageMax=false,floatMenuExpanded=false;const go=(...a)=>{if(!(D.userProfile&&D.userProfile.phone)&&a[0]!=='profile'){S=[['profile']];R();return}if(floatPageStack.length){floatPageStack.push(a);renderFloatUI();return}S.push(a);R()},back=()=>{if(floatPageStack.length){if(floatPageStack.length>1)floatPageStack.pop();else closeFloatPage();renderFloatUI();return}S.length>1&&S.pop();R()},home=()=>{if(floatPageStack.length){closeFloatPage();R();return}cart=[];S=[['home']];R()};
 const bal=p=>p.t.filter(x=>!x.f).reduce((s,x)=>s+(x.k=='a'?x.m:-x.m),0),pb=k=>D.p.filter(p=>p.k==k&&!p.f).reduce((s,p)=>s+bal(p),0),sm=(t,cr)=>D.tx.filter(x=>x.t==t).reduce((s,x)=>s+(cr==null?x.m:cr?(x.cr?x.m-(x.pd||0):0):(x.cr?(x.pd||0):x.m)),0);
-const bar=()=>{const hm='<button class="lon" onclick="home()"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>হোম</button>',bk='<button onclick="back()"><svg viewBox="0 0 24 24"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>পেছনে</button>';return `<div class="lp-nav"><div class="lp-pill">${D.side=='r'?hm+bk:bk+hm}</div></div>`};
+const bar=()=>'<div class="lp-nav"><button type="button" class="mk-home-orb" onclick="home()" aria-label="হোমে ফিরুন" title="হোম"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.8 12 3l9 7.8v9.1a1.1 1.1 0 0 1-1.1 1.1h-5.1v-6.2H9.2V21H4.1A1.1 1.1 0 0 1 3 19.9z"/></svg></button></div>';
 const hdr=(t,c,x)=>`<div class="hd" style="background:${c}"><span class="hb" onclick="back()"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></span> ${t}<span style="margin-left:auto;display:flex;align-items:center;gap:12px;white-space:nowrap">${x||''}</span></div>`;
 const CARDS=[['নগদ ক্রয়',()=>sm('e',false),['ls','e',false]],['বাকি ক্রয়',()=>sm('e',true),['ls','e',true]],['ধার/লোন',()=>pb('B'),['pl','B']],['মোট খরচ',()=>sm('e')],['নগদ আয়',()=>sm('i',false),['ls','i',false]],['বাকি আছে',()=>sm('i',true),['ls','i',true]],['ধার/বাকি',()=>pb('L'),['pl','L']],['মোট আয়',()=>sm('i')]];
 const P={
@@ -583,17 +619,7 @@ return['','#185FA5',`<div class="hd profile-home-head home-v2-head">
 <div id="homeContactRows" class="home-v2-contact-rows">${homeContactRows(homeQ||'')}</div>
 </section>
 </div>
-<div class="home-v2-bottom"><div class="mk-bar"><div class="mk-inner">
-<button type="button" class="mk-item" id="btn-khata" onclick="go('contacts')"><span class="mk-chip">
-<svg width="28" height="28" viewBox="0 0 48 48"><path fill="url(#gd)" stroke="#8A5A00" stroke-width="1.8" stroke-linejoin="round" d="M24 14C19 10.5 12 10.5 7 12.5V37C12 35 19 35 24 38.5Z"/><path fill="url(#gd)" stroke="#8A5A00" stroke-width="1.8" stroke-linejoin="round" d="M24 14C29 10.5 36 10.5 41 12.5V37C36 35 29 35 24 38.5Z"/><path fill="none" stroke="#8A5A00" stroke-width="1.5" stroke-linecap="round" d="M12 19C15 18 18 18 20 19M12 25C15 24 18 24 20 25M28 19C30 18 33 18 36 19M28 25C30 24 33 24 36 25"/></svg>
-</span><span class="mk-label">খাতা</span></button>
-<button type="button" class="mk-item" id="btn-lenden" onclick="openTxnSheet()"><span class="mk-diamond">
-<svg width="24" height="24" viewBox="0 0 48 48"><path d="M24 8V40M8 24H40" stroke="#8A5A00" stroke-width="11" stroke-linecap="round" fill="none"/><path d="M24 8V40M8 24H40" stroke="url(#gd)" stroke-width="8" stroke-linecap="round" fill="none"/></svg>
-</span><span class="mk-label">লেনদেন</span></button>
-<button type="button" class="mk-item" id="btn-cashbox" onclick="go('cashbox')"><span class="mk-chip">
-<svg width="30" height="30" viewBox="0 0 48 48"><rect fill="url(#gd)" stroke="#8A5A00" stroke-width="1.8" stroke-linejoin="round" x="5" y="12" width="30" height="18" rx="3" transform="rotate(-8 20 21)"/><rect fill="url(#gd)" stroke="#8A5A00" stroke-width="1.8" stroke-linejoin="round" x="9" y="18" width="30" height="18" rx="3"/><circle cx="24" cy="27" r="4.5" fill="none" stroke="#8A5A00" stroke-width="1.8"/><circle fill="url(#gd)" stroke="#8A5A00" stroke-width="1.8" cx="38" cy="35" r="8"/></svg>
-</span><span class="mk-label">ক্যাশবক্স</span></button>
-</div></div><button type="button" aria-label="কন্টাক্ট খাতা খুলুন" title="কন্টাক্ট খাতা" onclick="addContact()" class="home-v2-add-contact"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20v-1.5A4.5 4.5 0 0 1 7 14h4a4.5 4.5 0 0 1 4.5 4.5V20M17 8h5M19.5 5.5v5"></path></svg></button>`]},
+<div class="home-v2-bottom"><button type="button" class="mk-home-orb" onclick="home()" aria-label="হোমে ফিরুন" title="হোম"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.8 12 3l9 7.8v9.1a1.1 1.1 0 0 1-1.1 1.1h-5.1v-6.2H9.2V21H4.1A1.1 1.1 0 0 1 3 19.9z"/></svg></button> খাতা খুলুন" title="কন্টাক্ট খাতা" onclick="addContact()" class="home-v2-add-contact"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20v-1.5A4.5 4.5 0 0 1 7 14h4a4.5 4.5 0 0 1 4.5 4.5V20M17 8h5M19.5 5.5v5"></path></svg></button>`]},
 
 
 menu(){const M=[['আয়','💰',"go('cat','i')",'#009b55','#16d17b'],['ব্যয়','🧾',"go('cat','e')",'#bd123c','#ff365c'],['পণ্যের তালিকা','📦',"go('bizlist','products')",'#d78a00','#ffbb28'],['মাসিক বাজারের তালিকা','🧺',"go('bz')",'#7300a8','#b42bd5'],['ক্যাশবক্স','💵',"go('cashbox')",'#007e79','#16bca5'],['হিসাব লকার','🔒',"pw(()=>go('lk'))",'#b78b00','#f2c62e'],['এখন মনে থাকবে','📝',"go('td')",'#d35400','#ff8a17'],['ক্যালকুলেটর','<svg viewBox="0 0 24 24" width="25" height="25" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2.5" width="14" height="19" rx="2.5"/><rect x="8" y="5.5" width="8" height="3" rx=".7"/><path d="M8 12h1M12 12h1M16 12h0M8 15.5h1M12 15.5h1M16 15.5h0M8 19h1M12 19h1"/></svg>',"go('calc')",'#0058d5','#3182ff'],['সেটিং','⚙️',"go('set')",'#43566c','#71879f'],['About Me','👤',"go('ab')",'#5200ad','#8b39f0'],...(U?[['লগ আউট','🚪',"lo()",'#c62828','#ef5350']]:[])];const rows=M.map(([t,i,f,c1,c2])=>`<div class="menu-theme-row" style="--m1:${c1};--m2:${c2}" onclick="${f}"><span class="menu-theme-icon">${i}</span><span class="menu-theme-label">${t}</span><span class="menu-theme-arrow">›</span></div>`).join('');return['<span class="menu-header-title">মেনু</span>','#185FA5',`<div class="menu-theme"><div class="menu-theme-list">${rows}</div><div class="menu-theme-footer"><div class="menu-theme-footer-kicker">অ্যাপটি তৈরি করেছেন</div><div class="menu-theme-footer-name">IMRAN HOSSAIN</div><div class="menu-theme-footer-text">অ্যাপটির আপডেট পেতে টেলিগ্রামে যুক্ত হন</div><a href="https://t.me/MKcashmanager" target="_blank" rel="noopener">✈ t.me/MKcashmanager</a></div></div>`]},
