@@ -1597,3 +1597,10 @@ body.home-active #app .home-v2-bottom svg,body.home-active #app .home-v2-bottom 
 body.home-active #app .home-v2-add-contact,#app .home-v2-add-contact{bottom:90px!important}
 body.home-active #app .bd.home-v2-body{padding-bottom:80px!important}
 </style>
+
+<style id="contact-search-tap-target-fix-v1">
+/* Ensure filtered contact rows remain above overlays and receive Android taps. */
+#expenseContactRows,#txContactResults,#bizCustomerOptions,#spChoices,#contactRows{position:relative;z-index:1003;pointer-events:auto;isolation:isolate}
+#expenseContactRows button,#txContactResults button,#bizCustomerOptions .row,#spChoices button,#contactRows [role=button]{position:relative;z-index:1004;pointer-events:auto!important;touch-action:manipulation!important;cursor:pointer!important;}
+#expenseContactRows button,#txContactResults button,#bizCustomerOptions .row,#spChoices button{ -webkit-tap-highlight-color:rgba(24,95,165,.18); }
+</style>
