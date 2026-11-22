@@ -781,12 +781,12 @@ function rmPw(){ask('বর্তমান পাসওয়ার্ড',[{id:
 function clock(){const d=new Date();if($('#dt')){$('#dt').textContent=(D.lang=='en'?'Today ':'আজ ')+d.toLocaleDateString(LC(),{weekday:'long',day:'numeric',month:'long'});$('#tm').textContent=d.toLocaleTimeString(LC(),{hour:'numeric',minute:'2-digit',hour12:true})}}
 setInterval(clock,20000);
 const cc=t=>t=='e'?D.ec:D.ic;
-function addCat(t){ask('নতুন ক্যাটাগরি',[{id:'a',ph:'নাম'}],v=>{if(v.a&&!cc(t)[v.a]){cc(t)[v.a]=[];save();R()}})}
-function renCat(t,ci){const C=cc(t),old=Object.keys(C)[ci];ask('নতুন নাম',[{id:'a',ph:'নাম',v:old}],v=>{if(!v.a)return;const o={};Object.keys(C).forEach(x=>o[x==old?v.a:x]=C[x]);ICO[t+v.a]=ic(t,old);if(t=='e')D.ec=o;else D.ic=o;D.tx.forEach(x=>{if(x.t==t&&x.c==old)x.c=v.a});save();R()})}
-function delCat(t,ci){const C=cc(t),k=Object.keys(C)[ci];yn(k+' মুছবে?',()=>{delete C[k];save();back()})}
-function addSub(t,ci){const C=cc(t),k=Object.keys(C)[ci];ask('নতুন সাব-ক্যাটাগরি',[{id:'a',ph:'নাম'}],v=>{if(v.a){C[k].push(v.a);save();R()}})}
-function renSub(t,ci,i){const C=cc(t),k=Object.keys(C)[ci];ask('নতুন নাম',[{id:'a',ph:'নাম',v:C[k][i]}],v=>{if(v.a){C[k][i]=v.a;save();R()}})}
-function delSub(t,ci,i){const C=cc(t),k=Object.keys(C)[ci];yn('মুছবে?',()=>{C[k].splice(i,1);save();R()})}
+function addCat(t){ask('নতুন ক্যাটাগরি',[{id:'a',ph:'নাম'}],v=>{const n=(v.a||'').trim(),C=cc(t);if(!n)return;if(Object.keys(C).some(x=>x.toLowerCase()===n.toLowerCase()))return toast('এই ক্যাটাগরি আগে থেকেই আছে');C[n]=[];save();R()})}
+function renCat(t,ci){const C=cc(t),old=Object.keys(C)[ci];ask('নতুন নাম',[{id:'a',ph:'নাম',v:old}],v=>{const n=(v.a||'').trim();if(!n||n===old)return;if(Object.keys(C).some(x=>x.toLowerCase()===n.toLowerCase()))return toast('এই ক্যাটাগরি আগে থেকেই আছে');const o={};Object.keys(C).forEach(x=>o[x==old?n:x]=C[x]);ICO[t+n]=ic(t,old);if(t=='e')D.ec=o;else D.ic=o;D.tx.forEach(x=>{if(x.t==t&&x.c==old)x.c=n});save();R()})}
+function delCat(t,ci){const C=cc(t),k=Object.keys(C)[ci],used=(D.tx||[]).some(x=>x.t==t&&x.c==k);if(used)return toast('এই ক্যাটাগরিতে পুরোনো লেনদেন আছে। হিসাবের ইতিহাস রক্ষায় এটি মুছা যাবে না।');yn(k+' মুছবে?',()=>{delete C[k];save();back()})}
+function addSub(t,ci){const C=cc(t),k=Object.keys(C)[ci];ask('নতুন সাব-ক্যাটাগরি',[{id:'a',ph:'নাম'}],v=>{const n=(v.a||'').trim();if(!n)return;if((C[k]||[]).some(x=>String(x).toLowerCase()===n.toLowerCase()))return toast('এই সাব-ক্যাটাগরি আগে থেকেই আছে');C[k].push(n);save();R()})}
+function renSub(t,ci,i){const C=cc(t),k=Object.keys(C)[ci],old=C[k][i];ask('নতুন নাম',[{id:'a',ph:'নাম',v:old}],v=>{const n=(v.a||'').trim();if(!n||n===old)return;if((C[k]||[]).some((x,j)=>j!==i&&String(x).toLowerCase()===n.toLowerCase()))return toast('এই সাব-ক্যাটাগরি আগে থেকেই আছে');C[k][i]=n;(D.tx||[]).forEach(x=>{if(x.t==t&&x.c==k&&x.s==old)x.s=n});save();R()})}
+function delSub(t,ci,i){const C=cc(t),k=Object.keys(C)[ci],sub=C[k][i],used=(D.tx||[]).some(x=>x.t==t&&x.c==k&&x.s==sub);if(used)return toast('এই সাব-ক্যাটাগরিতে পুরোনো লেনদেন আছে। ইতিহাস রক্ষায় এটি মুছা যাবে না।');yn('মুছবে?',()=>{C[k].splice(i,1);save();R()})}
 function renBz(i){const k=Object.keys(D.bz)[i];ask('নতুন নাম',[{id:'a',ph:'নাম',v:k}],v=>{if(!v.a)return;const o={};Object.keys(D.bz).forEach(x=>o[x==k?v.a:x]=D.bz[x]);ICO['b'+v.a]=ic('b',k);D.bz=o;save();R()})}
 function delBz(i){const k=Object.keys(D.bz)[i];yn(k+' মুছবে?',()=>{delete D.bz[k];save();back()})}
 function renIt(i,j){const k=Object.keys(D.bz)[i];let x=D.bz[k][j];x=typeof x=='string'?{n:x}:x;ask('নতুন নাম',[{id:'a',ph:'নাম',v:x.n}],v=>{if(v.a){x.n=v.a;D.bz[k][j]=x;save();R()}})}
