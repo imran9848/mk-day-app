@@ -1076,42 +1076,40 @@ function ensureContacts(){
  return D.contacts
 }
 function lpEd(id){editTx(id)}
-var gTok=null,gTokAt=0;
-async function gToken(){
- if(gTok&&Date.now()-gTokAt<3000000)return gTok;
- const u=window.firebase&&firebase.auth().currentUser;
- if(!u)throw new Error('login');
- const p=new firebase.auth.GoogleAuthProvider();p.addScope('https://www.googleapis.com/auth/contacts');
- const r=await u.reauthenticateWithPopup(p);
- gTok=r&&r.credential&&r.credential.accessToken;gTokAt=Date.now();
- if(!gTok)throw new Error('token');return gTok}
-async function gSaveContact(p){
- try{const t=await gToken();
-  const body={names:[{givenName:p.n}]};if(p.ph)body.phoneNumbers=[{value:p.ph}];if(p.ad)body.addresses=[{streetAddress:p.ad}];if(p.note)body.biographies=[{value:p.note}];
-  const r=await fetch('https://people.googleapis.com/v1/people:createContact',{method:'POST',headers:{'Authorization':'Bearer '+t,'Content-Type':'application/json'},body:JSON.stringify(body)});
-  if(!r.ok){gTok=null;throw new Error('http '+r.status)}
-  toast('Gmail কন্টাক্টেও সেভ হয়েছে');return true}
- catch(e){console.error('Gmail contact save failed',e);toast(String(e&&e.message)==='login'?'Gmail-এ সেভ করতে আগে লগইন করুন। কন্টাক্ট অ্যাপে সেভ আছে।':'Gmail-এ সেভ হয়নি। কন্টাক্ট অ্যাপে সেভ আছে।');return false}}
+var lpPicked=null;
+function lpOpenUrl(u){location.href=u}
+function lpVcard(p){
+ const v='BEGIN:VCARD\nVERSION:3.0\nFN:'+p.n+'\nN:'+p.n+';;;;\n'+(p.ph?'TEL;TYPE=CELL:'+p.ph+'\n':'')+(p.ad?'ADR;TYPE=HOME:;;'+p.ad+';;;;\n':'')+(p.note?'NOTE:'+p.note+'\n':'')+'END:VCARD\n';
+ const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([v],{type:'text/vcard'}));a.download=(p.n||'contact').replace(/[^\w\u0980-\u09FF]+/g,'_')+'.vcf';document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500)}
+function lpPhoneSave(p){
+ try{
+  if(/Android/i.test(navigator.userAgent||'')){
+   let q='S.name='+encodeURIComponent(p.n);if(p.ph)q+=';S.phone='+encodeURIComponent(p.ph);if(p.ad)q+=';S.postal='+encodeURIComponent(p.ad);if(p.note)q+=';S.notes='+encodeURIComponent(p.note);
+   lpOpenUrl('intent:#Intent;action=android.intent.action.INSERT;type=vnd.android.cursor.dir/contact;'+q+';end')
+  }else lpVcard(p)
+ }catch(e){console.error('Phone contact save failed',e);toast('ফোনের কন্টাক্ট অ্যাপ খোলা যায়নি। কন্টাক্ট অ্যাপে সেভ আছে।')}}
 function lpPicker(set){
  if(!navigator.contacts||!navigator.contacts.select)return toast('এই ফোনে সরাসরি কন্টাক্ট বাছাই চলবে না। নাম ও নম্বর নিজে লিখুন।');
- navigator.contacts.select(['name','tel'],{multiple:false}).then(r=>{const x=r&&r[0];if(!x)return;set((x.name||[])[0]||'',(x.tel||[])[0]||'')}).catch(e=>{if(e&&e.name!=='AbortError')toast('কন্টাক্ট বাছাই করা যায়নি')})}
+ navigator.contacts.select(['name','tel'],{multiple:false}).then(r=>{const x=r&&r[0];if(!x)return;const n=(x.name||[])[0]||'',ph=(x.tel||[])[0]||'';lpPicked={n:n.trim(),ph:ph.trim()};set(n,ph)}).catch(e=>{if(e&&e.name!=='AbortError')toast('কন্টাক্ট বাছাই করা যায়নি')})}
 function addContact(done){
- ensureContacts();
+ ensureContacts();lpPicked=null;
  const o=document.createElement('div');o.className='ov';
- o.innerHTML=`<div class="md lp-dlg"><h3>নতুন কন্টাক্ট</h3><button type="button" class="lp-pick" id="lpPick"><span class="lp-pi"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><circle cx="12" cy="10" r="2.5"/><path d="M7.5 17c.8-2 2.5-3 4.5-3s3.7 1 4.5 3"/></svg></span><span class="lp-pt"><b>ফোন থেকে বেছে নিন</b><small>নাম আর নম্বর নিজে বসে যাবে</small></span><em>›</em></button><div class="lp-or"><span>অথবা নিজে লিখুন</span></div><input id="f_n" type="text" placeholder="নাম লিখুন"><input id="f_ph" type="text" inputmode="numeric" placeholder="মোবাইল নম্বর"><input id="f_ad" type="text" placeholder="ঠিকানা (ঐচ্ছিক)"><input id="f_note" type="text" placeholder="নোট (ঐচ্ছিক)"><label class="lp-g"><span><b>আমার Gmail কন্টাক্টেও সেভ হবে</b><small>ফোনের কন্টাক্টে নিজে চলে আসবে</small></span><input type="checkbox" id="lpG" ${localStorage.mkc_gsave==='0'?'':'checked'}><i></i></label><div class="lp-btns"><button class="btn" id="fx" style="background:#B4B2A9">বাতিল</button><button class="btn" id="fo" style="background:#185FA5">ঠিক আছে</button></div></div>`;
+ o.innerHTML=\`<div class="md lp-dlg"><h3>নতুন কন্টাক্ট</h3><button type="button" class="lp-pick" id="lpPick"><span class="lp-pi"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><circle cx="12" cy="10" r="2.5"/><path d="M7.5 17c.8-2 2.5-3 4.5-3s3.7 1 4.5 3"/></svg></span><span class="lp-pt"><b>ফোন থেকে বেছে নিন</b><small>নাম আর নম্বর নিজে বসে যাবে</small></span><em>›</em></button><div class="lp-or"><span>অথবা নিজে লিখুন</span></div><input id="f_n" type="text" placeholder="নাম লিখুন"><input id="f_ph" type="text" inputmode="numeric" placeholder="মোবাইল নম্বর"><input id="f_ad" type="text" placeholder="ঠিকানা (ঐচ্ছিক)"><input id="f_note" type="text" placeholder="নোট (ঐচ্ছিক)"><label class="lp-g"><span><b>আমার ফোন বুকেও সেভ হবে</b><small>ফোনের কন্টাক্ট অ্যাপ খুলবে, সেভ চাপলে আপনার অ্যাকাউন্টে সিঙ্ক হতে পারে</small></span><input type="checkbox" id="lpG" \${localStorage.mkc_gsave==='0'?'':'checked'}><i></i></label><div class="lp-btns"><button class="btn" id="fx" style="background:#B4B2A9">বাতিল</button><button class="btn" id="fo" style="background:#185FA5">ঠিক আছে</button></div></div>\`;
  $('#app').appendChild(o);xl();
  $('#fx').onclick=()=>o.remove();
- $('#lpPick').onclick=()=>lpPicker((n,ph)=>{$('#f_n').value=n;$('#f_ph').value=ph});
+ $('#lpPick').onclick=()=>lpPicker((n, ph)=>{$('#f_n').value=n;$('#f_ph').value=ph});
  $('#fo').onclick=()=>{
   const v={};['n','ph','ad','note'].forEach(k=>v[k]=$('#f_'+k).value.trim());
   if(!v.n)return toast('নাম লিখুন');
   const g=$('#lpG').checked;localStorage.mkc_gsave=g?'1':'0';o.remove();
   const probe={n:v.n,ph:v.ph},key=contactKey(probe),old=D.contacts.find(x=>contactKey(x)===key);
-  if(old){if(!old.ph&&v.ph)old.ph=v.ph;if(!old.ad&&v.ad)old.ad=v.ad;save();if(done)done(old);else{R();toast('এই কন্টাক্ট আগে থেকেই আছে')}return}
-  const p={id:Date.now(),n:v.n,ph:v.ph,ad:v.ad,note:v.note||'',source:'manual'};
+  if(old){if(!old.ph&&v.ph)old.ph=v.ph;if(!old.ad&&v.ad)old.ad=v.ad;if(!old.note&&v.note)old.note=v.note;save();if(done)done(old);else{R();toast('এই কন্টাক্ট আগে থেকেই আছে')}return}
+  const p={id:Date.now(),n:v.n,ph:v.ph,ad:v.ad,note:v.note||'',source:lpPicked?'phone':'manual'};
   D.contacts.push(p);D.vd=D.contacts;save();
-  if(g)gSaveContact(p);
-  if(done)done(p);else R()}
+  const fromPhone=lpPicked&&lpPicked.n===p.n&&lpPicked.ph===p.ph;
+  if(done)done(p);else R();
+  if(g&&!fromPhone)lpPhoneSave(p)
+ }
 }
 async function importPhoneContacts(){
  if(!navigator.contacts||!navigator.contacts.select)return toast('এই ব্রাউজারে ফোন কন্টাক্ট ইমপোর্ট সুবিধা নেই। নতুন কন্টাক্ট যোগ করে সেভ করতে পারো।');
@@ -1120,7 +1118,7 @@ async function importPhoneContacts(){
 
 let expenseContactQ='';
 function expenseContactPick(id){const p=ensureContacts().find(x=>String(x.id)===String(id));if(!p)return;selP=Number(p.id);txContactId=String(p.id);const s=document.getElementById('expenseContactSearch');if(s)s.value=p.n||'';const r=document.getElementById('expenseContactRows');if(r)r.innerHTML='<button type="button" onclick="expenseContactPick('+Number(p.id)+')" style="display:flex;align-items:center;gap:8px;width:100%;padding:8px;border:1px solid #1a9e4b;border-radius:9px;background:#e8f5e9;color:#1B5E20;text-align:left"><b>✓ নির্বাচিত: '+htmlEsc(p.n)+'</b><small>'+htmlEsc(p.ph||'')+'</small></button>';toast('কন্টাক্ট নির্বাচিত হয়েছে')}
-function expenseContactRows(q){const z=(q||'').trim().toLocaleLowerCase(),L=ensureContacts(),last={};(D.tx||[]).forEach(x=>{if(x.t!=='e')return;const id=x.contactId!=null?x.contactId:x.sp;if(id==null)return;if(!last[id]||(+x.d||0)>(+last[id].d||0))last[id]=x});const A=L.filter(p=>!z||((p.n||'')+' '+(p.ph||'')).toLocaleLowerCase().includes(z)).sort((a,b)=>(last[b.id]?.d||0)-(last[a.id]?.d||0));const shown=z?A.slice(0,40):A.filter(p=>last[p.id]).slice(0,8);return shown.map((p,i)=>{const x=last[p.id];return '<button type="button" onclick="expenseContactPick('+Number(p.id)+')" style="display:flex;align-items:center;gap:7px;width:100%;text-align:left;padding:6px 3px;border:0;border-bottom:1px solid #edf0f2;background:transparent;color:inherit;cursor:pointer"><span style="width:28px;height:28px;flex:0 0 28px;border-radius:50%;background:'+CL[i%8]+'22;color:'+CL[i%8]+';display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px">'+htmlEsc((p.n||'?')[0])+'</span><span style="min-width:0;flex:1"><b style="font-size:12px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+htmlEsc(p.n)+'</b><small style="font-size:10px;color:#64748b">'+htmlEsc(x?(x.s||x.c||'ব্যয়'):(p.ph||'কন্টাক্ট'))+'</small></span>'+(x?'<b style="font-size:11px;color:#c62828;white-space:nowrap">'+tk(x.m)+'</b>':'<small>'+htmlEsc(p.ph||'')+'</small>')+'<span style="color:#185FA5">›</span></button>'}).join('')||'<p style="padding:8px;color:#777;font-size:12px">কোনো কন্টাক্ট পাওয়া যায়নি।</p>'}
+function expenseContactRows(q){const z=(q||'').trim().toLocaleLowerCase(),L=ensureContacts(),last={};(D.tx||[]).forEach(x=>{if(x.t!=='e')return;const id=x.contactId!=null?x.contactId:x.sp;if(id==null)return;if(!last[id]||(+x.d||0)>(+last[id].d||0))last[id]=x});const A=L.filter(p=>!z||((p.n||'')+' '+(p.ph||'')+' '+(p.ad||'')+' '+(p.note||'')).toLocaleLowerCase().includes(z)).sort((a,b)=>(last[b.id]?.d||0)-(last[a.id]?.d||0));const shown=z?A.slice(0,40):A.filter(p=>last[p.id]).slice(0,8);return shown.map((p,i)=>{const x=last[p.id];return '<button type="button" onclick="expenseContactPick('+Number(p.id)+')" style="display:flex;align-items:center;gap:7px;width:100%;text-align:left;padding:6px 3px;border:0;border-bottom:1px solid #edf0f2;background:transparent;color:inherit;cursor:pointer"><span style="width:28px;height:28px;flex:0 0 28px;border-radius:50%;background:'+CL[i%8]+'22;color:'+CL[i%8]+';display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px">'+htmlEsc((p.n||'?')[0])+'</span><span style="min-width:0;flex:1"><b style="font-size:12px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+htmlEsc(p.n)+'</b><small style="font-size:10px;color:#64748b">'+htmlEsc(x?(x.s||x.c||'ব্যয়'):(p.ph||'কন্টাক্ট'))+'</small></span>'+(x?'<b style="font-size:11px;color:#c62828;white-space:nowrap">'+tk(x.m)+'</b>':'<small>'+htmlEsc(p.ph||'')+'</small>')+'<span style="color:#185FA5">›</span></button>'}).join('')||'<p style="padding:8px;color:#777;font-size:12px">কোনো কন্টাক্ট পাওয়া যায়নি।</p>'}
 let homeQ='';
 function homeContactFocus(){const cap=document.querySelector('.home-v2-contact-caption');if(cap)cap.textContent=homeQ?'সার্চের ফলাফল':'সকল কন্টাক্ট';const e=document.getElementById('homeContactRows');if(e)e.innerHTML=homeContactRows(homeQ)}
 function homeContactRows(q){
