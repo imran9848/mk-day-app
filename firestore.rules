@@ -1,0 +1,43 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+    function isVerifiedOwner() {
+      return signedIn()
+        && request.auth.token.email == 'imran1914771651@gmail.com'
+        && request.auth.token.email_verified == true;
+    }
+
+    // Each account can access only its own private data document.
+    match /users/{userId} {
+      allow read: if signedIn() && request.auth.uid == userId;
+      allow create, update: if signedIn()
+        && request.auth.uid == userId
+        && request.resource.data.keys().hasOnly(['d', 'u'])
+        && request.resource.data.d is string
+        && request.resource.data.d.size() <= 900000
+        && request.resource.data.u is number;
+      allow delete: if false;
+    }
+
+    // One shared banner configuration, readable by signed-in app users.
+    // Only the verified owner account can create, edit, or delete it.
+    match /appConfig/publicAds {
+      allow read: if signedIn();
+      allow create, update: if isVerifiedOwner()
+        && request.resource.data.keys().hasOnly(['slides', 'updatedAt', 'updatedBy'])
+        && request.resource.data.slides is list
+        && request.resource.data.slides.size() <= 3
+        && request.resource.data.updatedAt is timestamp
+        && request.resource.data.updatedBy == request.auth.uid;
+      allow delete: if isVerifiedOwner();
+    }
+
+    // Deny every collection/document not explicitly allowed above.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
