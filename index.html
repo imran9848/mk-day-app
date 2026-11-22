@@ -440,6 +440,74 @@ body.home-active #app .home-v2-bottom svg,body.home-active #app .home-v2-bottom 
 body.home-active #app .home-v2-add-contact,#app .home-v2-add-contact{bottom:90px!important}
 body.home-active #app .bd.home-v2-body{padding-bottom:80px!important}
 </style>
+<style id="mk-light-purple">
+.lp-dlg{max-width:420px}
+.lp-dlg h3{margin:0 0 10px;font-size:20px;color:#1a1a1a}
+.lp-dlg input[type=text],.lp-dlg input:not([type]),.lp-dlg input[inputmode]{border:1.5px solid #B4B2A9;border-radius:14px;padding:12px 14px;font-size:15px;margin-bottom:8px}
+.lp-pick{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:#EEEDFE;border:1.5px solid #534AB7;border-radius:14px;padding:11px 12px;margin-bottom:10px;color:#26215C}
+.lp-pick .lp-pi{width:38px;height:38px;border-radius:50%;background:#534AB7;display:flex;align-items:center;justify-content:center;flex:none}
+.lp-pick svg{width:22px;height:22px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.lp-pick span.lp-pt{flex:1;line-height:1.25}.lp-pick b{display:block;font-size:15px}.lp-pick small{font-size:12px;color:#3C3489}
+.lp-pick em{font-style:normal;font-size:22px;color:#534AB7}
+.lp-or{display:flex;align-items:center;gap:8px;margin:0 0 8px;color:#888780;font-size:12px}
+.lp-or:before,.lp-or:after{content:"";flex:1;height:1px;background:#D3D1C7}
+.lp-g{display:flex;align-items:center;gap:10px;background:#E1F5EE;border-radius:14px;padding:10px 12px;margin:2px 0 14px;position:relative}
+.lp-g>span{flex:1;line-height:1.25}.lp-g b{display:block;font-size:14px;color:#04342C}.lp-g small{font-size:12px;color:#085041}
+.lp-g input{position:absolute;opacity:0;width:1px;height:1px}
+.lp-g i{width:44px;height:26px;border-radius:13px;background:#B4B2A9;position:relative;flex:none;transition:background .15s}
+.lp-g i:after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:left .15s}
+.lp-g input:checked+i{background:#0F6E56}.lp-g input:checked+i:after{left:21px}
+.lp-btns{display:flex;gap:10px}.lp-btns .btn{border-radius:14px;padding:13px 0;font-size:16px;font-weight:600;margin-top:0}
+.lp-hd{display:flex;align-items:center;gap:10px;min-width:0;flex:1;text-align:left;line-height:1.2}
+.lp-av{width:40px;height:40px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-style:normal;flex:none}
+.lp-hd b{display:block;font-size:18px}.lp-hd small{display:block;font-size:12px;opacity:.85;font-weight:500}
+.lp-join{display:flex;border:1.5px solid #AFA9EC;background:#EEEDFE;border-radius:14px;overflow:hidden;margin:0 0 6px}
+.lp-join>div{flex:1;padding:5px 4px;text-align:center;min-width:0}.lp-join>div+div{border-left:2px solid #EF9F27}
+.lp-join lsmall{display:block;font-size:15px;color:#3C3489;line-height:1.3;white-space:nowrap}
+.lp-join b{display:block;font-size:32px;line-height:1.1;font-weight:500}
+.lp-join.lsm small{font-size:13px}.lp-join.lcash small{font-size:13px}.lp-join.lsm b{font-size:26px}
+.lp-join.lgold{background:#FAEEDA;border-color:#FAC775}.lp-join.lgold small{color:#633806}.lp-join.lgold b{font-size:22px}
+.xg{color:#27500A}.xr{color:#A32D2D}.xa{color:#854F0B}
+.lp-net{display:flex;align-items:center;justify-content:space-between;background:#FAEEDA;border:1.5px solid #FAC775;border-radius:12px;padding:5px 12px;margin:0 0 10px}
+.lp-net span{font-size:17px;color:#633806}.lp-net b{font-size:28px;font-weight:500;line-height:1.2}
+.lp-strip{display:flex;justify-content:space-around;background:#EEEDFE;border-radius:14px;padding:8px 4px;margin:0 0 10px}
+.lp-act{text-align:center}.lp-act small{display:block;font-size:12px;color:#26215C;margin-top:2px}
+.lp-c{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto;border:0;padding:0;text-decoration:none}
+.lp-c svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.lp-c.loff{background:#B4B2A9!important;opacity:.7}
+.lp-addno{display:block;width:100%;border:1.5px dashed #534AB7;background:#fff;color:#534AB7;border-radius:12px;padding:9px;font-weight:700;margin:-4px 0 10px}
+.lp-two{display:flex;border:1.5px solid #AFA9EC;border-radius:14px;overflow:hidden;margin:0 0 6px}
+.lp-two button{flex:1;border:0;padding:11px 0;font-size:16px;font-weight:600;background:#EEEDFE;color:#3C3489}
+.lp-two button+button{border-left:2px solid #EF9F27}
+.lp-two .lts{background:#EAF3DE;color:#27500A}.lp-two .ltk{background:#FCEBEB;color:#791F1F}
+.lp-sec{margin:8px 0 2px;font-size:13px;font-weight:600;color:#3C3489}
+.lp-tr{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:.5px solid #D3D1C7}
+.lp-ic{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:19px;flex:none;background:#EEEDFE}
+.lp-ic.xg{background:#EAF3DE}.lp-ic.xr{background:#FCEBEB}.lp-ic.xa{background:#FAEEDA}
+.lp-tm{flex:1;min-width:0}.lp-tm b{display:block;font-size:16px;font-weight:500;color:#1a1a1a}.lp-tm small{display:block;font-size:12px;color:#5F5E5A}
+.lp-am{text-align:right;flex:none}.lp-am b{display:block;font-size:17px;font-weight:500}.lp-am small{display:block;font-size:12px}
+.lp-pays{border:0;background:transparent;color:#534AB7;font-size:12px;padding:2px 0 6px 52px}
+.lp-pl{margin:0 0 6px 52px;padding:4px 8px;background:#EEEDFE;border-radius:8px}.lp-pl div{display:flex;justify-content:space-between;font-size:12px;color:#3C3489;padding:3px 0}
+.lp-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:.5px solid #D3D1C7}
+.lp-row .lp-av{width:44px;height:44px;font-size:19px}
+.lp-nm{flex:1;min-width:0}.lp-nm b{display:block;font-size:17px;font-weight:500;color:#1a1a1a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.lp-nm small{font-size:13px;color:#5F5E5A}
+.lp-call{width:36px;height:36px;border-radius:50%;background:#EAF3DE;display:flex;align-items:center;justify-content:center;flex:none}
+.lp-call svg{width:19px;height:19px;fill:none;stroke:#3B6D11;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.lp-chips{display:flex;gap:8px;margin:0 0 10px;overflow-x:auto}
+.lp-chips button{border:0;border-radius:18px;padding:7px 16px;font-size:14px;background:#F1EFE8;color:#444441;white-space:nowrap;flex:none}
+.lp-chips button.lon{background:#534AB7;color:#fff;font-weight:600}
+.lp-chips .lcd{background:#FCEBEB;color:#A32D2D}.lp-chips .lcr{background:#EAF3DE;color:#27500A}
+.lp-chips button.lon.lcd,.lp-chips button.lon.lcr{background:#534AB7;color:#fff}
+.lp-find{border:1.5px solid #AFA9EC!important;border-radius:14px!important;margin:0 0 10px!important}
+.lp-join2{display:flex;background:#FAEEDA;border:1.5px solid #FAC775;border-radius:14px;overflow:hidden;margin:0 0 8px}
+.lp-join2 button{flex:1;border:0;background:transparent;padding:12px 2px;font-size:15px;font-weight:600;color:#854F0B;white-space:nowrap}
+.lp-join2 button+button{border-left:2px solid #EF9F27}
+.lp-nav{display:flex;align-items:center;justify-content:center;flex:none;padding:8px 14px calc(12px + env(safe-area-inset-bottom,0px))}
+.lp-pill{display:flex;align-items:center;width:100%;max-width:420px;background:#534AB7;border-radius:30px;padding:6px;box-shadow:0 4px 14px #26215C55}
+.lp-pill button{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:24px;padding:11px 0;font-size:16px;font-weight:600;background:transparent;color:#fff}
+.lp-pill button.lon{background:#EEEDFE;color:#3C3489}
+.lp-pill svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+</style>
 </head><body><!-- MK Bottom Bar SVG gradient definition (exactly as supplied) -->
 <svg width="0" height="0" style="position:absolute"><defs><linearGradient id="gd" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF3B0"/><stop offset=".45" stop-color="#F7C531"/><stop offset="1" stop-color="#B97C00"/></linearGradient></defs></svg><div id="app"></div>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
@@ -483,7 +551,7 @@ function ask(t,f,ok){const o=document.createElement('div');o.className='ov';if(t
 function pw(cb){if(!D.pw)return ask('নতুন পাসওয়ার্ড দাও',[{id:'a',ph:'পাসওয়ার্ড'}],v=>{if(v.a){D.pw=v.a;save();cb()}});ask('লকারের পাসওয়ার্ড',[{id:'a',ph:'পাসওয়ার্ড'}],v=>{v.a==D.pw?cb():toast('পাসওয়ার্ড ভুল')})}
 let floatPageStack=[],floatPageMin=false,floatPageMax=false,floatMenuExpanded=false;const go=(...a)=>{if(!(D.userProfile&&D.userProfile.phone)&&a[0]!=='profile'){S=[['profile']];R();return}if(floatPageStack.length){floatPageStack.push(a);renderFloatUI();return}S.push(a);R()},back=()=>{if(floatPageStack.length){if(floatPageStack.length>1)floatPageStack.pop();else closeFloatPage();renderFloatUI();return}S.length>1&&S.pop();R()},home=()=>{if(floatPageStack.length){closeFloatPage();R();return}cart=[];S=[['home']];R()};
 const bal=p=>p.t.filter(x=>!x.f).reduce((s,x)=>s+(x.k=='a'?x.m:-x.m),0),pb=k=>D.p.filter(p=>p.k==k&&!p.f).reduce((s,p)=>s+bal(p),0),sm=(t,cr)=>D.tx.filter(x=>x.t==t).reduce((s,x)=>s+(cr==null?x.m:cr?(x.cr?x.m-(x.pd||0):0):(x.cr?(x.pd||0):x.m)),0);
-const bar=()=>`<div class="bar" style="flex-direction:${D.side=='r'?'row':'row-reverse'}"><span style="width:40px"></span><button class="ci hm" onclick="home()">🏠</button><button class="bk" onclick="back()"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></button></div>`;
+const bar=()=>{const hm='<button class="lon" onclick="home()"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>হোম</button>',bk='<button onclick="back()"><svg viewBox="0 0 24 24"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>পেছনে</button>';return `<div class="lp-nav"><div class="lp-pill">${D.side=='r'?hm+bk:bk+hm}</div></div>`};
 const hdr=(t,c,x)=>`<div class="hd" style="background:${c}"><span class="hb" onclick="back()"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg></span> ${t}<span style="margin-left:auto;display:flex;align-items:center;gap:12px;white-space:nowrap">${x||''}</span></div>`;
 const CARDS=[['নগদ ক্রয়',()=>sm('e',false),['ls','e',false]],['বাকি ক্রয়',()=>sm('e',true),['ls','e',true]],['ধার/লোন',()=>pb('B'),['pl','B']],['মোট খরচ',()=>sm('e')],['নগদ আয়',()=>sm('i',false),['ls','i',false]],['বাকি আছে',()=>sm('i',true),['ls','i',true]],['ধার/বাকি',()=>pb('L'),['pl','L']],['মোট আয়',()=>sm('i')]];
 const P={
@@ -853,15 +921,43 @@ function ensureContacts(){
  D.vd=D.contacts;
  return D.contacts
 }
+function lpEd(id){editTx(id)}
+var gTok=null,gTokAt=0;
+async function gToken(){
+ if(gTok&&Date.now()-gTokAt<3000000)return gTok;
+ const u=window.firebase&&firebase.auth().currentUser;
+ if(!u)throw new Error('login');
+ const p=new firebase.auth.GoogleAuthProvider();p.addScope('https://www.googleapis.com/auth/contacts');
+ const r=await u.reauthenticateWithPopup(p);
+ gTok=r&&r.credential&&r.credential.accessToken;gTokAt=Date.now();
+ if(!gTok)throw new Error('token');return gTok}
+async function gSaveContact(p){
+ try{const t=await gToken();
+  const body={names:[{givenName:p.n}]};if(p.ph)body.phoneNumbers=[{value:p.ph}];if(p.ad)body.addresses=[{streetAddress:p.ad}];if(p.note)body.biographies=[{value:p.note}];
+  const r=await fetch('https://people.googleapis.com/v1/people:createContact',{method:'POST',headers:{'Authorization':'Bearer '+t,'Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(!r.ok){gTok=null;throw new Error('http '+r.status)}
+  toast('Gmail কন্টাক্টেও সেভ হয়েছে');return true}
+ catch(e){console.error('Gmail contact save failed',e);toast(String(e&&e.message)==='login'?'Gmail-এ সেভ করতে আগে লগইন করুন। কন্টাক্ট অ্যাপে সেভ আছে।':'Gmail-এ সেভ হয়নি। কন্টাক্ট অ্যাপে সেভ আছে।');return false}}
+function lpPicker(set){
+ if(!navigator.contacts||!navigator.contacts.select)return toast('এই ফোনে সরাসরি কন্টাক্ট বাছাই চলবে না। নাম ও নম্বর নিজে লিখুন।');
+ navigator.contacts.select(['name','tel'],{multiple:false}).then(r=>{const x=r&&r[0];if(!x)return;set((x.name||[])[0]||'',(x.tel||[])[0]||'')}).catch(e=>{if(e&&e.name!=='AbortError')toast('কন্টাক্ট বাছাই করা যায়নি')})}
 function addContact(done){
  ensureContacts();
- ask('নতুন কন্টাক্ট',[{id:'n',ph:'নাম লিখুন'},{id:'ph',ph:'মোবাইল নম্বর',n:1},{id:'ad',ph:'ঠিকানা (ঐচ্ছিক)'},{id:'note',ph:'নোট (ঐচ্ছিক)'}],v=>{
+ const o=document.createElement('div');o.className='ov';
+ o.innerHTML=`<div class="md lp-dlg"><h3>নতুন কন্টাক্ট</h3><button type="button" class="lp-pick" id="lpPick"><span class="lp-pi"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><circle cx="12" cy="10" r="2.5"/><path d="M7.5 17c.8-2 2.5-3 4.5-3s3.7 1 4.5 3"/></svg></span><span class="lp-pt"><b>ফোন থেকে বেছে নিন</b><small>নাম আর নম্বর নিজে বসে যাবে</small></span><em>›</em></button><div class="lp-or"><span>অথবা নিজে লিখুন</span></div><input id="f_n" type="text" placeholder="নাম লিখুন"><input id="f_ph" type="text" inputmode="numeric" placeholder="মোবাইল নম্বর"><input id="f_ad" type="text" placeholder="ঠিকানা (ঐচ্ছিক)"><input id="f_note" type="text" placeholder="নোট (ঐচ্ছিক)"><label class="lp-g"><span><b>আমার Gmail কন্টাক্টেও সেভ হবে</b><small>ফোনের কন্টাক্টে নিজে চলে আসবে</small></span><input type="checkbox" id="lpG" ${localStorage.mkc_gsave==='0'?'':'checked'}><i></i></label><div class="lp-btns"><button class="btn" id="fx" style="background:#B4B2A9">বাতিল</button><button class="btn" id="fo" style="background:#185FA5">ঠিক আছে</button></div></div>`;
+ $('#app').appendChild(o);xl();
+ $('#fx').onclick=()=>o.remove();
+ $('#lpPick').onclick=()=>lpPicker((n,ph)=>{$('#f_n').value=n;$('#f_ph').value=ph});
+ $('#fo').onclick=()=>{
+  const v={};['n','ph','ad','note'].forEach(k=>v[k]=$('#f_'+k).value.trim());
   if(!v.n)return toast('নাম লিখুন');
+  const g=$('#lpG').checked;localStorage.mkc_gsave=g?'1':'0';o.remove();
   const probe={n:v.n,ph:v.ph},key=contactKey(probe),old=D.contacts.find(x=>contactKey(x)===key);
   if(old){if(!old.ph&&v.ph)old.ph=v.ph;if(!old.ad&&v.ad)old.ad=v.ad;save();if(done)done(old);else{R();toast('এই কন্টাক্ট আগে থেকেই আছে')}return}
   const p={id:Date.now(),n:v.n,ph:v.ph,ad:v.ad,note:v.note||'',source:'manual'};
-  D.contacts.push(p);D.vd=D.contacts;save();if(done)done(p);else R()
- })
+  D.contacts.push(p);D.vd=D.contacts;save();
+  if(g)gSaveContact(p);
+  if(done)done(p);else R()}
 }
 async function importPhoneContacts(){
  if(!navigator.contacts||!navigator.contacts.select)return toast('এই ব্রাউজারে ফোন কন্টাক্ট ইমপোর্ট সুবিধা নেই। নতুন কন্টাক্ট যোগ করে সেভ করতে পারো।');
@@ -906,12 +1002,39 @@ function cMsgAll(on){msgSelected=on?cEligible().filter(p=>cPhone(p)&&cPhone(p)!=
 function cMsgBody(p){var due=cTx(p.id).reduce((s,x)=>s+cDue(x),0);return String(msgText||'').replace(/\{নাম\}/g,p.n||'').replace(/\{বাকি\}/g,tk(due))}
 function cMsgOpen(kind){var L=msgSelected.map(id=>ensureContacts().find(p=>p.id==id)).filter(p=>p&&cPhone(p)&&cPhone(p)!=='0');if(!L.length)return toast('ফোন নম্বরসহ কন্টাক্ট নির্বাচন করুন');var p=L[Math.min(msgIndex,L.length-1)],body=cMsgBody(p);if(kind==='sms')location.href='sms:'+String(p.ph||'')+'?body='+encodeURIComponent(body);else window.open('https://wa.me/'+cIntl(p)+'?text='+encodeURIComponent(body),'_blank');toast('মেসেজ অ্যাপ খুলেছে। নিজে Send চাপুন, তারপর ফিরে এসে পরের জন নির্বাচন করুন।')}
 function cMsgNext(){var L=msgSelected.map(id=>ensureContacts().find(p=>p.id==id)).filter(p=>p&&cPhone(p)&&cPhone(p)!=='0');if(msgIndex<L.length-1){msgIndex++;R()}else toast('নির্বাচিত সবাই শেষ।')}
-function contactRows(q){var z=(q||'').trim().toLocaleLowerCase(),L=ensureContacts().filter(p=>!z||(p.n+' '+(p.ph||'')).toLocaleLowerCase().includes(z));return L.map((p,i)=>'<div class="row" onclick="go(\'contact\','+p.id+')"><span style="display:flex;align-items:center;gap:10px;min-width:0;flex:1"><span style="width:40px;height:40px;border-radius:50%;background:'+CL[i%8]+'22;color:'+CL[i%8]+';display:flex;align-items:center;justify-content:center;font-weight:800">'+htmlEsc((p.n||'?')[0])+'</span><span style="min-width:0"><b>'+htmlEsc(p.n)+'</b><br><small>'+htmlEsc(p.ph||'নম্বর নেই')+'</small></span></span>'+cActions(p)+'<span>›</span></div>').join('')||'<p style="padding:14px;color:#777">কোনো কন্টাক্ট পাওয়া যায়নি।</p>'}
+var contactF='all';
+function cSums(p){var T=cTx(p.id);return{rec:T.filter(x=>x.t==='i').reduce((v,x)=>v+cDue(x),0),pay:T.filter(x=>x.t==='e').reduce((v,x)=>v+cDue(x),0)}}
+var LP_PH='<svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>';
+function contactRows(q){
+ var z=(q||'').trim().toLocaleLowerCase(),has=p=>cPhone(p)&&cPhone(p)!=='0';
+ var L=ensureContacts().map((p,i)=>({p:p,i:i,s:cSums(p)})).filter(o=>(!z||((o.p.n||'')+' '+(o.p.ph||'')).toLocaleLowerCase().includes(z))&&(contactF==='all'||(contactF==='pay'&&o.s.pay>0)||(contactF==='rec'&&o.s.rec>0)||(contactF==='nonum'&&!has(o.p))));
+ L.sort((x,y)=>Math.max(y.s.pay,y.s.rec)-Math.max(x.s.pay,x.s.rec));
+ return L.map(o=>{var p=o.p,net=o.s.rec-o.s.pay,c=CL[o.i%8];
+  return '<div class="lp-row" onclick="go(\'contact\','+p.id+')"><span class="lp-av" style="background:'+c+'33;color:'+c+'">'+htmlEsc((p.n||'?')[0])+'</span><span class="lp-nm"><b>'+htmlEsc(p.n)+'</b><small>'+htmlEsc(has(p)?p.ph:'নম্বর নেই')+'</small></span>'+
+  (net<0?'<span class="lp-am"><b class="xr">'+tk(-net)+'</b><small class="xr">দেবো</small></span>':net>0?'<span class="lp-am"><b class="xg">'+tk(net)+'</b><small class="xg">পাবো</small></span>':'<small style="color:#888780">বাকি নেই</small>')+
+  (has(p)?'<a class="lp-call" href="tel:'+htmlEsc(p.ph)+'" onclick="event.stopPropagation()" aria-label="কল">'+LP_PH+'</a>':'')+'</div>'}).join('')||'<p style="padding:14px;color:#777">কোনো কন্টাক্ট পাওয়া যায়নি।</p>'}
 var oldTxContactPick=txContactPick;txContactPick=function(id){oldTxContactPick(id);var p=ensureContacts().find(x=>String(x.id)===String(id)),box=$('#txContactResults');if(p&&box)box.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 9px;border-radius:8px;background:#e8f5e9;color:#1B5E20;font-size:12px;font-weight:700"><span>✓ নির্বাচিত: '+htmlEsc(p.n)+'</span>'+cActions(p)+'</div>'}
-P.contacts=function(){ensureContacts();return ['কন্টাক্ট খাতা','#185FA5','<input id="contactSearch" placeholder="🔍 নাম বা মোবাইল নম্বর লিখুন" value="'+htmlEsc(contactQ)+'" oninput="contactQ=this.value;document.getElementById(\'contactRows\').innerHTML=contactRows(contactQ)"><div style="display:flex;gap:7px;margin:8px 0"><button class="btn" style="background:#1a9e4b" onclick="addContact()">＋ নতুন কন্টাক্ট</button><button class="btn" style="background:#185FA5" onclick="importPhoneContacts()">📥 ফোন থেকে আনুন</button></div><div id="contactRows">'+contactRows(contactQ)+'</div>','<button type="button" class="contact-more-menu" onclick="cMenu()" aria-label="আরও অপশন" title="আরও অপশন">⋮</button>']}
-P.contact=function(id){var p=ensureContacts().find(x=>x.id==id);if(!p)return ['কন্টাক্ট পাওয়া যায়নি','#185FA5','<p>এই কন্টাক্টটি পাওয়া যায়নি।</p>'];var T=cTx(id),inc=T.filter(x=>x.t==='i').reduce((s,x)=>s+(+x.m||0),0),exp=T.filter(x=>x.t==='e').reduce((s,x)=>s+(+x.m||0),0),rec=T.filter(x=>x.t==='i').reduce((s,x)=>s+cDue(x),0),pay=T.filter(x=>x.t==='e').reduce((s,x)=>s+cDue(x),0),info=(cPhone(p)&&cPhone(p)!=='0'?'<small style="display:block;font-size:11px;color:#eaf3ff">'+htmlEsc(p.ph)+'</small>':'')+(p.ad?'<small style="display:block;font-size:10px;color:#eaf3ff">⌖ '+htmlEsc(p.ad)+'</small>':'');var hist=T.map(x=>{var due=cDue(x),ex=cPayExpand===x.id;return '<div style="border-bottom:1px solid #e6ebf0;padding:10px 2px"><div style="display:flex;justify-content:space-between;gap:8px" onclick="editTx('+x.id+')"><span><b>'+htmlEsc(x.s||x.c||'লেনদেন')+'</b><br><small style="color:#718096">'+dt(x.d)+' · '+htmlEsc(x.n||'')+'</small></span><span style="text-align:right"><b>'+tk(x.m)+'</b>'+(due>0?'<br><small style="color:#c62828;font-weight:800">বাকি '+tk(due)+'</small>':'')+'</span></div>'+(x.pays&&x.pays.length?'<button onclick="cPayExpand=cPayExpand=='+x.id+'?0:'+x.id+';R()" style="border:0;background:transparent;color:#778596;font-size:11px;padding:5px 0">'+bn(x.pays.length)+'টি পরিশোধ ›</button>'+(ex?'<div style="padding:4px 8px;background:#f4f6f8;border-radius:8px">'+x.pays.map(a=>'<div style="display:flex;justify-content:space-between;font-size:11px;color:#64748b;padding:3px 0"><span>'+dt(a.d)+'</span><b>'+tk(a.m)+'</b></div>').join('')+'</div>':''):'')+'</div>'}).join('');var title='<div style="flex:1;min-width:0;text-align:center;line-height:1.25"><b style="display:block;font-size:16px">'+htmlEsc(p.n)+'</b>'+info+'</div>';var body='<h4 style="margin:8px 0 3px">বাকি হিসাব</h4><div style="border:1px solid #e3e9ef;border-radius:12px;padding:2px 9px">'+(rec>0?cBalanceRow(id,'i',rec):'')+(pay>0?cBalanceRow(id,'e',pay):'')+((rec<=0&&pay<=0)?'<div style="padding:10px;color:#7b8794;font-size:12px">কোনো বাকি নেই</div>':'')+'</div><div style="display:flex;justify-content:center;gap:10px;color:#7b8794;font-size:11px;padding:10px 0">মোট আয় '+tk(inc)+' · মোট ব্যয় '+tk(exp)+'</div><h4 style="margin:8px 0 3px">লেনদেনের ইতিহাস</h4>'+(hist||'<p style="padding:14px;color:#888;text-align:center">এখনো কোনো লেনদেন নেই।</p>')+'<div style="position:sticky;bottom:-10px;display:flex;gap:8px;padding:10px 0 2px;background:var(--panel,#fff)"><button class="btn" style="background:#1a9e4b" onclick="selP='+id+';go(\'cat\',\'i\')">＋ আয়</button><button class="btn" style="background:#d93025" onclick="selP='+id+';go(\'cat\',\'e\')">＋ ব্যয়</button></div>';return [title,'#185FA5',body,cActions(p)]}
+P.contacts=function(){ensureContacts();var dueP=0,dueR=0;ensureContacts().forEach(p=>{var t=cSums(p);dueP+=t.pay;dueR+=t.rec});
+ var chip=(k,l,c)=>'<button class="'+(c||'')+(contactF===k?' lon':'')+'" onclick="contactF=\''+k+'\';R()">'+l+'</button>';
+ return ['কন্টাক্ট খাতা','#534AB7','<div class="lp-join lsm"><div><small>মোট দেবো</small><b class="xr">'+tk(dueP)+'</b></div><div><small>মোট পাবো</small><b class="xg">'+tk(dueR)+'</b></div></div><input id="contactSearch" class="lp-find" placeholder="🔍 নাম বা মোবাইল নম্বর লিখুন" value="'+htmlEsc(contactQ)+'" oninput="contactQ=this.value;document.getElementById(\'contactRows\').innerHTML=contactRows(contactQ)"><div class="lp-chips">'+chip('all','সব')+chip('pay','দেবো','lcd')+chip('rec','পাবো','lcr')+chip('nonum','নম্বর নেই')+'</div><div class="lp-join2"><button onclick="addContact()">＋ নতুন কন্টাক্ট</button><button onclick="importPhoneContacts()">📥 ফোন থেকে আনুন</button></div><div id="contactRows">'+contactRows(contactQ)+'</div>','<button type="button" class="contact-more-menu" onclick="cMenu()" aria-label="আরও অপশন" title="আরও অপশন">⋮</button>']}
+function cAddPhone(id){ask('নম্বর যোগ করুন',[{id:'ph',ph:'মোবাইল নম্বর',n:1}],v=>{if(!v.ph)return toast('নম্বর লিখুন');var q=ensureContacts().find(x=>x.id==id);if(!q)return;q.ph=v.ph;D.vd=D.contacts;save();R()})}
+function lpAct(col,svg,label,tag,attrs){return '<div class="lp-act"><'+tag+' class="lp-c'+(attrs?'':' loff')+'" style="background:'+col+'" '+(attrs||'')+'>'+svg+'</'+tag+'><small>'+label+'</small></div>'}
+P.contact=function(id){var p=ensureContacts().find(x=>x.id==id);if(!p)return ['কন্টাক্ট পাওয়া যায়নি','#534AB7','<p>এই কন্টাক্টটি পাওয়া যায়নি।</p>'];
+ var T=cTx(id),S=cSums(p),rec=S.rec,pay=S.pay,net=rec-pay,has=cPhone(p)&&cPhone(p)!=='0',ph=String(p.ph||'');
+ var sub=(has?htmlEsc(ph):'নম্বর নেই')+(p.ad?' · '+htmlEsc(p.ad):'');
+ var title='<span class="lp-hd"><i class="lp-av" style="background:#EEEDFE;color:#26215C">'+htmlEsc((p.n||'?')[0])+'</i><span><b>'+htmlEsc(p.n)+'</b><small>'+sub+'</small></span></span>';
+ var SV={ph:LP_PH,sm:'<svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg>',wa:'<svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.6-1.2A9 9 0 1 0 12 3z"/></svg>',im:'<svg viewBox="0 0 24 24"><rect x="3" y="6" width="12" height="12" rx="2"/><path d="M15 10l6-3v10l-6-3z"/></svg>'};
+ var strip='<div class="lp-strip">'+lpAct('#639922',SV.ph,'কল','a',has?'href="tel:'+htmlEsc(ph)+'"':'')+lpAct('#378ADD',SV.sm,'SMS','a',has?'href="sms:'+htmlEsc(ph)+'"':'')+lpAct('#1D9E75',SV.wa,'WhatsApp','a',has?'target="_blank" href="https://wa.me/'+cIntl(p)+'"':'')+lpAct('#D4537E',SV.im,'IMO','button',has?'onclick="cImo('+Number(p.id)+')"':'')+'</div>'+(has?'':'<button class="lp-addno" onclick="cAddPhone('+id+')">＋ নম্বর যোগ করুন</button>');
+ var hist=T.map(x=>{var due=cDue(x),ex=cPayExpand===x.id,i=x.t==='i',k=i?'xg':'xr';return '<div><div class="lp-tr" onclick="lpEd('+x.id+')"><span class="lp-ic '+k+'">'+(i?'🛒':'📦')+'</span><span class="lp-tm"><b>'+(i?'বিক্রি':'কেনা')+' · '+htmlEsc(x.s||x.c||'লেনদেন')+'</b><small>'+dt(x.d)+(x.n?' · '+htmlEsc(x.n):'')+'</small></span><span class="lp-am"><b class="'+k+'">'+tk(x.m)+'</b>'+(due>0?'<small class="'+k+'">বাকি '+tk(due)+'</small>':'')+'</span></div>'+(x.pays&&x.pays.length?'<button class="lp-pays" onclick="cPayExpand=cPayExpand=='+x.id+'?0:'+x.id+';R()">'+bn(x.pays.length)+'টি পরিশোধ ›</button>'+(ex?'<div class="lp-pl">'+x.pays.map(a=>'<div><span>'+dt(a.d)+'</span><b>'+tk(a.m)+'</b></div>').join('')+'</div>':''):'')+'</div>'}).join('');
+ var body=strip+'<div class="lp-join"><div><small>আমি পাবো</small><b class="xg">'+tk(rec)+'</b></div><div><small>আমি দেবো</small><b class="xr">'+tk(pay)+'</b></div></div><div class="lp-net"><span>'+(net<0?'নিট: আমি দেবো':net>0?'নিট: আমি পাবো':'নিট: হিসাব মিলে গেছে')+'</span><b class="'+(net<0?'xr':'xg')+'">'+tk(Math.abs(net))+'</b></div>'+
+ '<div class="lp-two"><button class="lts" onclick="selP='+id+';go(\'cat\',\'i\')">🛒 বিক্রি</button><button class="ltk" onclick="selP='+id+';go(\'cat\',\'e\')">📦 কেনা</button></div><div class="lp-two" style="margin-bottom:10px"><button onclick="cPaySheet('+id+',\'i\')">⬇ টাকা পেলাম</button><button onclick="cPaySheet('+id+',\'e\')">⬆ টাকা দিলাম</button></div><div class="lp-sec">লেনদেনের ইতিহাস</div>'+(hist||'<p style="padding:14px;color:#888;text-align:center">এখনো কোনো লেনদেন নেই।</p>');
+ return [title,'#534AB7',body,'']}
 P.contactDue=function(id,dir){var p=ensureContacts().find(x=>x.id==id);if(!p)return ['হিসাব','#185FA5','<p>কন্টাক্ট পাওয়া যায়নি।</p>'];var L=cTx(id).filter(x=>x.t===dir&&cDue(x)>0),tot=L.reduce((s,x)=>s+cDue(x),0),col=dir==='i'?'#1a9e4b':'#d85b75';return [dir==='i'?'পাবো':'দেবো',col,'<div style="background:'+col+';color:#fff;padding:12px;border-radius:12px;margin-bottom:10px"><b>'+htmlEsc(p.n)+'</b><div style="font-size:20px;font-weight:900">'+tk(tot)+'</div><small>মোট বাকি</small></div>'+L.map(x=>'<div onclick="editTx('+x.id+')" style="border-bottom:1px solid #e5eaf0;padding:11px 2px;display:flex;justify-content:space-between"><span><b>'+htmlEsc(x.s||x.c||'লেনদেন')+'</b><br><small>'+dt(x.d)+'</small></span><span><b>'+tk(x.m)+'</b><br><small style="color:#c62828">বাকি '+tk(cDue(x))+'</small></span></div>').join('')+'<button class="btn" style="position:sticky;bottom:0;margin-top:12px;background:'+col+'" onclick="cPaySheet('+id+',\''+dir+'\')">'+(dir==='i'?'টাকা পেলাম':'বাকি পরিশোধ')+'</button>','']}
-P.cashbox=function(){const L=(D.tx||[]).filter(x=>!x.sp).sort((a,b)=>b.d-a.d),q=(cashQ||'').toLocaleLowerCase(),A=L.filter(x=>!q||((x.c||'')+' '+(x.s||'')+' '+(x.n||'')).toLocaleLowerCase().includes(q));return ['ক্যাশবক্স','#0f8a9d',`<input placeholder="🔍 খরচ বা আয়ের নাম খুঁজুন" value="${htmlEsc(cashQ)}" oninput="cashQ=this.value;R()"><div class="g3"><div class="k" style="background:#1a9e4b">নগদ আয়<b>${tk(L.filter(x=>x.t==='i').reduce((a,x)=>a+x.m,0))}</b></div><div class="k" style="background:#d93025">নগদ ব্যয়<b>${tk(L.filter(x=>x.t==='e').reduce((a,x)=>a+x.m,0))}</b></div><div class="k" style="background:#546e7a">লেনদেন<b>${bn(L.length)}</b></div></div><p style="margin:8px 0;color:#667">ব্যক্তি নির্বাচন না করা আয়-ব্যয়ের হিসাব এখানে দেখা যাবে।</p>${A.map(hrow).join('')||'<p>কোনো হিসাব নেই।</p>'}`]}
+P.cashbox=function(){const L=(D.tx||[]).filter(x=>!x.sp).sort((a,b)=>b.d-a.d),q=(cashQ||'').toLocaleLowerCase(),A=L.filter(x=>!q||((x.c||'')+' '+(x.s||'')+' '+(x.n||'')).toLocaleLowerCase().includes(q)),
+ cash=x=>x.cr?(+x.pd||0):(+x.m||0),inn=L.filter(x=>x.t==='i').reduce((v,x)=>v+cash(x),0),out=L.filter(x=>x.t==='e').reduce((v,x)=>v+cash(x),0),
+ dueE=L.filter(x=>x.t==='e').reduce((v,x)=>v+cDue(x),0),dueI=L.filter(x=>x.t==='i').reduce((v,x)=>v+cDue(x),0),have=inn-out,after=have-dueE,
+ row=x=>{const i=x.t==='i',d=cDue(x);return `<div class="lp-tr" onclick="lpEd(${x.id})"><span class="lp-ic ${i?'xg':'xr'}">${i?'⬇':'⬆'}</span><span class="lp-tm"><b>${htmlEsc(x.s||x.c||'লেনদেন')}${x.cr?' <span class="xr" style="font-size:13px">বাকি</span>':''}</b><small>${dt(x.d)}${x.n?' · '+htmlEsc(x.n):''}</small></span><span class="lp-am"><b class="${i?'xg':'xr'}">${i?'+':'−'}${tk(x.m)}</b>${d>0?`<small class="${i?'xg':'xr'}">বাকি ${tk(d)}</small>`:''}</span></div>`};
+ return ['ক্যাশবক্স','#534AB7',`<div class="lp-join lcash"><div><small>হাতে নগদ আছে</small><b style="color:#26215C">${tk(have)}</b></div><div><small>বাকি দিলে হাতে থাকবে</small><b class="${after<0?'xr':'xg'}">${tk(after)}</b></div></div><div class="lp-join lgold"><div><small>আয়</small><b class="xg">${tk(inn)}</b></div><div><small>ব্যয়</small><b class="xr">${tk(out)}</b></div><div><small>বাকি</small><b class="xa">${tk(dueE+dueI)}</b></div></div><input class="lp-find" placeholder="🔍 খরচ বা আয়ের নাম খুঁজুন" value="${htmlEsc(cashQ)}" oninput="cashQ=this.value;R()"><div style="margin-top:6px">${A.map(row).join('')||'<p>কোনো হিসাব নেই।</p>'}</div>`]}
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');
 R();installHomePullRefresh();initFb();
 </script>
