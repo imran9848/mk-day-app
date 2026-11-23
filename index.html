@@ -171,6 +171,10 @@ input,select{width:100%;padding:9px;border:1px solid #aaa;border-radius:8px;font
 
 /* Keep the Bengali language's own name independent of the active UI translation. */
 .language-name-bn::before{content:"বাংলা";display:inline}
+
+/* Global removal of option-name underlines */
+#app *{text-decoration:none!important}
+#app .mc-label,#app .compact-name,#app .compact-item .compact-name,#app .debt-title,#app .lp-nm b{border-bottom:0!important}
 </style><style>
 /* Approved Home Screen reference redesign — isolated to Home */
 body.home-active #app{background:#e7eef8}
