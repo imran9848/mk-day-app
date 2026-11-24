@@ -1354,6 +1354,14 @@ body.home-active #app #float-ball{z-index:1210!important}
 body.home-active #app #float-ball:active{filter:brightness(.88)}
 </style>
 </body>
+
+<style id="mk-home-social-quickball-refresh-overlap-v1">
+/* After refresh, keep Community/Social and Quick Access above the movable Quick Ball so it cannot hide either shortcut. */
+body.home-active #app .float-home-shortcuts{z-index:1220!important}
+body.home-active #app .float-home-shortcuts .float-community-ball,
+body.home-active #app .float-home-shortcuts .float-home-quick-access{position:relative!important;z-index:1221!important}
+body.home-active #app #float-ball{z-index:1210!important}
+</style>
 </html>
 
 <style id="home-refresh-footer-layout-v3">
