@@ -29,6 +29,10 @@ jobs:
           assert len(scripts)>0
           PY
           for f in /tmp/inline-scripts/*.js; do node --check "$f"; done
+      - name: Check service worker and manifest
+        run: |
+          node --check sw.js
+          python3 -m json.tool manifest.json >/dev/null
       - name: Check HTML tag counts
         run: |
           python3 - <<'PY'
@@ -73,6 +77,8 @@ jobs:
             const missing=[];
             for(const selector of ['.home-notification-button','.float-community-ball','.float-home-quick-access','#float-ball']) if(await page.locator(selector).count()===0)missing.push(selector);
             if(missing.length)throw new Error('Home controls missing: '+missing.join(','));
+            const communityStyle=await page.locator('.float-community-ball').evaluate(el=>getComputedStyle(el).backgroundImage);
+            console.log('Community background:',communityStyle);
             if(errors.length)throw new Error('Page errors: '+errors.join(' | '));
             console.log('PASS: app nonblank, Home rendered, all approved shortcuts present');
             await browser.close();
