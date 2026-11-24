@@ -657,7 +657,7 @@ return['','#185FA5',`<div class="hd profile-home-head home-v2-head">
 </div>
 <section class="home-v2-contacts">
 <div class="home-v2-contact-title"><b>কন্টাক্ট ও সরাসরি লেনদেন</b><button onclick="go('contacts')">সব দেখুন</button></div>
-<div class="home-v2-search-row"><div class="home-v2-search"><span>⌕</span><input id="homeContactSearch" placeholder="নাম বা মোবাইল নম্বর লিখুন" value="${htmlEsc(homeQ||'')}" onfocus="homeContactFocus()" oninput="homeQ=this.value;const e=document.getElementById('homeContactRows');if(e)e.innerHTML=homeContactRows(homeQ)"></div><button type="button" class="home-v2-contact-add" onclick="addContact()" aria-label="নতুন কন্টাক্ট যোগ করুন" title="নতুন কন্টাক্ট"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20v-1.5A4.5 4.5 0/A7 14h4a4.5 4.5 0 0/a4.5 4.5V20M17 8h5M19.5 5.5v5"></path></svg></button></div>
+<div class="home-v2-search-row"><div class="home-v2-search"><span>⌕</span><input id="homeContactSearch" placeholder="নাম বা মোবাইল নম্বর লিখুন" value="${htmlEsc(homeQ||'')}" onfocus="homeContactFocus()" oninput="homeQ=this.value;const e=document.getElementById('homeContactRows');if(e)e.innerHTML=homeContactRows(homeQ)"></div><button type="button" class="home-v2-contact-add" onclick="addContact()" aria-label="নতুন কন্টাক্ট যোগ করুন" title="নতুন কন্টাক্ট"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20v-1.5A4.5 4.5 0 0 1 7 14h4a4.5 4.5 0 0 1 4.5 4.5V20M17 8h5M19.5 5.5v5"></path></svg></button></div>
 <div class="home-v2-contact-caption">${homeQ?'সার্চের ফলাফল':'সর্বশেষ লেনদেনের কন্টাক্ট'}</div>
 <div id="homeContactRows" class="home-v2-contact-rows">${homeContactRows(homeQ||'')}</div>
 </section>
