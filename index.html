@@ -1637,3 +1637,31 @@ body.home-active #app .float-panel input[type=range]{touch-action:pan-x!importan
 body.home-active #app .float-swatches button{min-width:32px!important;min-height:32px!important}
 </style><style id="mk-home-shortcuts-outside-float-root-v2">body.home-active #app .float-home-shortcuts{position:absolute!important;right:17px!important;bottom:93px!important;z-index:12220!important;display:flex!important;flex-direction:column!important;align-items:center!important;gap:8px!important;pointer-events:none!important}body.home-active #app .float-home-shortcuts .float-community-ball,body.home-active #app .float-home-shortcuts .float-home-quick-access{position:relative!important;z-index:12221!important;pointer-events:auto!important}</style>
 <style id="mk-float-settings-shortcuts-fix-v4">#app .float-home-shortcuts{display:none!important;visibility:hidden!important}body.home-active #app .float-home-shortcuts{display:flex!important;visibility:visible!important;z-index:1201!important}body.home-active #app .float-panel{z-index:15000!important;pointer-events:auto!important}body.home-active #app .float-panel .float-swatches button,body.home-active #app .float-panel input[type=range]{pointer-events:auto!important;touch-action:manipulation!important;position:relative!important;z-index:15001!important}body.home-active #app .float-panel input[type=range]{touch-action:pan-x!important}</style>
+
+<style id="mk-final-quickball-notification-fix-v1">
+/* Quick Ball settings: override older forced-purple/opaque rules */
+body.home-active #app #float-ball.float-ball{
+ background:var(--float-bg,#185FA5)!important;
+ border-color:var(--float-ring,#185FA5)!important;
+ opacity:var(--float-opacity,1)!important;
+}
+/* Home-only shortcuts: anchor to viewport so refresh/scroll cannot move them */
+#app .float-home-shortcuts{display:none!important;visibility:hidden!important}
+body.home-active #app .float-home-shortcuts{
+ position:fixed!important;right:17px!important;bottom:93px!important;
+ display:flex!important;visibility:visible!important;z-index:12220!important;
+ flex-direction:column!important;align-items:center!important;gap:8px!important;
+ pointer-events:none!important;
+}
+body.home-active #app .float-home-shortcuts .float-community-ball,
+body.home-active #app .float-home-shortcuts .float-home-quick-access{
+ position:relative!important;z-index:12221!important;pointer-events:auto!important;
+}
+/* Notification stays normal by default; red alert is only for unread state */
+body.home-active #app .home-notification-button::after{display:none!important;content:none!important}
+body.home-active #app .home-notification-button.unread::after{
+ display:block!important;content:""!important;position:absolute!important;right:1px!important;top:1px!important;
+ width:8px!important;height:8px!important;border-radius:50%!important;background:#ff2638!important;
+ box-shadow:0 0 4px #ff2638,0 0 9px #ff2638!important;animation:mk-notify-pulse 1.15s ease-in-out infinite!important;
+}
+</style>
