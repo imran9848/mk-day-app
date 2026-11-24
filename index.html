@@ -1341,6 +1341,18 @@ body.home-active #app #homeContactRows.home-v2-contact-rows [role=button]{touch-
 #app .mk-three-dot-menu:active{transform:scale(.96)}
 #app.dk .mk-three-dot-menu{background:#111;border-color:#fff}
 </style>
+
+<style id="mk-home-float-button-tuning-v1">
+body.home-active #app .home-v2-head .home-notification-button{position:relative!important;width:36px!important;height:36px!important;min-width:36px!important;min-height:36px!important;flex-basis:36px!important}
+body.home-active #app .home-v2-head .home-notification-button::after{content:"";position:absolute;right:1px;top:1px;width:8px;height:8px;border-radius:50%;background:#ff2638;box-shadow:0 0 4px #ff2638,0 0 9px #ff2638;animation:mk-notify-pulse 1.15s ease-in-out infinite}
+@keyframes mk-notify-pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.48;transform:scale(.84)}}
+body.home-active #app .float-home-shortcuts .float-community-ball,body.home-active #app .float-home-shortcuts .float-home-quick-access{width:44px!important;height:44px!important}
+body.home-active #app .float-home-shortcuts .float-community-ball svg,body.home-active #app .float-home-shortcuts .float-home-quick-access svg{width:23px!important;height:23px!important}
+body.home-active #app .home-v2-contact-add{width:44px!important;height:44px!important;min-width:44px!important;flex-basis:44px!important}
+body.home-active #app .home-v2-contact-add svg{width:24px!important;height:24px!important}
+body.home-active #app #float-ball{z-index:1210!important;opacity:.62!important;filter:saturate(.78)}
+body.home-active #app #float-ball:active{opacity:1!important;filter:saturate(1.15) brightness(.78)}
+</style>
 </body>
 </html>
 
