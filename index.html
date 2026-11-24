@@ -1628,3 +1628,11 @@ body.home-active #app .bd.home-v2-body{padding-bottom:80px!important}
 #app.dk .bd[class*="mk-theme-"] .row,#app.dk .bd[class*="mk-theme-"] .compact-item{color:#edf3fb;border-color:color-mix(in srgb,var(--mk-line) 45%,#334353)}
 #app.dk .bd[class*="mk-theme-"] .add{color:#edf3fb}
 </style>
+
+<style id="mk-ball-settings-touch-fix-v1">
+/* Fix touch interception: bring the Ball settings panel and its controls above floating shortcuts. */
+body.home-active #app .float-panel{position:fixed!important;z-index:15000!important;pointer-events:auto!important;isolation:isolate!important}
+body.home-active #app .float-panel button,body.home-active #app .float-panel input{pointer-events:auto!important;position:relative!important;z-index:15001!important;touch-action:manipulation!important}
+body.home-active #app .float-panel input[type=range]{touch-action:pan-x!important;min-height:28px!important}
+body.home-active #app .float-swatches button{min-width:32px!important;min-height:32px!important}
+</style>
