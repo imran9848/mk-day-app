@@ -1,0 +1,31 @@
+name: Temporary blank-screen audit
+on:
+  push:
+    branches:
+      - fix-blank-screen-full-audit-2026-11-24
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check inline JavaScript syntax
+        run: |
+          python3 - <<'PY'
+          import re, pathlib
+          html=pathlib.Path('index.html').read_text()
+          scripts=re.findall(r'<script\\b[^>]*>([\\s\\S]*?)</script>',html,re.I)
+          pathlib.Path('/tmp/inline-scripts').mkdir(exist_ok=True)
+          for i,s in enumerate(scripts):
+              pathlib.Path(f'/tmp/inline-scripts/script-{i}.js').write_text(s)
+          print(f'Extracted {len(scripts)} inline scripts')
+          PY
+          for f in /tmp/inline-scripts/*.js; do node --check "$f"; done
+      - name: Check HTML structural counts
+        run: |
+          python3 - <<'PY'
+          import re,pathlib
+          h=pathlib.Path('index.html').read_text()
+          checks={'html open':len(re.findall(r'<html\\b',h,re.I)),'html close':len(re.findall(r'</html>',h,re.I)),'body open':len(re.findall(r'<body\\b',h,re.I)),'body close':len(re.findall(r'</body>',h,re.I))}
+          print(checks)
+          assert checks['html open']==1 and checks['html close']==1 and checks['body open']==1 and checks['body close']==1
+          PY
