@@ -1352,6 +1352,11 @@ body.home-active #app .home-v2-contact-add svg{width:24px!important;height:24px!
 body.home-active #app #float-ball{z-index:1210!important}
 body.home-active #app #float-ball:active{filter:brightness(.88)}
 </style>
+<style id="mk-quickball-transaction-sheet-guard-v1">
+/* Keep transaction sheet clear of floating shortcut/menu overlays. */
+#app:has(#txn-sheet) #float-ui-root,
+#app:has(#txn-sheet) .float-home-shortcuts{display:none!important;visibility:hidden!important;pointer-events:none!important}
+</style>
 </body>
 
 <style id="mk-home-social-quickball-refresh-overlap-v1">
