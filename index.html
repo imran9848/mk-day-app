@@ -657,7 +657,7 @@ return['','#185FA5',`<div class="hd profile-home-head home-v2-head">
 </div>
 <section class="home-v2-contacts">
 <div class="home-v2-contact-title"><b>কন্টাক্ট ও সরাসরি লেনদেন</b><button onclick="go('contacts')">সব দেখুন</button></div>
-<div class="home-v2-search"><span>⌕</span><input id="homeContactSearch" placeholder="নাম বা মোবাইল নম্বর লিখুন" value="${htmlEsc(homeQ||'')}" onfocus="homeContactFocus()" oninput="homeQ=this.value;const e=document.getElementById('homeContactRows');if(e)e.innerHTML=homeContactRows(homeQ)"><button type="button" class="home-v2-contact-add" onclick="addContact()" aria-label="নতুন কন্টাক্ট যোগ করুন" title="নতুন কন্টাক্ট যোগ করুন"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20v-1.5A4.5 4.5 0 0 1 7 14h4a4.5 4.5 0 0 1 4.5 4.5V20M17 8h5M19.5 5.5v5"></path></svg></button></div>
+<div class="home-v2-search-row"><div class="home-v2-search"><span>⌕</span><input id="homeContactSearch" placeholder="নাম বা মোবাইল নম্বর লিখুন" value="${htmlEsc(homeQ||'')}" onfocus="homeContactFocus()" oninput="homeQ=this.value;const e=document.getElementById('homeContactRows');if(e)e.innerHTML=homeContactRows(homeQ)"></div><button type="button" class="home-v2-contact-add" onclick="addContact()" aria-label="নতুন কন্টাক্ট যোগ করুন" title="নতুন কন্টাক্ট"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20v-1.5A4.5 4.5 0/A7 14h4a4.5 4.5 0 0/a4.5 4.5V20M17 8h5M19.5 5.5v5"></path></svg></button></div>
 <div class="home-v2-contact-caption">${homeQ?'সার্চের ফলাফল':'সর্বশেষ লেনদেনের কন্টাক্ট'}</div>
 <div id="homeContactRows" class="home-v2-contact-rows">${homeContactRows(homeQ||'')}</div>
 </section>
@@ -1698,3 +1698,5 @@ body.home-active #app .home-v2-contact-add{
 body.home-active #app .home-v2-contact-add svg{width:22px!important;height:22px!important;stroke:currentColor!important;fill:none!important}
 body.home-active #app.dk .home-v2-contact-add{border-color:#d8ad3d!important;background:linear-gradient(145deg,#2875bb,#6230aa)!important;color:#fff!important}
 </style>
+
+<style id="home-search-add-contact-layout-correction-v1">body.home-active #app .home-v2-search-row{display:flex!important;align-items:center!important;gap:7px!important;width:100%!important;min-width:0!important}body.home-active #app .home-v2-search-row .home-v2-search{flex:1 1 auto!important;width:auto!important;min-width:0!important}body.home-active #app .home-v2-search-row .home-v2-contact-add{width:42px!important;height:42px!important;min-width:42px!important;flex:0 0 42px!important;margin:0!important;border-radius:11px!important;border:2px solid #d8ad3d!important;background:linear-gradient(145deg,#2875bb,#6230aa)!important;outline:0!important;box-shadow:inset 0 0 0 1px #ffffff44,0 2px 5px #0002!important}body.home-active #app .home-v2-search-row .home-v2-contact-add svg{width:25px!important;height:25px!important;stroke:currentColor!important}</style>
