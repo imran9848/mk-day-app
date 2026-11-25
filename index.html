@@ -767,7 +767,24 @@ function closeTxnSheet(){
 function startTx(t){txContactId='';txKind='';cart=[];selP=0;fmv=null;closeTxnSheet();go('fm',t,-1,-1)}
 function newTx(t){const dirty=(+($('#am')?.value||0)>0)||!!($('#nt')?.value)||!!($('#txContactSearch')?.value)||!!($('#cr')?.checked);if(dirty&&!confirm('বর্তমান তথ্য মুছে নতুন লেনদেন শুরু করবেন?'))return;fmv=null;txContactId='';txKind='সাধারণ';cart=[];selP=0;const C=t==='e'?D.ec:D.ic,cat=$('#txCategory')?.value||Object.keys(C)[0],ci=Math.max(0,Object.keys(C).indexOf(cat));if(typeof floatPageStack!=='undefined'&&floatPageStack.length){floatPageStack[floatPageStack.length-1]=['fm',t,ci,-1];renderFloatUI();return}S[S.length-1]=['fm',t,ci,-1];R()}
 function txContactOptions(q=''){const z=(q||'').trim().toLocaleLowerCase(),L=(D.contacts||[]).filter(p=>!z||((p.n||'')+' '+(p.ph||'')).toLocaleLowerCase().includes(z));return '<option value="">সাধারণ / কন্টাক্ট নির্বাচন নয়</option>'+L.map(p=>'<option value="'+p.id+'" '+(String(txContactId)===String(p.id)?'selected':'')+'>'+htmlEsc(p.n)+' · '+htmlEsc(p.ph||'নম্বর নেই')+'</option>').join('')}
-function txContactFilter(q){const e=$('#txContact'),box=$('#txContactResults'),z=(q||'').trim().toLocaleLowerCase(),selected=(D.contacts||[]).find(x=>String(x.id)===String(txContactId));if(selected&&z&&!((selected.n||'')+' '+(selected.ph||'')).toLocaleLowerCase().includes(z))txContactId='';if(e){e.innerHTML=txContactOptions(q);if(txContactId)e.value=String(txContactId)}if(!box)return;const last={};(D.tx||[]).forEach(x=>{const id=x.contactId!=null?x.contactId:x.sp;if(id!=null)last[id]=Math.max(last[id]||0,+x.d||0)});const L=(D.contacts||[]).filter(p=>!z||((p.n||'')+' '+(p.ph||'')).toLocaleLowerCase().includes(z)).sort((a,b)=>(last[b.id]||0)-(last[a.id]||0)).slice(0,z?30:6);box.style.cssText='max-height:148px;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch';box.innerHTML=L.map(p=>'<button type="button" onclick="txContactPick('+Number(p.id||0)+')" style="display:flex;justify-content:space-between;align-items:center;width:100%;padding:8px 10px;border:0;border-bottom:1px solid #e2e8f0;background:var(--panel,#fff);color:var(--text,#243447);text-align:left"><b>'+htmlEsc(p.n)+'</b><small>'+htmlEsc(p.ph||'নম্বর নেই')+'</small></button>').join('')||'<div style="padding:8px;color:#64748b;font-size:12px">কোনো কন্টাক্ট পাওয়া যায়নি</div>'}
+function txContactHide(){
+ var b=document.getElementById('txContactResults');
+ if(b){b.innerHTML='';b.style.display='none';}
+}
+function txContactFilter(q){
+ const e=$('#txContact'),box=$('#txContactResults'),z=(q||'').trim().toLocaleLowerCase(),
+ selected=(D.contacts||[]).find(x=>String(x.id)===String(txContactId));
+ if(selected&&z&&!((selected.n||'')+' '+(selected.ph||'')).toLocaleLowerCase().includes(z))txContactId='';
+ if(e){e.innerHTML=txContactOptions(q);if(txContactId)e.value=String(txContactId);}
+ if(!box)return;
+ const last={};
+ (D.tx||[]).forEach(x=>{const id=x.contactId!=null?x.contactId:x.sp;if(id!=null)last[id]=Math.max(last[id]||0,+x.d||0);});
+ const L=(D.contacts||[]).filter(p=>!z||((p.n||'')+' '+(p.ph||'')).toLocaleLowerCase().includes(z))
+ .sort((a,b)=>(last[b.id]||0)-(last[a.id]||0)).slice(0,z?30:6);
+ box.style.cssText='display:block;max-height:176px;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;border:1.5px solid #534AB7;border-radius:14px;background:var(--panel,#fff);margin:0 0 8px;box-shadow:0 4px 14px #0002';
+ box.innerHTML=L.map(p=>'<button type="button" onclick="txContactPick('+Number(p.id||0)+')" style="display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;padding:10px 12px;border:0;border-bottom:1px solid #e2e8f0;background:var(--panel,#fff);color:var(--text,#243447);text-align:start"><b>'+htmlEsc(p.n)+'</b><small>'+htmlEsc(p.ph||'নম্বর নেই')+'</small></button>').join('')||'<div style="padding:10px 12px;color:#64748b;font-size:12px">কোনো কন্টাক্ট পাওয়া যায়নি</div>';
+ if(typeof xl==='function')xl();
+}
 function txContactPick(id){const p=(D.contacts||[]).find(x=>String(x.id)===String(id));if(!p)return;txContactId=String(p.id);if($('#txContactSearch'))$('#txContactSearch').value=p.n||'';const e=$('#txContact');if(e){e.innerHTML=txContactOptions(p.n||'');e.value=String(p.id)}const box=$('#txContactResults');if(box)box.innerHTML='<div style="padding:7px 9px;border-radius:8px;background:#e8f5e9;color:#1B5E20;font-size:12px;font-weight:700">✓ নির্বাচিত: '+htmlEsc(p.n)+' · '+htmlEsc(p.ph||'নম্বর নেই')+'</div>'}
 function addTxContact(){addContact(p=>{if(!p)return;ensureContacts();const found=(D.contacts||[]).find(x=>String(x.id)===String(p.id))||p;txContactPick(found.id)})}
 function txContactChanged(v){txContactPick(v)}
@@ -1366,6 +1383,72 @@ if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');
   }
  });
 })();
+
+/* ===== MK Day: transaction contact search dismiss + translated attributes ===== */
+(function(){
+ if(document.getElementById('tx-contact-style'))return;
+ var s=document.createElement('style');s.id='tx-contact-style';
+ s.textContent='#txContactResults button:last-child{border-bottom:0 !important}';
+ (document.head||document.documentElement).appendChild(s);
+})();
+if(!window._txOutside){
+ window._txOutside=1;
+ document.addEventListener('pointerdown',function(e){
+  var t=e.target;
+  if(t&&t.closest&&(t.closest('#txContactResults')||t.closest('#txContactSearch')))return;
+  txContactHide();
+ },true);
+ document.addEventListener('click',function(e){
+  var t=e.target;
+  if(t&&t.closest&&t.closest('#txContactResults button'))setTimeout(txContactHide,60);
+ });
+ window.addEventListener('popstate',txContactHide);
+ window.addEventListener('hashchange',txContactHide);
+}
+var MK_ATTR_TR={
+ "নাম বা মোবাইল নম্বর লিখুন":{bn:"নাম বা মোবাইল নম্বর লিখুন",en:"Type name or mobile number",hi:"नाम या मोबाइल नंबर लिखें",ur:"نام یا موبائل نمبر لکھیں",si:"නම හෝ ජංගම දුරකථන අංකය ටයිප් කරන්න",ne:"नाम वा मोबाइल नम्बर लेख्नुहोस्",ar:"اكتب الاسم أو رقم الجوال"},
+ "নতুন কন্টাক্ট":{bn:"নতুন কন্টাক্ট",en:"New contact",hi:"नया संपर्क",ur:"نیا رابطہ",si:"නව සම්බන්ධතාව",ne:"नयाँ सम्पर्क",ar:"جهة اتصال جديدة"}
+};
+function mkCurLang(){
+ if(window.MK_LANG)return window.MK_LANG;
+ var l='';try{l=document.documentElement.lang||''}catch(e){}
+ if(!l){var keys=['lang','language','mk_lang','appLang','mkc_lang','app_lang'];for(var i=0;i<keys.length&&!l;i++){try{l=localStorage.getItem(keys[i])||''}catch(e){}}}
+ l=(l||'bn').slice(0,2).toLowerCase();
+ return MK_ATTR_TR["নাম বা মোবাইল নম্বর লিখুন"][l]?l:'bn';
+}
+function mkFixAttrs(){
+ var lang=mkCurLang(),attrs=['placeholder','title','aria-label'];
+ var els=document.querySelectorAll('input,textarea,button,[title],[aria-label]');
+ for(var i=0;i<els.length;i++)for(var a=0;a<attrs.length;a++){
+  var v=els[i].getAttribute(attrs[a]);if(!v)continue;
+  for(var k in MK_ATTR_TR){var m=MK_ATTR_TR[k],hit=false;for(var c in m){if(m[c]===v){hit=true;break;}}
+   if(hit&&m[lang]&&m[lang]!==v)els[i].setAttribute(attrs[a],m[lang]);
+  }
+ }
+}
+(function(){
+ if(window._mkAttrObs)return;window._mkAttrObs=1;
+ var busy=false,run=function(){if(busy)return;busy=true;requestAnimationFrame(function(){busy=false;mkFixAttrs();});};
+ var start=function(){
+  new MutationObserver(run).observe(document.body,{childList:true,subtree:true});
+  if(typeof window.setLang==='function'&&!window.setLang._mk){
+   var o=window.setLang;window.setLang=function(c){window.MK_LANG=c;var r=o.apply(this,arguments);setTimeout(mkFixAttrs,0);return r;};
+   window.setLang._mk=1;
+  }
+  mkFixAttrs();
+ };
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
+})();
+var TXN_SEARCH_TR={
+ en:{"কোনো কন্টাক্ট পাওয়া যায়নি":"No contact found"},
+ hi:{"কোনো কন্টাক্ট পাওয়া যায়নি":"कोई संपर्क नहीं मिला"},
+ ur:{"কোনো কন্টাক্ট পাওয়া যায়নি":"کوئی رابطہ نہیں ملا"},
+ si:{"কোনো কন্টাক্ট পাওয়া যায়নি":"සම්බන්ධතා හමු නොවීය"},
+ ne:{"কোনো কন্টাক্ট পাওয়া যায়নি":"कुनै सम्पर्क फेला परेन"},
+ ar:{"কোনো কন্টাক্ট পাওয়া যায়নি":"لم يتم العثور على جهة اتصال"}
+};
+if(typeof COMMON_MORE7!=='undefined')for(var tl in TXN_SEARCH_TR)COMMON_MORE7[tl]=Object.assign(COMMON_MORE7[tl]||{},TXN_SEARCH_TR[tl]);
+
 R();installHomePullRefresh();initFb();
 </script>
 <style id="profile-name-gold-black-refinement">
