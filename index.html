@@ -785,7 +785,27 @@ function txContactFilter(q){
  box.innerHTML=L.map(p=>'<button type="button" onclick="txContactPick('+Number(p.id||0)+')" style="display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;padding:10px 12px;border:0;border-bottom:1px solid #e2e8f0;background:var(--panel,#fff);color:var(--text,#243447);text-align:start"><b>'+htmlEsc(p.n)+'</b><small>'+htmlEsc(p.ph||'নম্বর নেই')+'</small></button>').join('')||'<div style="padding:10px 12px;color:#64748b;font-size:12px">কোনো কন্টাক্ট পাওয়া যায়নি</div>';
  if(typeof xl==='function')xl();
 }
-function txContactPick(id){const p=(D.contacts||[]).find(x=>String(x.id)===String(id));if(!p)return;txContactId=String(p.id);if($('#txContactSearch'))$('#txContactSearch').value=p.n||'';const e=$('#txContact');if(e){e.innerHTML=txContactOptions(p.n||'');e.value=String(p.id)}const box=$('#txContactResults');if(box)box.innerHTML='<div style="padding:7px 9px;border-radius:8px;background:#e8f5e9;color:#1B5E20;font-size:12px;font-weight:700">✓ নির্বাচিত: '+htmlEsc(p.n)+' · '+htmlEsc(p.ph||'নম্বর নেই')+'</div>'}
+function txContactPick(id){
+ const p=(D.contacts||[]).find(x=>String(x.id)===String(id));
+ if(!p)return;
+ txContactId=String(p.id);
+ const search=$('#txContactSearch');
+ if(search)search.value=p.n||'';
+ const e=$('#txContact');
+ if(e){e.innerHTML=txContactOptions(p.n||'');e.value=String(p.id)}
+ const box=$('#txContactResults');
+ if(box){box.innerHTML='';box.style.display='none'}
+ let selected=$('#txContactSelected');
+ if(!selected){
+  selected=document.createElement('div');
+  selected.id='txContactSelected';
+  if(e&&e.parentNode)e.parentNode.insertBefore(selected,e.nextSibling);
+  else if(box&&box.parentNode)box.parentNode.insertBefore(selected,box.nextSibling);
+ }
+ selected.style.cssText='padding:7px 9px;border-radius:8px;background:#e8f5e9;color:#1B5E20;font-size:12px;font-weight:700;margin-bottom:8px';
+ selected.innerHTML='✓ নির্বাচিত: '+htmlEsc(p.n)+' · '+htmlEsc(p.ph||'নম্বর নেই');
+ if(typeof xl==='function')xl();
+}
 function addTxContact(){addContact(p=>{if(!p)return;ensureContacts();const found=(D.contacts||[]).find(x=>String(x.id)===String(p.id))||p;txContactPick(found.id)})}
 function txContactChanged(v){txContactPick(v)}
 function login(){if(!db)return toast('লগইন চালু হয়নি');const p=new firebase.auth.GoogleAuthProvider();p.setCustomParameters({prompt:'select_account'});firebase.auth().signInWithPopup(p).catch(e=>{pendingProfileSave=null;toast('লগইন হয়নি')})}
@@ -860,7 +880,7 @@ sub(t,ci){const C=t=='e'?D.ec:D.ic,k=Object.keys(C)[ci],hidden=t=='i'?((D.income
  <div class="tn-card" id="bizDetailCard" style="display:none"><div class="tn-ic">🔎</div><div class="tn-bd"><label>ব্যবসার বিস্তারিত</label><select id="bizDetail"></select></div></div>
  <div class="tn-card" id="txMarketPicker" style="display:${E&&k==='বাজার'?'flex':'none'}"><button type="button" class="tn-market-card" onclick="go('pick')">🛍️<br>বাজারের তালিকা থেকে বাছুন</button></div>
 </div>
-<div class="tx-contact contact-search-row"><input id="txContactSearch" placeholder="নাম বা মোবাইল নম্বর লিখুন" onfocus="txContactFilter(this.value)" oninput="txContactFilter(this.value)"><button type="button" class="contact-search-add tx-add" aria-label="নতুন কন্টাক্ট" title="নতুন কন্টাক্ট" onclick="addTxContact()"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20v-1.5A4.5 4.5 0 0 1 7 14h4a4.5 4.5 0 0 1 4.5 4.5V20M17 8h5M19.5 5.5v5"></path></svg></button></div>
+<div class="tx-contact contact-search-row"><input id="txContactSearch" placeholder="নাম বা মোবাইল নম্বর লিখুন" onfocus="txContactFilter(this.value)" onclick="txContactFilter(this.value)" oninput="txContactFilter(this.value)"><button type="button" class="contact-search-add tx-add" aria-label="নতুন কন্টাক্ট" title="নতুন কন্টাক্ট" onclick="addTxContact()"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20v-1.5A4.5 4.5 0 0 1 7 14h4a4.5 4.5 0 0 1 4.5 4.5V20M17 8h5M19.5 5.5v5"></path></svg></button></div>
 <div id="txContactResults" style="border:0;border-radius:9px;overflow:hidden;margin:0 0 8px"></div>
 <select id="txContact" onchange="txContactChanged(this.value)" style="display:none">${txContactOptions()}</select>
 ${(()=>{const p=(D.contacts||[]).find(x=>String(x.id)===String(txContactId));return p?'<div id="txContactSelected" style="padding:7px 9px;border-radius:8px;background:#e8f5e9;color:#1B5E20;font-size:12px;font-weight:700;margin-bottom:8px">✓ নির্বাচিত: '+htmlEsc(p.n)+' · '+htmlEsc(p.ph||'নম্বর নেই')+'</div>':''})()}
@@ -1398,10 +1418,6 @@ if(!window._txOutside){
   if(t&&t.closest&&(t.closest('#txContactResults')||t.closest('#txContactSearch')))return;
   txContactHide();
  },true);
- document.addEventListener('click',function(e){
-  var t=e.target;
-  if(t&&t.closest&&t.closest('#txContactResults button'))setTimeout(txContactHide,60);
- });
  window.addEventListener('popstate',txContactHide);
  window.addEventListener('hashchange',txContactHide);
 }
