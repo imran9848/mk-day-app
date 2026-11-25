@@ -617,7 +617,7 @@ async function initFb(){try{const c=await cfg();if(!c||!window.firebase)return;f
    ব্যাকটিক বা template interpolation ব্যবহার করা হয়নি।
 */
 var MK_ICON_IN = [
-'<svg viewBox="26 22 144 112" width="100%" style="max-height:118px;display:block" aria-hidden="true">',
+'<svg viewBox="2 22 168 112" width="100%" height="118" style="height:118px;max-height:118px;display:block" aria-hidden="true">',
 '<path d="M4 130 L168 130" stroke="#C0DD97" stroke-width="2"/>',
 '<rect x="96" y="26" width="70" height="6" rx="2" fill="#854F0B" stroke="#412402"/>',
 '<rect x="98" y="30" width="66" height="100" fill="#854F0B" stroke="#412402"/>',
@@ -647,7 +647,7 @@ var MK_ICON_IN = [
 '</svg>'
 ].join('');
 var MK_ICON_EX = [
-'<svg viewBox="2 28 168 106" width="100%" style="max-height:118px;display:block" aria-hidden="true">',
+'<svg viewBox="2 22 168 112" width="100%" height="118" style="height:118px;max-height:118px;display:block" aria-hidden="true">',
 '<rect x="8" y="34" width="38" height="96" rx="2" fill="#854F0B" stroke="#412402"/>',
 '<rect x="12" y="38" width="30" height="88" fill="#412402"/>',
 '<path d="M12 68 L42 68 M12 98 L42 98" stroke="#BA7517" stroke-width="1.5"/>',
@@ -856,7 +856,7 @@ return['','#185FA5',`<div class="hd profile-home-head home-v2-head">
 </div>
 <section class="home-v2-contacts">
 <div class="home-v2-contact-title"><b>কন্টাক্ট ও সরাসরি লেনদেন</b><button onclick="go('contacts')">সব দেখুন</button></div>
-<div class="home-v2-search-row"><div class="home-v2-search"><span>⌕</span><input id="homeContactSearch" placeholder="নাম বা মোবাইল নম্বর লিখুন" value="${htmlEsc(homeQ||'')}" onfocus="homeContactFocus()" oninput="homeQ=this.value;const e=document.getElementById('homeContactRows');if(e)e.innerHTML=homeContactRows(homeQ)"></div><button type="button" class="home-v2-contact-add" onclick="addContact()" aria-label="নতুন কন্টাক্ট যোগ করুন" title="নতুন কন্টাক্ট"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20v-1.5A4.5 4.5 0 0 1 7 14h4a4.5 4.5 0 0 1 4.5 4.5V20M17 8h5M19.5 5.5v5"></path></svg></button></div>
+<div class="home-v2-search-row"><div class="home-v2-search"><span>⌕</span><input id="homeContactSearch" placeholder="নাম বা মোবাইল নম্বর লিখুন" value="${htmlEsc(homeQ||'')}" onfocus="homeContactFocus()" oninput="homeQ=this.value;const e=document.getElementById('homeContactRows');if(e)e.innerHTML=homeContactRows(homeQ)"></div><button type="button" class="home-v2-phonebook-import" onclick="importPhoneContacts()" aria-label="ফোনবুক থেকে কন্টাক্ট আনুন" title="ফোনবুক থেকে কন্টাক্ট আনুন"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3.5h12.5A1.5 1.5 0 0 1 19 5v14a1.5 1.5 0 0 1-1.5 1.5H5A2 2 0 0 1 3 18.5v-13A2 2 0 0 1 5 3.5Z"></path><circle cx="9" cy="9" r="2"></circle><path d="M6 16c.5-1.8 1.5-2.7 3-2.7s2.5.9 3 2.7M15 8h2M15 12h2M15 16h2"></path></svg></button><button type="button" class="home-v2-contact-add" onclick="addContact()" aria-label="নতুন কন্টাক্ট যোগ করুন" title="নতুন কন্টাক্ট"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20v-1.5A4.5 4.5 0 0 1 7 14h4a4.5 4.5 0 0 1 4.5 4.5V20M17 8h5M19.5 5.5v5"></path></svg></button></div>
 <div class="home-v2-contact-caption">${homeQ?'সার্চের ফলাফল':'সর্বশেষ লেনদেনের কন্টাক্ট'}</div>
 <div id="homeContactRows" class="home-v2-contact-rows">${homeContactRows(homeQ||'')}</div>
 </section>
@@ -1303,8 +1303,37 @@ function addContact(done){
   if(done)done(p);else R()}
 }
 async function importPhoneContacts(){
- if(!navigator.contacts||!navigator.contacts.select)return toast('এই ব্রাউজারে ফোন কন্টাক্ট ইমপোর্ট সুবিধা নেই। নতুন কন্টাক্ট যোগ করে সেভ করতে পারো।');
- try{const rows=await navigator.contacts.select(['name','tel'],{multiple:true});ensureContacts();let count=0;rows.forEach(x=>{const n=(x.name||[])[0]||'',ph=(x.tel||[])[0]||'';if(!n)return;const p={n,ph},key=contactKey(p);if(!D.contacts.some(c=>contactKey(c)===key)){D.contacts.push({id:Date.now()+count,createdAt:Date.now()+count++,n,ph,source:'phone'})}});D.vd=D.contacts;save();if(document.getElementById('txn-sheet')){pendR=true}else{R()}toast(count+'টি নতুন কন্টাক্ট যোগ হয়েছে')}catch(e){if(e&&e.name!=='AbortError')toast('কন্টাক্ট আনা যায়নি')}
+ if(!window.isSecureContext||!navigator.contacts||typeof navigator.contacts.select!=='function'){
+  return toast('এই ব্রাউজারে সরাসরি ফোনবুক বাছাই সমর্থিত নয়। Android-এর সমর্থিত Chrome ব্রাউজার থেকে চেষ্টা করুন।');
+ }
+ try{
+  const rows=await navigator.contacts.select(['name','tel'],{multiple:true});
+  if(!rows||!rows.length)return toast('কোনো ফোন কন্টাক্ট বাছাই করা হয়নি।');
+  ensureContacts();
+  const now=Date.now();let added=0,updated=0;
+  rows.forEach(x=>{
+   const n=Array.isArray(x.name)?(x.name[0]||''):String(x.name||'');
+   const ph=Array.isArray(x.tel)?(x.tel[0]||''):String(x.tel||'');
+   if(!n)return;
+   const key=contactKey({n,ph}),old=D.contacts.find(c=>contactKey(c)===key);
+   if(old){if(!old.ph&&ph){old.ph=ph;updated++}return}
+   const stamp=now+added;
+   D.contacts.push({id:stamp,createdAt:stamp,n,ph,source:'phone'});
+   added++;
+  });
+  D.vd=D.contacts;save();
+  const homeRows=document.getElementById('homeContactRows');
+  if(homeRows){
+   homeRows.innerHTML=homeContactRows(homeQ||'');
+   const caption=document.querySelector('.home-v2-contact-caption');
+   if(caption)caption.textContent=homeQ?'সার্চের ফলাফল':'সকল কন্টাক্ট';
+  }else if(document.getElementById('txn-sheet')){pendR=true}
+  else{R()}
+  if(added)toast(added+'টি নতুন কন্টাক্ট যোগ হয়েছে'+(updated?' · '+updated+'টি নম্বর আপডেট হয়েছে':''));
+  else toast('নতুন কন্টাক্ট যোগ হয়নি। বাছাই করা কন্টাক্টগুলো আগে থেকেই আছে।');
+ }catch(e){
+  if(e&&e.name!=='AbortError')toast('ফোনের Contacts তালিকা খোলা যায়নি। এই ব্রাউজার বা WebView ফোনবুক বাছাই সমর্থন নাও করতে পারে।');
+ }
 }
 
 let expenseContactQ='';
@@ -2010,6 +2039,15 @@ body.home-active #app .home-v2-search>span{color:#5145a8!important}
 body.home-active #app .home-v2-search-row .home-v2-contact-add{border-radius:11px!important;border:2px solid #d8ad3d!important}
 #app.dk .contact-search-row input{background:#263e59!important;color:#fff!important}
 #app.dk .contact-search-row input::placeholder{color:#cbd5e1!important}
+body.home-active #app .home-v2-search-row .home-v2-phonebook-import{
+ width:42px!important;height:42px!important;min-width:42px!important;flex:0 0 42px!important;
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ border:2px solid #d8ad3d!important;border-radius:11px!important;
+ background:linear-gradient(145deg,#2875bb,#6230aa)!important;color:#fff!important;
+ box-shadow:inset 0 0 0 1px #ffffff44,0 2px 5px #0002!important;padding:6px!important;
+}
+body.home-active #app .home-v2-search-row .home-v2-phonebook-import svg{width:25px!important;height:25px!important;fill:none!important;stroke:currentColor!important;stroke-width:1.8!important;stroke-linecap:round!important;stroke-linejoin:round!important}
+body.home-active #app .home-v2-search-row .home-v2-contact-add{flex:0 0 42px!important}
 </style>
 
 <style id="mk-home-contact-viewport-and-order-fix-v1">
@@ -2017,7 +2055,7 @@ body.home-active #app .home-v2-search-row .home-v2-contact-add{border-radius:11p
 body.home-active #app .bd.home-v2-body{
  display:flex!important;flex-direction:column!important;flex:1 1 0!important;
  min-height:0!important;height:auto!important;max-height:none!important;
- overflow:hidden!important;padding-bottom:0!important;box-sizing:border-box!important;
+ overflow:hidden!important;padding-bottom:calc(84px + env(safe-area-inset-bottom))!important;box-sizing:border-box!important;
 }
 body.home-active #app .home-v2-notice,
 body.home-active #app .home-v2-summary,
