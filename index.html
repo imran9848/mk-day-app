@@ -1298,13 +1298,13 @@ function addContact(done){
   o.remove();
   const probe={n:v.n,ph:v.ph},key=contactKey(probe),old=D.contacts.find(x=>contactKey(x)===key);
   if(old){if(!old.ph&&v.ph)old.ph=v.ph;if(!old.ad&&v.ad)old.ad=v.ad;save();if(done)done(old);else{R();toast('এই কন্টাক্ট আগে থেকেই আছে')}return}
-  const p={id:Date.now(),n:v.n,ph:v.ph,ad:v.ad,note:v.note||'',source:'manual'};
+  const p={id:Date.now(),createdAt:Date.now(),n:v.n,ph:v.ph,ad:v.ad,note:v.note||'',source:'manual'};
   D.contacts.push(p);D.vd=D.contacts;save();
   if(done)done(p);else R()}
 }
 async function importPhoneContacts(){
  if(!navigator.contacts||!navigator.contacts.select)return toast('এই ব্রাউজারে ফোন কন্টাক্ট ইমপোর্ট সুবিধা নেই। নতুন কন্টাক্ট যোগ করে সেভ করতে পারো।');
- try{const rows=await navigator.contacts.select(['name','tel'],{multiple:true});ensureContacts();let count=0;rows.forEach(x=>{const n=(x.name||[])[0]||'',ph=(x.tel||[])[0]||'';if(!n)return;const p={n,ph},key=contactKey(p);if(!D.contacts.some(c=>contactKey(c)===key)){D.contacts.push({id:Date.now()+count++,n,ph,source:'phone'})}});D.vd=D.contacts;save();if(document.getElementById('txn-sheet')){pendR=true}else{R()}toast(count+'টি নতুন কন্টাক্ট যোগ হয়েছে')}catch(e){if(e&&e.name!=='AbortError')toast('কন্টাক্ট আনা যায়নি')}
+ try{const rows=await navigator.contacts.select(['name','tel'],{multiple:true});ensureContacts();let count=0;rows.forEach(x=>{const n=(x.name||[])[0]||'',ph=(x.tel||[])[0]||'';if(!n)return;const p={n,ph},key=contactKey(p);if(!D.contacts.some(c=>contactKey(c)===key)){D.contacts.push({id:Date.now()+count,createdAt:Date.now()+count++,n,ph,source:'phone'})}});D.vd=D.contacts;save();if(document.getElementById('txn-sheet')){pendR=true}else{R()}toast(count+'টি নতুন কন্টাক্ট যোগ হয়েছে')}catch(e){if(e&&e.name!=='AbortError')toast('কন্টাক্ট আনা যায়নি')}
 }
 
 let expenseContactQ='';
@@ -1316,7 +1316,7 @@ function homeContactFocus(){const cap=document.querySelector('.home-v2-contact-c
 function homeContactRows(q){
  const z=(q||'').trim().toLocaleLowerCase(),L=ensureContacts(),last={},viewed=D.homeContactViewed||{};
  (D.tx||[]).forEach(x=>{const id=x.contactId!=null?x.contactId:x.sp;if(id!=null)last[id]=Math.max(last[id]||0,+x.d||0)});
- const A=L.filter(p=>!z||((p.n||'')+' '+(p.ph||'')).toLocaleLowerCase().includes(z)).sort((a,b)=>{const av=+viewed[String(a.id)]||0,bv=+viewed[String(b.id)]||0;return bv-av||(+last[b.id]||0)-(+last[a.id]||0)});
+ const A=L.filter(p=>!z||((p.n||'')+' '+(p.ph||'')).toLocaleLowerCase().includes(z)).sort((a,b)=>{const at=+a.createdAt||(+a.id||0),bt=+b.createdAt||(+b.id||0),av=Math.max(+viewed[String(a.id)]||0,+last[a.id]||0,at),bv=Math.max(+viewed[String(b.id)]||0,+last[b.id]||0,bt);return bv-av||bt-at||String(a.n||'').localeCompare(String(b.n||''),'bn')});
  return A.map((p,i)=>'<div role="button" tabindex="0" aria-label="'+htmlEsc(p.n)+'-এর হিসাব খুলুন" onclick="homeMarkViewed('+p.id+');selP='+p.id+';go(&quot;contact&quot;,'+p.id+')" onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();homeMarkViewed('+p.id+');selP='+p.id+';go(&quot;contact&quot;,'+p.id+')}" style="display:flex;align-items:center;gap:9px;padding:10px 4px;border-bottom:1px solid #edf0f2;cursor:pointer"><span style="width:36px;height:36px;flex:0 0 36px;border-radius:50%;background:'+CL[i%8]+'22;color:'+CL[i%8]+';display:flex;align-items:center;justify-content:center;font-weight:800">'+htmlEsc((p.n||'?')[0])+'</span><span style="min-width:0;flex:1"><b style="display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+htmlEsc(p.n)+'</b><small style="color:#64748b">'+htmlEsc(p.ph||'নম্বর নেই')+(viewed[String(p.id)]?' · সর্বশেষ দেখা '+dt(viewed[String(p.id)]):last[p.id]?' · '+dt(last[p.id]):' · নতুন কন্টাক্ট')+'</small></span><span aria-hidden="true" style="color:#185FA5;font-size:20px;padding:0 5px">›</span></div>').join('')||'<p style="padding:12px;color:#777;text-align:center">কোনো কন্টাক্ট পাওয়া যায়নি। নতুন কন্টাক্ট যোগ করুন।</p>'
 }
 
@@ -2010,4 +2010,30 @@ body.home-active #app .home-v2-search>span{color:#5145a8!important}
 body.home-active #app .home-v2-search-row .home-v2-contact-add{border-radius:11px!important;border:2px solid #d8ad3d!important}
 #app.dk .contact-search-row input{background:#263e59!important;color:#fff!important}
 #app.dk .contact-search-row input::placeholder{color:#cbd5e1!important}
+</style>
+
+<style id="mk-home-contact-viewport-and-order-fix-v1">
+/* Keep the contact card fully above the fixed bottom menu; scroll the rows inside the card. */
+body.home-active #app .bd.home-v2-body{
+ display:flex!important;flex-direction:column!important;flex:1 1 0!important;
+ min-height:0!important;height:auto!important;max-height:none!important;
+ overflow:hidden!important;padding-bottom:0!important;box-sizing:border-box!important;
+}
+body.home-active #app .home-v2-notice,
+body.home-active #app .home-v2-summary,
+body.home-active #app .home-v2-today{flex:0 0 auto!important}
+body.home-active #app .home-v2-contacts{
+ display:flex!important;flex-direction:column!important;flex:1 1 0!important;
+ min-height:0!important;height:auto!important;max-height:none!important;
+ overflow:hidden!important;margin-bottom:0!important;
+}
+body.home-active #app .home-v2-contact-title,
+body.home-active #app .home-v2-search-row,
+body.home-active #app .home-v2-contact-caption{flex:0 0 auto!important}
+body.home-active #app #homeContactRows.home-v2-contact-rows{
+ display:block!important;flex:1 1 0!important;height:0!important;
+ min-height:0!important;max-height:none!important;
+ overflow-y:auto!important;overflow-x:hidden!important;
+ overscroll-behavior-y:contain!important;-webkit-overflow-scrolling:touch!important;
+}
 </style>
