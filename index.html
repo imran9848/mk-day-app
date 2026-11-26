@@ -876,7 +876,7 @@ function ledgerBody(t){
  const by={};L.forEach(x=>{by[x.c||'অন্যান্য']=(by[x.c||'অন্যান্য']||0)+(+x.m||0)});
  const groups=Object.entries(by).sort((a,b)=>b[1]-a[1]).map(([name,amount])=>'<button type="button" class="btn" style="width:auto;display:inline-flex;align-items:center;gap:6px;margin:3px;background:'+(cat===name?'#185FA5':'#64748b')+'" onclick="ledgerChooseCategory(\''+t+'\',\''+encodeURIComponent(name).replace(/'/g,'%27')+'\')">'+htmlEsc(name)+' · '+tk(amount)+'</button>').join('');
  const rows=L.map(x=>'<div style="font-size:11px;color:#64748b;padding:4px 8px 0">'+htmlEsc(x.c||'')+(x.s?' › '+htmlEsc(x.s):'')+(x.detail?' · '+htmlEsc(x.detail):'')+'</div>'+hrow(x)).join('');
- return '<div class="ledger-summary g3"><div class="k" style="background:#546e7a">মোট হিসাব<b style="font-size:16px">'+tk(total)+'</b></div><div class="k" style="background:#2e7d32">নগদ / পরিশোধ<b style="font-size:16px">'+tk(cash)+'</b></div><div class="k" style="background:#c62828">বাকি<b style="font-size:16px">'+tk(due)+'</b></div></div>'+
+ return '<div class="ledger-summary g3"><div class="k" style="background:#546e7a;color:#fff!important;-webkit-text-fill-color:#fff!important">মোট হিসাব<b style="font-size:16px;color:#fff!important;-webkit-text-fill-color:#fff!important">'+tk(total)+'</b></div><div class="k" style="background:#2e7d32;color:#fff!important;-webkit-text-fill-color:#fff!important">নগদ / পরিশোধ<b style="font-size:16px;color:#fff!important;-webkit-text-fill-color:#fff!important">'+tk(cash)+'</b></div><div class="k" style="background:#c62828;color:#fff!important;-webkit-text-fill-color:#fff!important">বাকি<b style="font-size:16px;color:#fff!important;-webkit-text-fill-color:#fff!important">'+tk(due)+'</b></div></div>'+
  '<div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:10px 0"><label style="font-size:12px;font-weight:800">লেনদেনের ধরন<select onchange="ledgerChooseKind(\''+t+'\',this.value)" style="width:100%;padding:9px;border:1px solid #cbd5e1;border-radius:9px;margin-top:4px"><option value="all" '+(kind==='all'?'selected':'')+'>সব লেনদেন</option><option value="general" '+(kind==='general'?'selected':'')+'>সাধারণ লেনদেন</option><option value="business" '+(kind==='business'?'selected':'')+'>ব্যবসার লেনদেন</option></select></label><label style="font-size:12px;font-weight:800">উৎস / খাত বাছাই<select onchange="ledgerChooseCategory(\''+t+'\',this.value)" style="width:100%;padding:9px;border:1px solid #cbd5e1;border-radius:9px;margin-top:4px"><option value="all">সব উৎস / খাত</option>'+keys.map(k=>'<option value="'+htmlEsc(k)+'" '+(cat===k?'selected':'')+'>'+htmlEsc(k)+'</option>').join('')+'</select></label></div>'+
  (groups?'<div style="margin:8px 0"><b style="font-size:12px">উৎস অনুযায়ী মোট</b><div style="display:flex;flex-wrap:wrap;margin-top:4px">'+groups+'</div></div>':'')+
  '<div style="margin:10px 0 5px;font-weight:800">লেনদেনের ইতিহাস · '+bn(L.length)+'টি</div>'+
@@ -1137,7 +1137,7 @@ function startHomeAdRotation(){clearInterval(homeAdTimer);const list=homeAdList(
 function manageHomeAds(){const list=Array.isArray(D.homeAds)?D.homeAds:[],o=document.createElement('div');o.className='ov';o.style.zIndex='80';o.innerHTML='<div class="home-ad-modal"><div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><b>ব্যানার / বিজ্ঞাপনের ছবি</b><button class="ci" onclick="this.closest(\'.ov\').remove()">✕</button></div><p style="font-size:12px;color:#64748b;margin:7px 0">সর্বোচ্চ ৩টি ছবি যোগ করতে পারবেন। ছবি থাকলে ৫ সেকেন্ড পরপর বদলাবে। সতর্কতার নোটিশটিও দেখানো হবে।</p><div id="homeAdList">'+list.map((x,i)=>'<div class="home-ad-item"><img src="'+x+'" alt="ব্যানার '+(i+1)+'"><span style="flex:1;font-size:12px">ছবি '+(i+1)+'</span><button class="btn" style="width:auto;background:#b71c1c;padding:6px 9px" onclick="removeHomeAd('+i+')">বাদ দিন</button></div>').join('')+'</div><input id="homeAdFile" type="file" accept="image/*" style="display:none" onchange="addHomeAdFile(this)"><button class="btn" style="background:#185FA5;margin-top:10px" onclick="document.getElementById(\'homeAdFile\').click()">＋ ছবি যোগ করুন</button><button class="btn" style="background:#64748b;margin-top:7px" onclick="this.closest(\'.ov\').remove()">বন্ধ করুন</button></div>';o.addEventListener('click',e=>{if(e.target===o)o.remove()});$('#app').appendChild(o);xl()}
 function removeHomeAd(i){if(!Array.isArray(D.homeAds))return;D.homeAds.splice(i,1);save();const o=document.querySelector('.home-ad-modal')?.closest('.ov');if(o)o.remove();manageHomeAds();startHomeAdRotation()}
 function addHomeAdFile(input){const f=input.files&&input.files[0];if(!f)return;D.homeAds=Array.isArray(D.homeAds)?D.homeAds:[];if(D.homeAds.length>=3){toast('সর্বোচ্চ ৩টি ছবি যোগ করা যাবে');input.value='';return}if(!f.type.startsWith('image/')){toast('শুধু ছবি নির্বাচন করুন');return}const rd=new FileReader();rd.onload=()=>{const im=new Image();im.onload=()=>{const c=document.createElement('canvas'),w=1200,h=250,scale=Math.min(w/im.width,h/im.height),nw=Math.round(im.width*scale),nh=Math.round(im.height*scale);c.width=w;c.height=h;const x=c.getContext('2d');x.fillStyle='#fff7cf';x.fillRect(0,0,w,h);x.drawImage(im,(w-nw)/2,(h-nh)/2,nw,nh);D.homeAds.push(c.toDataURL('image/jpeg',.78));save();const o=document.querySelector('.home-ad-modal')?.closest('.ov');if(o)o.remove();manageHomeAds();startHomeAdRotation();toast('ব্যানারের ছবি যোগ হয়েছে')};im.onerror=()=>toast('ছবিটি খোলা যায়নি');im.src=rd.result};rd.readAsDataURL(f)}
-function profileClock(){const d=new Date(),t=document.getElementById('profileClockTime'),dt=document.getElementById('profileClockDate');if(t)t.textContent=d.toLocaleTimeString(LC(),{hour:'2-digit',minute:'2-digit',hour12:true});if(dt)dt.textContent=d.toLocaleDateString(LC(),{weekday:'long',day:'numeric',month:'long',year:'numeric'})}
+function profileClock(){const d=new Date(),t=document.getElementById('profileClockTime'),dt=document.getElementById('profileClockDate');if(t)t.textContent=d.toLocaleTimeString('bn-BD',{hour:'2-digit',minute:'2-digit',hour12:true});if(dt){const f=(o)=>new Intl.DateTimeFormat('bn-BD',o).format(d);dt.textContent=f({weekday:'long'})+' '+f({day:'numeric'})+' '+f({month:'long'})+' '+f({year:'numeric'})}}
 setInterval(profileClock,20000);
 let profileCropState=null;
 function profileCropOpen(im){const size=280,base=Math.max(size/im.width,size/im.height),w=im.width*base,h=im.height*base;profileCropState={im,size,base,zoom:1,x:(size-w)/2,y:(size-h)/2,drag:false,lastX:0,lastY:0};const o=document.createElement('div');o.id='profileCropModal';o.style.cssText='position:fixed;inset:0;z-index:99999;background:#101827dd;display:flex;align-items:center;justify-content:center;padding:18px;';o.innerHTML='<div style="width:min(100%,330px);background:#fff;color:#1d2938;border-radius:18px;padding:16px;box-shadow:0 18px 55px #0006"><b style="font-size:17px;display:block;text-align:center;margin-bottom:10px">প্রোফাইল ছবি ক্রপ করুন</b><div id="profileCropArea" style="width:280px;height:280px;max-width:100%;margin:auto;position:relative;overflow:hidden;border-radius:14px;background:#202938;touch-action:none;cursor:grab"><img id="profileCropImage" src="'+im.src+'" draggable="false" style="position:absolute;max-width:none;max-height:none;width:'+w+'px;height:'+h+'px;left:'+profileCropState.x+'px;top:'+profileCropState.y+'px;user-select:none;pointer-events:none"><div style="position:absolute;inset:0;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 999px #0006;pointer-events:none"></div><div style="position:absolute;inset:0;border:1px dashed #fff7;pointer-events:none"></div></div><div style="display:flex;align-items:center;gap:8px;margin:14px 0"><span style="font-size:12px">ছোট</span><input id="profileCropZoom" type="range" min="1" max="3" step=".01" value="1" style="flex:1"><span style="font-size:12px">বড়</span></div><p style="font-size:12px;text-align:center;color:#657284;margin:0 0 12px">ছবিটি টেনে মুখটি গোল ফ্রেমের মধ্যে ঠিক করুন</p><div style="display:flex;gap:8px"><button onclick="profileCropCancel()" style="flex:1;padding:11px;border:0;border-radius:10px;background:#e7edf4;color:#263447;font-weight:700">বাতিল</button><button onclick="profileCropSave()" style="flex:1;padding:11px;border:0;border-radius:10px;background:#185FA5;color:#fff;font-weight:700">ছবি ঠিক করুন</button></div></div>';
@@ -2394,40 +2394,46 @@ body.home-active #app > .home-v2-bottom{
 </style>
 
 <style id="mk-final-ledger-date-contrast-audit">
-/* Final cascade override: keep every summary-card text glyph white. */
+/* White text is set in the generated ledger-card markup itself as well as here. */
 #app .ledger-summary .k,
 #app .ledger-summary .k *,
-#app .ledger-summary .k::before,
-#app .ledger-summary .k::after{
+#app .ledger-summary .k b{
  color:#fff!important;
  -webkit-text-fill-color:#fff!important;
  opacity:1!important;
 }
-/* Put the complete date on its own row; the previous one-line layout clipped it. */
+/* Restore the approved compact header: clock left, date right, one single row. */
 body.home-active #app .home-v2-head .profile-clock{
- grid-column:1/4!important;grid-row:1!important;display:block!important;
- min-width:0!important;width:100%!important;flex:none!important;
+ grid-column:1/3!important;grid-row:1!important;display:block!important;
+ min-width:0!important;width:auto!important;max-width:100%!important;flex:none!important;
 }
 body.home-active #app .home-v2-head .home-time-line{
- display:grid!important;
- grid-template-columns:22px max-content minmax(0,1fr)!important;
- grid-template-rows:auto auto!important;
- align-items:center!important;column-gap:7px!important;row-gap:3px!important;
- min-width:0!important;width:100%!important;
- white-space:normal!important;overflow:visible!important;
+ display:flex!important;flex-direction:row!important;align-items:center!important;
+ flex-wrap:nowrap!important;gap:5px!important;
+ min-width:0!important;width:100%!important;max-width:100%!important;
+ white-space:nowrap!important;overflow:hidden!important;
 }
-body.home-active #app .home-v2-head .home-clock-icon{grid-column:1!important;grid-row:1!important}
-body.home-active #app .home-v2-head #profileClockTime{grid-column:2!important;grid-row:1!important}
-body.home-active #app .home-v2-head .home-date-divider{display:none!important}
+body.home-active #app .home-v2-head .home-clock-icon{
+ width:17px!important;height:17px!important;flex:0 0 17px!important;
+}
+body.home-active #app .home-v2-head .profile-clock b{
+ font-size:17px!important;line-height:1!important;flex:0 0 auto!important;
+}
+body.home-active #app .home-v2-head .home-date-divider{
+ display:block!important;width:1px!important;height:16px!important;
+ flex:0 0 1px!important;margin:0 1px!important;
+}
 body.home-active #app .home-v2-head .home-date-icon{
- grid-column:1!important;grid-row:2!important;width:16px!important;height:16px!important;
+ display:block!important;width:14px!important;height:14px!important;
+ flex:0 0 14px!important;
 }
 body.home-active #app .home-v2-head #profileClockDate{
- grid-column:2/4!important;grid-row:2!important;display:block!important;
- width:100%!important;min-width:0!important;margin:0!important;
- font-size:11px!important;line-height:1.25!important;font-weight:700!important;
+ display:inline-block!important;flex:0 1 auto!important;
+ width:auto!important;min-width:0!important;max-width:100%!important;
+ margin:0!important;padding:0!important;
+ font-size:9px!important;line-height:1.15!important;font-weight:700!important;
  color:#fff!important;-webkit-text-fill-color:#fff!important;
- white-space:nowrap!important;overflow:visible!important;text-overflow:clip!important;opacity:1!important;
+ white-space:nowrap!important;overflow:visible!important;text-overflow:clip!important;
 }
 </style>
 
