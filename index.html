@@ -867,7 +867,7 @@ function ledgerBody(t){
  const C=t==='e'?D.ec:D.ic,keys=Object.keys(C),kind=ledgerTypeFilter[t]||'all',cat=ledgerCategoryFilter[t]||'all';
  const L=ledgerRows(t),total=L.reduce((a,x)=>a+(+x.m||0),0),cash=L.reduce((a,x)=>a+(x.cr?(+x.pd||0):(+x.m||0)),0),due=L.reduce((a,x)=>a+(x.cr?Math.max(0,(+x.m||0)-(+x.pd||0)):0),0);
  const by={};L.forEach(x=>{by[x.c||'অন্যান্য']=(by[x.c||'অন্যান্য']||0)+(+x.m||0)});
- const groups=Object.entries(by).sort((a,b)=>b[1]-a[1]).map(([name,amount])=>'<button type="button" class="btn" style="width:auto;display:inline-flex;align-items:center;gap:6px;margin:3px;background:'+(cat===name?'#185FA5':'#64748b')+'" onclick="ledgerChooseCategory(\''+t+'\',\''+encodeURIComponent(name)+'\')">'+htmlEsc(name)+' · '+tk(amount)+'</button>').join('');
+ const groups=Object.entries(by).sort((a,b)=>b[1]-a[1]).map(([name,amount])=>'<button type="button" class="btn" style="width:auto;display:inline-flex;align-items:center;gap:6px;margin:3px;background:'+(cat===name?'#185FA5':'#64748b')+'" onclick="ledgerChooseCategory(\''+t+'\',\''+decodeURIComponent(' + encodeURIComponent(name) + ')+'\')">'+htmlEsc(name)+' · '+tk(amount)+'</button>').join('');
  const rows=L.map(x=>'<div style="font-size:11px;color:#64748b;padding:4px 8px 0">'+htmlEsc(x.c||'')+(x.s?' › '+htmlEsc(x.s):'')+(x.detail?' · '+htmlEsc(x.detail):'')+'</div>'+hrow(x)).join('');
  return '<div class="g3"><div class="k" style="background:#546e7a;font-size:12px">মোট হিসাব<b style="font-size:16px">'+tk(total)+'</b></div><div class="k" style="background:#2e7d32;font-size:12px">নগদ / পরিশোধ<b style="font-size:16px">'+tk(cash)+'</b></div><div class="k" style="background:#c62828;font-size:12px">বাকি<b style="font-size:16px">'+tk(due)+'</b></div></div>'+
  '<div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:10px 0"><label style="font-size:12px;font-weight:800">লেনদেনের ধরন<select onchange="ledgerChooseKind(\''+t+'\',this.value)" style="width:100%;padding:9px;border:1px solid #cbd5e1;border-radius:9px;margin-top:4px"><option value="all" '+(kind==='all'?'selected':'')+'>সব লেনদেন</option><option value="general" '+(kind==='general'?'selected':'')+'>সাধারণ লেনদেন</option><option value="business" '+(kind==='business'?'selected':'')+'>ব্যবসার লেনদেন</option></select></label><label style="font-size:12px;font-weight:800">উৎস / খাত বাছাই<select onchange="ledgerChooseCategory(\''+t+'\',this.value)" style="width:100%;padding:9px;border:1px solid #cbd5e1;border-radius:9px;margin-top:4px"><option value="all">সব উৎস / খাত</option>'+keys.map(k=>'<option value="'+htmlEsc(k)+'" '+(cat===k?'selected':'')+'>'+htmlEsc(k)+'</option>').join('')+'</select></label></div>'+
@@ -1302,7 +1302,7 @@ function editTx(id){
   const m=+v.m;if(!m||m<(+x.pd||0))return toast('টাকার পরিমাণ ঠিক নেই; প্রাপ্ত/পরিশোধিত টাকার চেয়ে কম হতে পারবে না');
   const pair=(v.cs||current).split('~'),c=decodeURIComponent(pair[0]||''),sub=decodeURIComponent(pair[1]||'');
   if(!c)return toast('উৎস / খাত নির্বাচন করুন');
-  if(v.date&&!/^\\d{4}-\\d{2}-\\d{2}$/.test(v.date))return toast('তারিখ YYYY-MM-DD ফরম্যাটে লিখুন');
+  if(v.date&&!/^\d{4}-\d{2}-\d{2}$/.test(v.date))return toast('তারিখ YYYY-MM-DD ফরম্যাটে লিখুন');
   x.m=m;x.c=c;x.s=sub;x.n=v.n||'';x.detail=(v.detail||'').trim()||undefined;
   if(x.t==='i')x.kind=v.kind||'সাধারণ';
   const contactId=v.contact?Number(v.contact):null;x.contactId=contactId;x.sp=contactId;
