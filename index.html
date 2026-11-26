@@ -1558,7 +1558,7 @@ var TXN_SEARCH_TR={
 };
 if(typeof COMMON_MORE7!=='undefined')for(var tl in TXN_SEARCH_TR)COMMON_MORE7[tl]=Object.assign(COMMON_MORE7[tl]||{},TXN_SEARCH_TR[tl]);
 
-R();installHomePullRefresh();initFb();
+R();profileClock();installHomePullRefresh();initFb();
 </script>
 <style id="profile-name-gold-black-refinement">
 /* Profile name: retain pink pill, apply coordinated black-to-gold lettering */
@@ -2383,3 +2383,42 @@ body.home-active #app > .home-v2-bottom{
  body.home-active #app .home-v2-contact-caption{height:12px!important;min-height:12px!important}
 }
 </style>
+
+<style id="mk-final-ledger-date-contrast-audit">
+/* Final cascade override: keep every summary-card text glyph white. */
+#app .ledger-summary .k,
+#app .ledger-summary .k *,
+#app .ledger-summary .k::before,
+#app .ledger-summary .k::after{
+ color:#fff!important;
+ -webkit-text-fill-color:#fff!important;
+ opacity:1!important;
+}
+/* Put the complete date on its own row; the previous one-line layout clipped it. */
+body.home-active #app .home-v2-head .profile-clock{
+ grid-column:1/4!important;grid-row:1!important;display:block!important;
+ min-width:0!important;width:100%!important;flex:none!important;
+}
+body.home-active #app .home-v2-head .home-time-line{
+ display:grid!important;
+ grid-template-columns:22px max-content minmax(0,1fr)!important;
+ grid-template-rows:auto auto!important;
+ align-items:center!important;column-gap:7px!important;row-gap:3px!important;
+ min-width:0!important;width:100%!important;
+ white-space:normal!important;overflow:visible!important;
+}
+body.home-active #app .home-v2-head .home-clock-icon{grid-column:1!important;grid-row:1!important}
+body.home-active #app .home-v2-head #profileClockTime{grid-column:2!important;grid-row:1!important}
+body.home-active #app .home-v2-head .home-date-divider{display:none!important}
+body.home-active #app .home-v2-head .home-date-icon{
+ grid-column:1!important;grid-row:2!important;width:16px!important;height:16px!important;
+}
+body.home-active #app .home-v2-head #profileClockDate{
+ grid-column:2/4!important;grid-row:2!important;display:block!important;
+ width:100%!important;min-width:0!important;margin:0!important;
+ font-size:11px!important;line-height:1.25!important;font-weight:700!important;
+ color:#fff!important;-webkit-text-fill-color:#fff!important;
+ white-space:nowrap!important;overflow:visible!important;text-overflow:clip!important;opacity:1!important;
+}
+</style>
+
