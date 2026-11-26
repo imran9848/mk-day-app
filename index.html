@@ -876,8 +876,7 @@ function ledgerBody(t){
  (rows||'<p style="padding:18px;text-align:center;color:#7b8794">এখনো কোনো লেনদেন নেই। নিচের বাটনে নতুন লেনদেন যোগ করুন।</p>');
 }
 function ledgerPage(t){
- const active=(ledgerTypeFilter[t]||'all')!=='all'||(ledgerCategoryFilter[t]||'all')!=='all';
- return '<div style="display:flex;gap:8px;margin-bottom:10px;align-items:center;flex-wrap:wrap"><button class="btn" style="background:'+(t==='i'?'#1b8b45':'#bd3036')+'" onclick="startTx(\''+t+'\')">＋ নতুন '+(t==='i'?'আয়':'ব্যয়')+' যোগ করুন</button>'+(active?'<button class="btn" style="background:#64748b;width:auto;padding:8px 12px" onclick="ledgerReset(\''+t+'\')">সব বাছাই বাতিল</button>':'')+'</div><div id="ledgerBody_'+t+'">'+ledgerBody(t)+'</div>';
+ return '<div style="display:flex;gap:8px;margin-bottom:10px"><button class="btn" style="background:'+(t==='i'?'#1b8b45':'#bd3036')+'" onclick="startTx(\\''+t+'\\')">＋ নতুন '+(t==='i'?'আয়':'ব্যয়')+' যোগ করুন</button></div><div id="ledgerBody_'+t+'">'+ledgerBody(t)+'</div>';
 }
 function ledgerRefresh(t){const el=$('#ledgerBody_'+t);if(el)el.innerHTML=ledgerBody(t);else R()}
 function ledgerChooseKind(t,v){ledgerTypeFilter[t]=v;ledgerRefresh(t)}
