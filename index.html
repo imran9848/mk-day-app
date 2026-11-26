@@ -257,6 +257,26 @@ body.home-active #app.dk .home-v2-bottom{background:#17263c;border-color:#3a506a
 
 
 
+/* Home contact visibility: reclaim vertical space above the contact list without moving or redesigning bottom navigation. */
+body.home-active #app .home-v2-body{gap:6px!important;padding:7px 10px 6px!important}
+body.home-active #app .home-v2-notice{height:48px!important}
+body.home-active #app .home-v2-total{min-height:46px!important;padding-top:6px!important;padding-bottom:6px!important}
+body.home-active #app .home-v2-today-card{min-height:46px!important;padding-top:5px!important;padding-bottom:5px!important}
+body.home-active #app .home-v2-contacts{flex:1 1 0!important;min-height:0!important;padding:7px 9px 5px!important}
+body.home-active #app .home-v2-contact-title{margin-bottom:4px!important}
+body.home-active #app .home-v2-search{height:34px!important;min-height:34px!important}
+body.home-active #app .home-v2-contact-caption{margin:3px 0 1px!important}
+body.home-active #app .home-v2-contact-rows{padding-bottom:8px!important;scroll-padding-bottom:8px}
+body.home-active #app .home-v2-contact-rows .row{min-height:38px!important;padding:4px 1px!important}
+@media(max-height:700px){
+ body.home-active #app .home-v2-body{gap:5px!important;padding-top:5px!important;padding-bottom:4px!important}
+ body.home-active #app .home-v2-notice{height:44px!important}
+ body.home-active #app .home-v2-total{min-height:42px!important}
+ body.home-active #app .home-v2-today-card{min-height:42px!important}
+ body.home-active #app .home-v2-contacts{min-height:0!important}
+ body.home-active #app .home-v2-bottom{padding-top:5px!important;padding-bottom:6px!important}
+}
+
 /* Follow-up fixes: keep page chrome fixed and scroll only the content list */
 .contacts-screen{height:100%;min-height:0;display:flex;flex-direction:column;overflow:hidden;overscroll-behavior:none}
 .contacts-screen>#contactSearch{flex:none;margin:0 0 8px}
