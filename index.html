@@ -1474,7 +1474,16 @@ P.cashbox=function(){const L=(D.tx||[]).filter(x=>!x.sp).sort((a,b)=>b.d-a.d),q=
  dueE=L.filter(x=>x.t==='e').reduce((v,x)=>v+cDue(x),0),dueI=L.filter(x=>x.t==='i').reduce((v,x)=>v+cDue(x),0),have=inn-out,after=have-dueE,
  row=x=>{const i=x.t==='i',d=cDue(x);return `<div class="lp-tr" onclick="lpEd(${x.id})"><span class="lp-ic ${i?'xg':'xr'}">${i?'⬇':'⬆'}</span><span class="lp-tm"><b>${htmlEsc(x.s||x.c||'লেনদেন')}${x.cr?' <span class="xr" style="font-size:13px">বাকি</span>':''}</b><small>${dt(x.d)}${x.n?' · '+htmlEsc(x.n):''}</small></span><span class="lp-am"><b class="${i?'xg':'xr'}">${i?'+':'−'}${tk(x.m)}</b>${d>0?`<small class="${i?'xg':'xr'}">বাকি ${tk(d)}</small>`:''}</span></div>`};
  return ['ক্যাশবক্স','#534AB7',`<div class="lp-join lcash"><div><small>হাতে নগদ আছে</small><b style="color:#26215C">${tk(have)}</b></div><div><small>বাকি দিলে হাতে থাকবে</small><b class="${after<0?'xr':'xg'}">${tk(after)}</b></div></div><div class="lp-join lgold"><div><small>আয়</small><b class="xg">${tk(inn)}</b></div><div><small>ব্যয়</small><b class="xr">${tk(out)}</b></div><div><small>বাকি</small><b class="xa">${tk(dueE+dueI)}</b></div></div><input class="lp-find" placeholder="🔍 খরচ বা আয়ের নাম খুঁজুন" value="${htmlEsc(cashQ)}" oninput="cashQ=this.value;R()"><div style="margin-top:6px">${A.map(row).join('')||'<p>কোনো হিসাব নেই।</p>'}</div>`]}
-if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');
+if('serviceWorker' in navigator){
+ let mkSwReloaded=false;
+ navigator.serviceWorker.addEventListener('controllerchange',()=>{
+  if(mkSwReloaded)return;
+  mkSwReloaded=true;
+  location.reload();
+ });
+ navigator.serviceWorker.register('sw.js',{updateViaCache:'none'})
+  .then(reg=>reg.update()).catch(()=>{});
+}
 // Android/browser system Back integration. Home and Recents remain Android OS controls.
 (function installSystemBack(){
  if(window.__mkDaySystemBackInstalled)return;
