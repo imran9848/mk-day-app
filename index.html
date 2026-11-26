@@ -725,12 +725,12 @@ function openTxnSheet(){
  '<button class="btn" type="button" id="txn-in" style="background:#EAF3DE !important;color:#27500A !important;border:1.5px solid #3B6D11;min-height:200px;padding:10px 8px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:6px">',
  '<span id="txn-ic-in" style="display:block;width:100%"></span>',
  '<span style="font-size:22px;font-weight:700;line-height:1.1">আয়</span>',
- txnKhat(['চাকরি','ব্যবসা','বাকি (৳) ফেরত','ধার (৳) ফেরত']),
+ txnKhat(['চাকরি','ব্যবসা','অনলাইন আয়','উপহার']),
  '</button>',
  '<button class="btn" type="button" id="txn-ex" style="background:#FCEBEB !important;color:#791F1F !important;border:1.5px solid #A32D2D;min-height:200px;padding:10px 8px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:6px">',
  '<span id="txn-ic-ex" style="display:block;width:100%"></span>',
  '<span style="font-size:22px;font-weight:700;line-height:1.1">ব্যয়</span>',
- txnKhat(['বাজার','ধারের (৳) পরিশোধ','লোনের (৳) পরিশোধ']),
+ txnKhat(['বাজার','ঋণ/লোন পরিশোধ','অপ্রয়োজনীয় ব্যয়','চিকিৎসা','পরিবহন খরচ','বিভিন্ন ভাড়া','বিল (বিদ্যুৎ, গ্যাস, নেট)']),
  '</button>',
  '</div>',
  '<button class="btn" type="button" id="txn-cancel" style="background:#64748b;margin-top:8px">বাতিল</button>',
@@ -1285,11 +1285,19 @@ function ensureContacts(){
  return D.contacts
 }
 function lpEd(id){editTx(id)}
+function lpPicker(set){
+ if(!navigator.contacts||typeof navigator.contacts.select!=='function')return toast('এই ব্রাউজারে ফোনের কন্টাক্ট বাছাই সমর্থিত নয়। নাম ও নম্বর নিজে লিখুন।');
+ navigator.contacts.select(['name','tel'],{multiple:false}).then(rows=>{
+  const x=rows&&rows[0];if(!x)return;
+  set((Array.isArray(x.name)?x.name[0]:x.name)||'',(Array.isArray(x.tel)?x.tel[0]:x.tel)||'');
+ }).catch(e=>{if(e&&e.name!=='AbortError')toast('ফোনের কন্টাক্ট বাছাই করা যায়নি')});
+}
 function addContact(done){
  ensureContacts();
  const o=document.createElement('div');o.className='ov';
- o.innerHTML=`<div class="md lp-dlg"><h3>নতুন কন্টাক্ট</h3><input id="f_n" type="text" placeholder="নাম লিখুন"><input id="f_ph" type="text" inputmode="numeric" placeholder="মোবাইল নম্বর"><input id="f_ad" type="text" placeholder="ঠিকানা (ঐচ্ছিক)"><input id="f_note" type="text" placeholder="নোট (ঐচ্ছিক)"><div class="lp-btns"><button class="btn" id="fx" style="background:#B4B2A9">বাতিল</button><button class="btn" id="fo" style="background:#185FA5">ঠিক আছে</button></div></div>`;
+ o.innerHTML=`<div class="md lp-dlg"><h3>নতুন কন্টাক্ট</h3><button type="button" class="lp-pick" id="lpPick"><span class="lp-pi"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><circle cx="12" cy="10" r="2.5"/><path d="M7.5 17c.8-2 2.5-3 4.5-3s3.7 1 4.5 3"/></svg></span><span class="lp-pt"><b>ফোন থেকে বেছে নিন</b><small>নাম ও নম্বর নিজে বসে যাবে</small></span><em>›</em></button><div class="lp-or"><span>অথবা নিজে লিখুন</span></div><input id="f_n" type="text" placeholder="নাম লিখুন"><input id="f_ph" type="text" inputmode="numeric" placeholder="মোবাইল নম্বর"><input id="f_ad" type="text" placeholder="ঠিকানা (ঐচ্ছিক)"><input id="f_note" type="text" placeholder="নোট (ঐচ্ছিক)"><div class="lp-btns"><button class="btn" id="fx" style="background:#B4B2A9">বাতিল</button><button class="btn" id="fo" style="background:#185FA5">ঠিক আছে</button></div></div>`;
  $('#app').appendChild(o);xl();
+ o.querySelector('#lpPick').onclick=()=>lpPicker((n,ph)=>{o.querySelector('#f_n').value=n;o.querySelector('#f_ph').value=ph});
  $('#fx').onclick=()=>o.remove();
 
  $('#fo').onclick=()=>{
